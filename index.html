@@ -2587,13 +2587,20 @@ function rHub(){
     +gemSVG(30)+'<span style="font-size:26px;font-weight:800;color:#fff;">'+totalDiamonds()+'</span>'
     +'</div>'
     +'</div>'
-    /* brief instructions */
-    +'<div style="background:#fff;border:2.5px solid #f0b429;border-radius:18px;padding:20px 26px;margin:16px 0 10px;">'
+    /* brief instructions + join-a-challenge, side by side */
+    +'<div style="display:flex;gap:16px;flex-wrap:wrap;margin:16px 0 10px;align-items:stretch;">'
+    +'<div style="flex:3;min-width:260px;background:#fff;border:2.5px solid #f0b429;border-radius:18px;padding:20px 26px;">'
     +'<div style="font-size:23px;font-weight:800;color:'+INK+';margin-bottom:8px;">🎯 How it works</div>'
     +'<div style="font-size:21px;font-weight:700;color:'+INK+';line-height:1.55;">'
     +'Pick a module below to open its lessons. Completing a lesson unlocks the next one. '
     +'Answer a pair of lessons perfectly to unlock bonus ⚡ speed rounds.'
     +'</div></div>'
+    +'<div onclick="openChallengeJoinOnly()" style="flex:1;min-width:180px;background:#fff;border:2.5px solid #a78bfa;border-radius:18px;padding:20px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;">'
+    +'<div style="font-size:30px;margin-bottom:6px;">⚔️</div>'
+    +'<div style="font-size:17px;font-weight:800;color:'+INK+';margin-bottom:4px;">Join a Challenge</div>'
+    +'<div style="font-size:12px;color:'+MUT+';line-height:1.4;">Got a code from a friend? Play now — no unlock needed.</div>'
+    +'</div>'
+    +'</div>'
     /* legend — makes SL vs HL obvious */
     +'<div style="display:flex;gap:26px;margin:14px 0 6px;">'
     +'<span style="display:inline-flex;align-items:center;gap:10px;font-size:22px;font-weight:700;color:#fff;"><span style="width:20px;height:20px;border-radius:50%;background:'+SLC+';"></span>Standard Level</span>'
@@ -3509,7 +3516,7 @@ function beginSpeedRound(type){
 
 /* ===================== LIVE CHALLENGE MODE (Supabase Realtime) ===================== */
 var CHALLENGE={
-  active:false, code:null, role:null, channel:null, speedType:null,
+  active:false, code:null, role:null, channel:null, speedType:null, fromHub:false,
   myReady:false, oppReady:false, oppPresent:false, order:null, startAt:null,
   myProgress:{correct:0,answered:0}, oppProgress:{correct:0,answered:0},
   myFinished:false, oppFinished:false, myFinal:null, oppFinal:null
@@ -3524,7 +3531,7 @@ function genRoomCode(){
 
 function resetChallenge(){
   if(CHALLENGE.channel){ try{sb.removeChannel(CHALLENGE.channel);}catch(e){} }
-  CHALLENGE={active:false,code:null,role:null,channel:null,speedType:null,
+  CHALLENGE={active:false,code:null,role:null,channel:null,speedType:null,fromHub:false,
     myReady:false,oppReady:false,oppPresent:false,order:null,startAt:null,
     myProgress:{correct:0,answered:0},oppProgress:{correct:0,answered:0},
     myFinished:false,oppFinished:false,myFinal:null,oppFinal:null};
@@ -3539,6 +3546,13 @@ function getSpeedPoolFor(type){
 
 function openChallengeSetup(type){
   CHALLENGE.speedType=type;
+  CHALLENGE.fromHub=false;
+  sw('challenge'); rChallengeSetup();
+}
+
+function openChallengeJoinOnly(){
+  CHALLENGE.speedType=null;
+  CHALLENGE.fromHub=true;
   sw('challenge'); rChallengeSetup();
 }
 
@@ -3548,14 +3562,17 @@ function showChallengeError(msg){
 }
 
 function rChallengeSetup(){
+  var backBtn=CHALLENGE.fromHub
+    ?'<button onclick="leaveChallenge()" class="map-btn">🗺 Return to Landing Page</button>'
+    :'<button onclick="leaveChallenge()" class="map-btn">🗺 Return to Module</button>';
   document.getElementById('sc-challenge').innerHTML=
-    '<div class="topbar"><button onclick="gH()" class="map-btn">🗺 Return to Module</button></div>'
+    '<div class="topbar">'+backBtn+'</div>'
     +'<div style="text-align:center;padding:30px 10px;">'
     +'<div style="font-size:40px;margin-bottom:10px;">⚔️</div>'
-    +'<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:8px;">Challenge a Friend</div>'
-    +'<div style="font-size:13px;color:#7a90b8;margin-bottom:26px;">Race the same questions, live, at the same time.</div>'
-    +'<button class="btn gold-btn" style="max-width:320px;margin:0 auto 14px;" onclick="createChallenge()">Create a Challenge</button>'
-    +'<div style="font-size:12px;color:#7a90b8;margin:18px 0 10px;">— or —</div>'
+    +'<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:8px;">'+(CHALLENGE.speedType?'Challenge a Friend':'Join a Challenge')+'</div>'
+    +'<div style="font-size:13px;color:#7a90b8;margin-bottom:26px;">'+(CHALLENGE.speedType?'Race the same questions, live, at the same time.':'Got a code from a friend? Enter it below to join their live race \u2014 no need to have unlocked this speed round yourself.')+'</div>'
+    +(CHALLENGE.speedType?'<button class="btn gold-btn" style="max-width:320px;margin:0 auto 14px;" onclick="createChallenge()">Create a Challenge</button>'
+      +'<div style="font-size:12px;color:#7a90b8;margin:18px 0 10px;">— or —</div>':'')
     +'<input id="join-code-input" maxlength="5" placeholder="ENTER CODE" style="width:100%;max-width:320px;text-align:center;letter-spacing:.2em;font-weight:800;font-size:18px;padding:14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.15);background:#152038;color:#fff;font-family:inherit;text-transform:uppercase;margin-bottom:12px;">'
     +'<button class="btn" style="max-width:320px;margin:0 auto;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.15);color:#fff;" onclick="joinChallengeFromInput()">Join a Challenge</button>'
     +'<div id="challenge-err" style="color:#ff5555;font-size:12px;margin-top:14px;"></div>'
@@ -3589,11 +3606,11 @@ function joinChallengeChannel(){
       if(CHALLENGE.role==='host'&&CHALLENGE.oppPresent&&!CHALLENGE.order){
         var pool=getSpeedPoolFor(CHALLENGE.speedType);
         CHALLENGE.order=shuffle(pool.map(function(_,i){return i;}));
-        sendChallengeMsg('order',{order:CHALLENGE.order});
+        sendChallengeMsg('order',{order:CHALLENGE.order,speedType:CHALLENGE.speedType});
       }
       rChallengeLobby();
     })
-    .on('broadcast',{event:'order'},function(msg){ CHALLENGE.order=msg.payload.order; rChallengeLobby(); })
+    .on('broadcast',{event:'order'},function(msg){ CHALLENGE.order=msg.payload.order; CHALLENGE.speedType=msg.payload.speedType; rChallengeLobby(); })
     .on('broadcast',{event:'ready'},function(msg){ CHALLENGE.oppReady=true; rChallengeLobby(); checkBothReady(); })
     .on('broadcast',{event:'start'},function(msg){ CHALLENGE.startAt=msg.payload.startAt; scheduleChallengeStart(); })
     .on('broadcast',{event:'progress'},function(msg){ CHALLENGE.oppProgress=msg.payload; if(S.sactive)rSpeed(); })
@@ -3629,7 +3646,7 @@ function rChallengeLobby(){
         :'<button class="btn gold-btn" style="max-width:280px;margin:0 auto;" onclick="markChallengeReady()">I\u2019m Ready ⚡</button>');
   }
   document.getElementById('sc-challenge').innerHTML=
-    '<div class="topbar"><button onclick="leaveChallengeToModule()" class="map-btn">🗺 Return to Module</button></div>'
+    '<div class="topbar"><button onclick="leaveChallenge()" class="map-btn">🗺 '+(CHALLENGE.fromHub?'Return to Landing Page':'Return to Module')+'</button></div>'
     +'<div style="text-align:center;padding:30px 10px;">'
     +'<div style="font-size:40px;margin-bottom:10px;">⚔️</div>'
     +'<div style="font-size:20px;font-weight:800;color:#fff;margin-bottom:20px;">Challenge Lobby</div>'
@@ -3638,10 +3655,11 @@ function rChallengeLobby(){
     +'</div>';
 }
 
-function leaveChallengeToModule(){
+function leaveChallenge(){
+  var cameFromHub=CHALLENGE.fromHub;
   if(CHALLENGE.channel){ try{sb.removeChannel(CHALLENGE.channel);}catch(e){} }
   resetChallenge();
-  gH();
+  if(cameFromHub) goHub(); else gH();
 }
 
 function markChallengeReady(){
@@ -3729,7 +3747,7 @@ function rChallengeResults(){
     +'<div style="font-size:28px;font-weight:900;color:#fff;">'+opp.correct+'</div>'
     +'<div style="font-size:11px;color:#7a90b8;">correct</div></div>'
     +'</div>'
-    +'<button class="btn ghost" onclick="leaveChallengeToModule()">Return to Module</button>'
+    +'<button class="btn ghost" onclick="leaveChallenge()">'+(CHALLENGE.fromHub?'Return to Landing Page':'Return to Module')+'</button>'
     +'</div>';
 }
 
@@ -3940,7 +3958,8 @@ function endSpeed(){
       document.getElementById('sc-challenge').innerHTML=
         '<div style="text-align:center;padding:60px 10px;">'
         +'<div style="font-size:15px;color:#7a90b8;margin-bottom:10px;">You scored <b style="color:#fff;">'+S.scorrect+'</b> correct!</div>'
-        +'<div style="font-size:13px;color:#7a90b8;">Waiting for your opponent to finish\u2026</div>'
+        +'<div style="font-size:13px;color:#7a90b8;margin-bottom:20px;">Waiting for your opponent to finish\u2026</div>'
+        +'<button class="btn ghost" onclick="leaveChallenge()">'+(CHALLENGE.fromHub?'Return to Landing Page':'Return to Module')+'</button>'
         +'</div>';
     }
     return;
