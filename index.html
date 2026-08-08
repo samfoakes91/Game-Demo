@@ -244,6 +244,7 @@ body.hub-light{background:#000;}
   <div id="sc-speed"     class="sc"></div>
   <div id="sc-challenge" class="sc"></div>
   <div id="sc-sres"      class="sc"></div>
+  <div id="sc-displayname" class="sc"></div>
 
   <div id="gold-flash">
     <div class="gold-coin-lg">$</div>
@@ -2068,7 +2069,17 @@ try{
     sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
   }
 }catch(e){}
-var CLOUD={user:null,t:null};
+var CLOUD={user:null,t:null,displayName:null};
+
+/* Escapes user-supplied text (e.g. another student's display name) before it's
+   dropped into innerHTML — display names are the only untrusted, cross-user text
+   this app ever renders, so this is required to stop a malicious name from being
+   able to inject markup/scripts into a classmate's leaderboard view. */
+function escHtml(s){
+  return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
 
 function buildProgressData(){
   return {dn:Array.from(S.dn),perfect:Array.from(S.perfect),gold:S.gold,silver:S.silver,splays:S.splays,acc:S.acc,lastLes:S.lastLes};
@@ -2096,14 +2107,59 @@ function cloudQueueSave(){
   },800);
 }
 function cloudLoadAndEnter(){
-  sb.from('progress').select('data').eq('user_id',CLOUD.user.id).maybeSingle()
+  sb.from('progress').select('data, display_name').eq('user_id',CLOUD.user.id).maybeSingle()
     .then(function(r){
       if(r&&r.error)console.warn('Cloud load issue:',r.error.message);
       if(r&&r.data&&r.data.data) mergeProgress(r.data.data);
       saveProgress();
-      rHome();rHub();sw('hub');
+      if(r&&r.data&&r.data.display_name){
+        CLOUD.displayName=r.data.display_name;
+        rHome();rHub();sw('hub');
+      } else {
+        sw('displayname'); rDisplayNamePrompt();
+      }
     },function(e){ console.warn('Cloud load failed:',e&&e.message); rHome();rHub();sw('hub'); });
 }
+
+/* ── display name screen (required once per account, shown right after
+   sign-up, and retroactively to any existing account that predates this
+   feature) ── */
+function rDisplayNamePrompt(){
+  var INK='#182234',MUT='#67718a',BORDER='#d7e3f2';
+  var editing=!!CLOUD.displayName;
+  document.getElementById('sc-displayname').innerHTML=
+    '<div style="max-width:520px;margin:10vh auto 0;">'
+    +'<div style="background:#fff;border:1px solid '+BORDER+';border-radius:20px;padding:30px 32px;text-align:center;">'
+    +'<div style="font-size:40px;margin-bottom:10px;">🏷️</div>'
+    +'<div style="font-size:26px;font-weight:800;color:'+INK+';margin-bottom:8px;">'+(editing?'Change your display name':'Choose a display name')+'</div>'
+    +'<div style="font-size:17px;color:'+MUT+';margin-bottom:20px;">This is what other students see on the leaderboard \u2014 not your email.</div>'
+    +'<input id="dn-input" type="text" maxlength="20" value="'+escHtml(CLOUD.displayName||'')+'" placeholder="e.g. QuickThinker42" autocomplete="off" onkeydown="if(event.key===\'Enter\')submitDisplayName()" style="display:block;width:100%;box-sizing:border-box;font-family:inherit;font-size:21px;padding:14px 16px;border:1.5px solid '+BORDER+';border-radius:12px;margin-bottom:12px;color:'+INK+';background:#f8fbff;text-align:center;">'
+    +'<div id="dn-msg" style="font-size:16px;color:#c0392b;min-height:22px;margin-bottom:8px;"></div>'
+    +'<button onclick="submitDisplayName()" style="width:100%;font-family:inherit;font-size:21px;font-weight:800;padding:15px;border:none;border-radius:12px;background:#0f766e;color:#fff;cursor:pointer;">Save and continue</button>'
+    +(editing?'<button onclick="cancelEditDisplayName()" style="width:100%;font-family:inherit;font-size:17px;font-weight:700;padding:10px;margin-top:8px;border:none;background:none;color:'+MUT+';cursor:pointer;text-decoration:underline;">Cancel</button>':'')
+    +'</div></div>';
+  setTimeout(function(){var el=document.getElementById('dn-input');if(el){el.focus();el.select();}},50);
+}
+function dnMsg(t){var el=document.getElementById('dn-msg');if(el)el.textContent=t||'';}
+function submitDisplayName(){
+  var el=document.getElementById('dn-input');
+  var name=(el&&el.value||'').trim();
+  if(!name){dnMsg('Please enter a display name.');return;}
+  if(name.length>20){dnMsg('Please keep it to 20 characters or fewer.');return;}
+  if(/[<>]/.test(name)){dnMsg('Please remove the < or > characters.');return;}
+  cloudSaveDisplayName(name);
+}
+function cloudSaveDisplayName(name){
+  if(!sb||!CLOUD.user)return;
+  sb.from('progress').upsert({user_id:CLOUD.user.id,display_name:name,data:buildProgressData(),updated_at:new Date().toISOString()})
+    .then(function(r){
+      if(r&&r.error){console.warn('Display name save failed:',r.error.message);dnMsg('Could not save \u2014 please try again.');return;}
+      CLOUD.displayName=name;
+      rHome();rHub();sw('hub');
+    },function(e){console.warn('Display name save failed:',e&&e.message);dnMsg('Could not save \u2014 please try again.');});
+}
+function editDisplayName(){ sw('displayname'); rDisplayNamePrompt(); }
+function cancelEditDisplayName(){ sw('hub'); rHub(); }
 
 /* ── login screen ── */
 function rLogin(){
@@ -2165,7 +2221,8 @@ function doSignUp(){
 function doGuest(){ S.guest=true; rHub(); sw('hub'); }
 function doSignOut(){
   if(sb){try{sb.auth.signOut();}catch(e){}}
-  CLOUD.user=null; S.guest=false;
+  clearTimeout(CLOUD.t);
+  CLOUD.user=null; CLOUD.displayName=null; S.guest=false;
   resetLocalProgress();
   sw('login'); rLogin();
 }
@@ -2226,7 +2283,7 @@ if(window.speechSynthesis){
 }
 
 /* ===================== HELPERS ===================== */
-function sw(s){['login','hub','home','game','res','celebrate','speed','sres','challenge'].forEach(function(id){document.getElementById('sc-'+id).classList.remove('on');});document.getElementById('sc-'+s).classList.add('on');document.body.classList.toggle('hub-light',s==='hub'||s==='login');if(s!=='game')document.body.classList.remove('wide-q');document.body.classList.toggle('home-wide',s==='home'&&S.curMod==='be');}
+function sw(s){['login','hub','home','game','res','celebrate','speed','sres','challenge','displayname'].forEach(function(id){document.getElementById('sc-'+id).classList.remove('on');});document.getElementById('sc-'+s).classList.add('on');document.body.classList.toggle('hub-light',s==='hub'||s==='login');if(s!=='game')document.body.classList.remove('wide-q');document.body.classList.toggle('home-wide',s==='home'&&S.curMod==='be');}
 function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 var _gemUid=0;
 function gemSVG(px){
@@ -2748,8 +2805,9 @@ function rHub(){
   var overallPct=Math.round(totalDone/totalLes*100);
   var acct='';
   if(sb&&CLOUD.user){
-    acct='<div style="display:flex;justify-content:flex-end;align-items:center;gap:14px;margin-bottom:6px;font-size:19px;color:'+MUT+';">'
-      +'<span>👤 '+(CLOUD.user.email||'signed in')+'</span>'
+    acct='<div style="display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-bottom:6px;font-size:19px;color:'+MUT+';">'
+      +'<span>👤 '+escHtml(CLOUD.displayName||CLOUD.user.email||'signed in')+'</span>'
+      +(CLOUD.displayName?'<button onclick="editDisplayName()" style="background:none;border:none;font-family:inherit;font-size:15px;color:'+MUT+';text-decoration:underline;cursor:pointer;padding:0;">change</button>':'')
       +'<button onclick="doSignOut()" style="background:none;border:1px solid '+TILEBORDER+';border-radius:10px;font-family:inherit;font-size:18px;font-weight:700;color:'+MUT+';padding:6px 14px;cursor:pointer;">Sign out</button></div>';
   } else if(sb){
     acct='<div style="display:flex;justify-content:flex-end;align-items:center;gap:14px;margin-bottom:6px;font-size:19px;color:'+MUT+';">'
@@ -2788,6 +2846,7 @@ function rHub(){
     +'</div></div>'
     +resumeTileHTML
     +'</div>'
+    +(sb?'<div style="flex:1;min-width:280px;max-width:420px;background:#fff;border:2.5px solid #e8613c;border-radius:18px;padding:20px 24px;box-sizing:border-box;"><div id="leaderboard-inner"><div style="font-size:23px;font-weight:800;color:'+INK+';display:flex;align-items:center;gap:8px;"><span style="font-size:22px;">🏆</span>Leaderboard</div><div style="font-size:14px;color:'+MUT+';margin-top:10px;">Loading\u2026</div></div></div>':'')
     +'<div onclick="openChallengeJoinOnly()" style="width:272px;flex-shrink:0;min-width:180px;box-sizing:border-box;background:#fff;border:2.5px solid #a78bfa;border-radius:18px;padding:2px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;transition:background .2s ease;">'
     +'<div class="duel-icon">'
     +'<svg class="duel-sword duel-swordL" viewBox="0 0 80 80"><polygon points="40,4 46,14 46,54 40,60 34,54 34,14" fill="#d6e6f0" stroke="#9fb8c8" stroke-width="1.5"/><line x1="40" y1="8" x2="40" y2="56" stroke="#ffffff" stroke-width="2" opacity=".7"/><rect x="24" y="54" width="32" height="6" rx="2" fill="#d4a017"/><rect x="36" y="60" width="8" height="14" rx="2" fill="#8a5a2b"/><line x1="36" y1="63" x2="44" y2="63" stroke="#6b4420" stroke-width="1"/><line x1="36" y1="66" x2="44" y2="66" stroke="#6b4420" stroke-width="1"/><line x1="36" y1="69" x2="44" y2="69" stroke="#6b4420" stroke-width="1"/><circle cx="40" cy="76" r="4.5" fill="#d4a017"/></svg>'
@@ -2820,9 +2879,50 @@ function rHub(){
     +'<button onclick="resetProgress()" style="background:none;border:none;color:#a6aec2;font-size:22px;font-family:inherit;cursor:pointer;padding:8px 16px;">↺ Reset all progress</button>'
     +'</div>'
     +'</div>';
+  loadLeaderboardTile();
 }
 
 function goHub(){ sw('hub'); rHub(); if(window.scrollTo)window.scrollTo(0,0); }
+
+/* Fills in the leaderboard tile's skeleton once its data is ready. Only ever
+   shows a narrow window of ranks around the signed-in student (via the
+   get_leaderboard_window RPC) — never the full top-of-class ranking, so a
+   student near the bottom doesn't just see an unreachable podium every time
+   they open the hub. */
+function loadLeaderboardTile(){
+  var el=document.getElementById('leaderboard-inner');
+  if(!el||!sb)return;
+  var INK='#182234',MUT='#7a90b8';
+  function head(mb){ return '<div style="font-size:23px;font-weight:800;color:'+INK+';display:flex;align-items:center;gap:8px;margin-bottom:'+mb+';"><span style="font-size:22px;">🏆</span>Leaderboard</div>'; }
+  if(!CLOUD.user){
+    el.innerHTML=head('10px')
+      +'<div style="font-size:15px;color:'+MUT+';margin-bottom:14px;">Sign in to see where you rank against your class.</div>'
+      +'<button onclick="gLogin()" style="font-family:inherit;font-size:15px;font-weight:800;padding:10px 16px;border:none;border-radius:10px;background:#0f766e;color:#fff;cursor:pointer;">Sign in</button>';
+    return;
+  }
+  sb.rpc('get_leaderboard_window',{window_size:3}).then(function(r){
+    if(!r||r.error||!r.data||!r.data.length){
+      el.innerHTML=head('0')
+        +'<div style="font-size:14px;color:'+MUT+';margin-top:10px;">Play a few lessons to join the leaderboard.</div>';
+      return;
+    }
+    var rows=r.data.map(function(row){
+      var isMe=!!row.is_me;
+      var wt=isMe?'800':'400', col=isMe?'#993C1D':'#182234', rankCol=isMe?'#993C1D':'#7a90b8';
+      var rowStyle=isMe?'background:#FAECE7;border-radius:8px;padding:7px 8px;':'border-bottom:0.5px solid #f0f0ee;padding:7px 0;';
+      var name=isMe?'You':escHtml(row.display_name);
+      return '<div style="display:flex;align-items:center;gap:10px;'+rowStyle+'">'
+        +'<span style="width:22px;font-size:13px;font-weight:'+wt+';color:'+rankCol+';">'+row.rank+'</span>'
+        +'<span style="flex:1;font-size:14px;font-weight:'+wt+';color:'+col+';overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+name+'</span>'
+        +'<span style="font-size:14px;font-weight:'+wt+';color:'+col+';">'+(row.gold|0)+'</span>'
+        +'</div>';
+    }).join('');
+    el.innerHTML=head('14px')+rows;
+  },function(){
+    el.innerHTML=head('0')
+      +'<div style="font-size:14px;color:'+MUT+';margin-top:10px;">Couldn\u2019t load the leaderboard right now.</div>';
+  });
+}
 
 function openModule(key){
   S.curMod=key;
