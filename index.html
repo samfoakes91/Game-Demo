@@ -3828,19 +3828,68 @@ function addSilver(n){
    verification; routing them through this too would double-award).
    For a signed-in user, fires award_practice_silver in the background
    and reconciles S.gold/S.silver to whatever the server actually
-   recorded. If the call fails (migration not applied yet, rate-limited,
-   offline) this leaves whatever local value is already showing exactly
-   alone, the same fallback behavior the existing speed-round path
-   already relies on — it never blocks or reverts anything. */
+   recorded.
+
+   Calls are queued and sent ONE AT A TIME, spaced out, rather than
+   fired off in a burst. Reason: the server rate-limits how often one
+   user can call award_practice_silver (see the SQL migration) so a
+   scripted loop can't farm silver. But a real student can easily
+   trigger two awards well under a second apart just by playing
+   normally — two quick correct answers, or a hint purchase
+   immediately followed by an answer — and the OLD version fired each
+   one immediately, so the second call would get rejected by the rate
+   limit. It only logged a warning and walked away when that happened,
+   leaving the on-screen number permanently ahead of what the server
+   actually held. That gap was invisible until the next reload, which
+   trusts the server and pulls the number back down — looking exactly
+   like lost progress, when what actually happened is the award was
+   never saved in the first place.
+   This queue fixes that two ways: it naturally spaces calls out wider
+   than the server's rate-limit window (so a legitimate burst mostly
+   never gets rejected to begin with), and if a call IS rejected or
+   fails (network blip, tab briefly offline) it's put back at the
+   front of the queue and retried, capped so a genuinely broken call
+   (e.g. a stale session) can't loop forever. */
+var _psQueue=[];
+var _psBusy=false;
+var _psMaxTries=6;
 function syncPracticeSilverToServer(n){
   if(!sb||!CLOUD.user) return;
-  sb.rpc('award_practice_silver',{p_subject:'econ',p_delta:n}).then(function(r){
-    if(!r||r.error||!r.data) return;
-    if(typeof r.data.gold==='number') S.gold=r.data.gold;
-    if(typeof r.data.silver==='number') S.silver=r.data.silver;
-    var pill=document.querySelector('.coin-pill');
-    if(pill) pill.innerHTML=coinPillHTML();
-  },function(e){ console.warn('award_practice_silver failed, keeping local value:',e&&e.message); });
+  _psQueue.push({d:n,tries:0});
+  _psDrain();
+}
+function _psDrain(){
+  if(_psBusy||!_psQueue.length) return;
+  _psBusy=true;
+  var item=_psQueue.shift();
+  sb.rpc('award_practice_silver',{p_subject:'econ',p_delta:item.d}).then(function(r){
+    if(r&&!r.error&&r.data){
+      /* Only trust the server's number once nothing else is still
+         queued behind this call. An in-between response only reflects
+         THIS ONE delta, not the optimistic total already on screen for
+         awards still waiting their turn — applying it early would yank
+         the visible coin count down, then have it climb back up as the
+         rest of the queue drains, which is exactly the kind of "did I
+         just lose coins?" flicker this whole fix exists to prevent. */
+      if(_psQueue.length===0){
+        if(typeof r.data.gold==='number') S.gold=r.data.gold;
+        if(typeof r.data.silver==='number') S.silver=r.data.silver;
+        var pill=document.querySelector('.coin-pill');
+        if(pill) pill.innerHTML=coinPillHTML();
+      }
+    } else {
+      item.tries++;
+      var msg=r&&r.error&&r.error.message;
+      if(item.tries<_psMaxTries){ console.warn('award_practice_silver rejected, retrying:',msg); _psQueue.unshift(item); }
+      else console.warn('award_practice_silver gave up after '+_psMaxTries+' tries, keeping local value:',msg);
+    }
+  },function(e){
+    item.tries++;
+    if(item.tries<_psMaxTries){ console.warn('award_practice_silver network error, retrying:',e&&e.message); _psQueue.unshift(item); }
+    else console.warn('award_practice_silver gave up after '+_psMaxTries+' tries, keeping local value:',e&&e.message);
+  }).then(function(){
+    setTimeout(function(){ _psBusy=false; _psDrain(); },320);
+  });
 }
 /* Updates the local display immediately (unchanged existing behavior),
    then syncs the same delta to the server. Use this at lesson-play
