@@ -152,8 +152,8 @@ body.hub-light{background:#000;}
 .gf-title{font-size:26px;font-weight:800;color:#f0b429;margin-top:20px;letter-spacing:.02em}
 .gf-sub{font-size:14px;color:#7a90b8;margin-top:8px}
 .gf-coins{display:flex;align-items:center;gap:12px;margin-top:16px;font-size:14px;font-weight:700}
-#diamond-flash{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,22,40,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;opacity:0;pointer-events:none;transition:opacity .3s}
-#diamond-flash.show{opacity:1;pointer-events:all}
+#diamond-flash,#bm-diamond-flash{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,22,40,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;opacity:0;pointer-events:none;transition:opacity .3s}
+#diamond-flash.show,#bm-diamond-flash.show{opacity:1;pointer-events:all}
 #reset-confirm{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,22,40,.92);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;pointer-events:none;transition:opacity .2s;padding:20px}
 #reset-confirm.show{opacity:1;pointer-events:all}
 .reset-card{background:#0e1e36;border:1.5px solid rgba(255,93,125,.4);border-radius:18px;padding:28px 26px;max-width:400px;width:100%;}
@@ -224,6 +224,20 @@ body.hub-light{background:#000;}
 .mdef:hover{border-color:#f0b429}
 .mdef.solved{border:2px solid #00a389;background:#f0fdfa;color:#0f2e28;cursor:default}
 .mdef.solved .mterm-tag{display:inline-block;background:#00c4a7;color:#06281f;font-weight:800;font-size:11px;padding:2px 9px;border-radius:20px;margin-bottom:6px}
+.srt-tray{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.srt-tile{padding:10px 14px;background:#152038;border:2px solid rgba(255,255,255,.14);color:#fff;border-radius:11px;cursor:grab;font-size:13px;font-weight:700;transition:all .15s;user-select:none}
+.srt-tile:active{cursor:grabbing}
+.srt-tile.picked{border-color:#f0b429;background:rgba(240,180,41,.14);box-shadow:0 0 0 2px rgba(240,180,41,.25)}
+.srt-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.srt-col{border:2px solid rgba(255,255,255,.18);border-radius:14px;padding:12px;transition:all .15s}
+.srt-col.dragover{border-color:#f0b429;background:rgba(240,180,41,.08)}
+.srt-col-head{font-size:22px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#fff;margin-bottom:10px;text-align:center}
+.srt-table{border:2px solid rgba(0,0,0,.15);border-radius:12px;overflow:hidden;background:#ffffff}
+.srt-row{position:relative;padding:26px 12px 26px 32px;font-size:12.5px;font-weight:700;line-height:1.4;color:#8b94a7;min-height:36px}
+.srt-row:not(:last-child){border-bottom:1px solid rgba(0,0,0,.1)}
+.srt-row-num{position:absolute;top:26px;left:10px;font-size:11px;font-weight:800;color:#8b94a7}
+.srt-row.filled{color:#10131a;background:#ffffff}
+.srt-row.filled .srt-row-num{color:#00a389}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .fade-in{animation:fadeIn .2s ease}
 
@@ -615,6 +629,27 @@ body.hub-light{background:#000;}
     <div class="gf-title" style="color:#8fd8ff;">💎 Diamond Earned!</div>
     <div class="gf-sub" id="df-count"></div>
     <div class="gf-coins" id="df-balance"></div>
+  </div>
+  <div id="bm-diamond-flash">
+    <span class="gem-wrap" style="width:90px;height:90px;margin:0 auto;">
+      <svg class="gem-float" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+        <defs>
+          <linearGradient id="bmGemCrownStatic" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#a9e6ff"/></linearGradient>
+          <linearGradient id="bmGemLeftStatic" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eafcff"/><stop offset="100%" stop-color="#4fc3f0"/></linearGradient>
+        </defs>
+        <polygon points="13,7 27,7 20,1" fill="#ffffff"/>
+        <polygon points="6,14 34,14 27,7 13,7" fill="url(#bmGemCrownStatic)"/>
+        <polygon points="6,14 20,14 20,38" fill="url(#bmGemLeftStatic)"/>
+        <polygon points="20,14 34,14 20,38" fill="#0c8dc7"/>
+        <polygon points="9,17 12,16 10,23" fill="#ffffff" opacity="0.55"/>
+      </svg>
+      <span class="icon-star icon-star1" style="font-size:26px;">✦</span>
+      <span class="icon-star icon-star2" style="font-size:26px;">✦</span>
+      <span class="icon-star icon-star3" style="font-size:26px;">✦</span>
+    </span>
+    <div class="gf-title" style="color:#8fd8ff;">💎 Diamond Earned!</div>
+    <div class="gf-sub" id="bm-df-count"></div>
+    <div class="gf-coins" id="bm-df-balance"></div>
   </div>
   <div id="reset-confirm"></div>
 </div>
@@ -3323,6 +3358,19 @@ var HINTS=[
   }
 })();
 
+/* Income Elasticity of Demand (YED) hints (D[117]) */
+HINTS[117]=[
+  ['YED measures how responsive demand is to a change in INCOME.','YED = % change in quantity demanded ÷ % change in income.'],
+  ['YED = % change in quantity demanded ÷ % change in income.','12% ÷ 8% = ?'],
+  ['A positive YED means quantity demanded moves in the SAME direction as income.','When income rises and demand for a good also rises, that good is classified as "normal".'],
+  ['Here income and quantity demanded are moving in OPPOSITE directions.','When YED is negative, the good is classified as inferior — demand for it rises as income falls.'],
+  ['A curve that keeps rising but more and more slowly shows demand growing SLOWER than income.','That’s the Engel curve shape of a necessity — YED is positive but less than 1.'],
+  ['A curve that rises faster and faster shows demand growing FASTER than income.','That’s the Engel curve shape of a luxury good — YED is positive and greater than 1.'],
+  ['Once the curve starts FALLING as income keeps rising, demand and income are moving in opposite directions.','That turning-down shape is the signature of an inferior good — YED is negative.'],
+  ['A YED just above 0 but below 1 means demand rises with income, but not by as much proportionally.','This is the hallmark of a necessity — people keep buying roughly the same amount regardless of income changes.'],
+  ['YED = % change in quantity demanded ÷ % change in income — keep the signs!','+15% ÷ −5% = ?']
+];
+
 /* ===================== STATE ===================== */
 var S={
   dn:new Set(), perfect:new Set(),
@@ -3548,6 +3596,7 @@ function clearCrossSubjectWidthClasses(){
 }
 function showSubjects(){
   clearCrossSubjectWidthClasses();
+  document.body.classList.add('hub-light');
   document.querySelectorAll('.sc').forEach(function(el){el.classList.remove('on');});
   document.getElementById('sc-subjects').classList.add('on');
   rSubjects();
@@ -3566,9 +3615,40 @@ function enterBMSubject(){
 }
 function rSubjects(){
   var INK='#182234',MUT='#67718a',TILEBORDER='#d7e3f2';
-  function subjectTile(onclickFn,title,accentCol,subjCls){
-    return '<button class="hub-tile '+subjCls+'" onclick="'+onclickFn+'" style="display:flex;flex-direction:column;align-items:center;text-align:center;cursor:pointer;font-family:inherit;background:#fff;border:2.5px solid '+accentCol+';border-radius:20px;padding:32px 20px;width:100%;">'
-      +'<div style="font-size:22px;font-weight:800;color:'+INK+';">'+title+'</div>'
+  /* Official current IB syllabus units for each subject (Economics: first
+     assessment 2022; Business Management: first assessment 2024), with
+     `available` reflecting what this game actually has lessons for right
+     now — cross-checked against MODULES / BM_MODULES below. Keep this in
+     sync by hand when new units are added; it's small and changes rarely
+     enough that deriving it automatically from the module list's informal
+     `unit:` labels isn't worth the fragility. */
+  var ECON_SYLLABUS_UNITS=[
+    {name:'Introduction to economics',available:true},
+    {name:'Microeconomics',available:true},
+    {name:'Macroeconomics',available:false},
+    {name:'The global economy',available:false}
+  ];
+  var BM_SYLLABUS_UNITS=[
+    {name:'Introduction to business management',available:false},
+    {name:'Human resource management',available:true},
+    {name:'Finance & accounts',available:true},
+    {name:'Marketing',available:false},
+    {name:'Operations management',available:true}
+  ];
+  function subjectTile(onclickFn,title,accentCol,subjCls,units){
+    var unitRows=units.map(function(u){
+      var dot=u.available
+        ? '<span style="flex-shrink:0;margin-top:2px;width:20px;height:20px;border-radius:50%;background:'+accentCol+';color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;">✓</span>'
+        : '<span style="flex-shrink:0;margin-top:2px;width:20px;height:20px;border-radius:50%;border:1.5px solid '+TILEBORDER+';"></span>';
+      return '<div style="display:flex;align-items:flex-start;gap:9px;padding:4px 0;text-align:left;">'
+        +dot
+        +'<span style="font-size:18px;font-weight:600;line-height:1.3;color:'+(u.available?INK:MUT)+';">'+u.name
+        +(u.available?'':' <span style="font-weight:600;color:#9aa6bf;">· coming soon</span>')
+        +'</span></div>';
+    }).join('');
+    return '<button class="hub-tile '+subjCls+'" onclick="'+onclickFn+'" style="display:flex;flex-direction:column;align-items:stretch;cursor:pointer;font-family:inherit;background:#fff;border:2.5px solid '+accentCol+';border-radius:20px;padding:32px 28px 24px;width:100%;">'
+      +'<div style="font-size:26px;font-weight:800;color:'+INK+';text-align:center;margin-bottom:18px;">'+title+'</div>'
+      +'<div style="border-top:1px solid #eef2f8;padding-top:12px;">'+unitRows+'</div>'
       +'</button>';
   }
   /* Account row — sign-in is shared across both subjects, so it lives here at
@@ -3579,22 +3659,22 @@ function rSubjects(){
     acct='<div style="display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-bottom:6px;font-size:19px;color:'+MUT+';">'
       +'<span>👤 '+escHtml(CLOUD.displayName||CLOUD.user.email||'signed in')+'</span>'
       +(CLOUD.displayName?'<button onclick="editDisplayName()" style="background:none;border:none;font-family:inherit;font-size:15px;color:'+MUT+';text-decoration:underline;cursor:pointer;padding:0;">change</button>':'')
-      +'<button onclick="doSignOut()" style="background:none;border:1px solid '+TILEBORDER+';border-radius:10px;font-family:inherit;font-size:18px;font-weight:700;color:'+MUT+';padding:6px 14px;cursor:pointer;">Sign out</button></div>';
+      +'<button onclick="doSignOut()" style="background:#fff;border:1px solid '+TILEBORDER+';border-radius:10px;font-family:inherit;font-size:18px;font-weight:700;color:#182234;padding:6px 14px;cursor:pointer;">Sign out</button></div>';
   } else if(sb){
     acct='<div style="display:flex;justify-content:flex-end;align-items:center;gap:14px;margin-bottom:6px;font-size:19px;color:'+MUT+';">'
       +'<span>Playing as guest — progress saved on this device only</span>'
       +'<button onclick="gLogin()" style="background:none;border:1px solid #0f766e;border-radius:10px;font-family:inherit;font-size:18px;font-weight:700;color:#0f766e;padding:6px 14px;cursor:pointer;">Sign in</button></div>';
   }
   document.getElementById('sc-subjects').innerHTML=
-    '<div style="max-width:560px;margin:8vh auto 0;">'
+    '<div style="max-width:900px;margin:8vh auto 0;">'
     +acct
     +'<div style="text-align:center;margin-bottom:28px;margin-top:22px;">'
-    +'<div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#7a90b8;margin-bottom:6px;">IB Diploma Revision</div>'
-    +'<div style="font-size:30px;font-weight:800;color:'+INK+';">Choose a subject</div>'
+    +'<div style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#9fb6de;margin-bottom:8px;">IB Diploma Revision</div>'
+    +'<div style="font-size:38px;font-weight:800;color:#fff;">Choose a subject</div>'
     +'</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">'
-    +subjectTile('enterEconomicsSubject()','DP Economics','#b8860b','subj-econ')
-    +subjectTile('enterBMSubject()','DP Business Management','#0f766e','subj-bm')
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">'
+    +subjectTile('enterEconomicsSubject()','DP Economics','#b8860b','subj-econ',ECON_SYLLABUS_UNITS)
+    +subjectTile('enterBMSubject()','DP Business Management','#0f766e','subj-bm',BM_SYLLABUS_UNITS)
     +'</div>'
     +'</div>';
 }
@@ -5952,8 +6032,7 @@ function rGame(){
     var body2=wideQ
       ?'<div class="game-cols"><div class="gpane">'+graph+exH+'</div><div class="qpane">'+sentence+'</div></div>'
       :graph+exH+sentence;
-    qH=qLabelHTML(q.lb,9,'.08em')
-      +(q.q==='Complete the statement:'?'':'<div style="font-size:18px;font-weight:700;color:#fff;line-height:1.5;margin-bottom:14px;">'+q.q+'</div>')+body2;
+    qH=qLabelHTML(q.lb,9,'.08em')+body2;
   }
   if(q.tp==='match'){
     if(live){
@@ -6190,7 +6269,7 @@ function rRes(){
     +'</div>'
     +banners
     +(hasNx?'<button class="btn gold-btn" onclick="runUnlockAnimation(function(){sL('+nx+');})">Next Lesson →</button>'
-      :'<div style="text-align:center;padding:14px;background:rgba(240,180,41,.08);border-radius:13px;border:1px solid rgba(240,180,41,.3);margin-bottom:14px;"><div style="font-size:15px;font-weight:800;color:#f0b429;">🎓 Module complete!</div><div style="font-size:12px;color:#7a90b8;margin-top:4px;">Total: '+S.gold+' 🟡 · '+S.silver+' 🪙</div></div>')
+      :'<div style="text-align:center;padding:14px;background:rgba(240,180,41,.08);border-radius:13px;border:1px solid rgba(240,180,41,.3);margin-bottom:14px;"><div style="font-size:15px;font-weight:800;color:#f0b429;">🎓 Module complete!</div></div>')
     +'<button class="btn ghost" onclick="gH()">Return to Module</button>';
 }
 
@@ -7382,6 +7461,261 @@ var BM_D=[
     {tp:'mc',lb:'Choose the correct answer',q:'Operations management is most closely linked to which other business function, since decisions in one affect the resources available to the other?',o:['Only human resources, and no other function','Finance, since operations decisions have cost and investment implications','Only marketing, and no other function','No other business function at all'],a:1},
     {tp:'mc',lb:'Choose the correct answer',q:'If a business fails to manage its operations effectively, a likely consequence is...',o:['No effect on any other part of the business','Automatically higher profits','Higher costs, lower quality, or an inability to meet customer demand','Guaranteed growth in market share'],a:2},
     {tp:'mc',lb:'Choose the correct answer',q:'Why is operations management considered essential to nearly every type of organization?',o:['Because it replaces the need for a finance department','Because it is legally required by government regulation alone','Because it only applies to large multinational companies','Because every organization must convert some form of input into an output to deliver value'],a:3}
+  ]},
+
+  /* ── CASH FLOW FORECASTING ── */
+  {t:'Introduction to Cash Flow',ic:'💵',mod:'cf',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'What does a cash flow forecast show?',o:['The timing and amount of cash inflows and outflows for a future period','The total profit a business expects to make this year','The market value of a business\'s non-current assets','The amount of tax owed to the government'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'How does cash flow differ from profit?',o:['They are always identical for every business','Cash flow is only relevant to businesses making a loss','Profit measures revenue and costs on paper, while cash flow measures money actually received and paid','Profit is simply another name for a firm\'s bank balance'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is a cash OUTFLOW?',o:['Cash sales to customers','A bank loan received by the business','Payment of wages to employees','Capital invested by the owner'],a:2},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the formula:',s:'Net cash flow = Cash inflows − _____',o:['Opening balance','Closing balance','Profit before tax','Cash outflows'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'Why is preparing a cash flow forecast useful for a business?',o:['It guarantees the business will remain profitable','It helps managers anticipate cash shortages and arrange finance in advance','It removes the need to prepare an income statement','It is required by international accounting law for every business'],a:1}
+  ]},
+  {t:'Building a Cash Flow Forecast',ic:'🧾',mod:'cf',qs:[
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the formula:',s:'Closing balance = Opening balance + _____',o:['Total cash outflows','Gross profit','Net cash flow','Total revenue'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'In a cash flow forecast, what happens to a month\'s closing balance?',o:['It is reset to zero at the start of the next month','It becomes the opening balance for the following month','It is recorded as revenue on the income statement','It has no effect on the following month\'s forecast'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the closing balance for the month?',f:[['Opening balance','$5,000'],['Net cash flow','$2,000']],o:['$3,000','$2,000','$5,000','$7,000'],a:3},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the net cash flow for the month?',f:[['Total receipts','$18,000'],['Total payments','$12,500']],o:['$18,000','$30,500','$5,500','$12,500'],a:2},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the closing balance for the month?',f:[['Opening balance','$1,200'],['Total receipts','$9,000'],['Total payments','$10,500']],o:['$300','$1,200','-$1,500','-$300'],a:3}
+  ]},
+  {t:'Interpreting Cash Flow Forecasts',ic:'🔍',mod:'cf',qs:[
+    {tp:'calc',lb:'Calculate and choose',q:'What is the closing balance for the month shown?',f:[['Opening balance','$2,000'],['Total receipts','$6,000'],['Total payments','$9,000']],o:['-$3,000','-$1,000','$5,000','$1,000'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A forecast shows a negative closing balance for March. What does this indicate?',o:['The business will automatically become insolvent','No action needs to be taken','The business has made a loss for the year','The business is forecast to run short of cash and may need extra finance'],a:3},
+    {tp:'calc',lb:'Calculate and choose',q:'Month 1\'s closing balance becomes Month 2\'s opening balance. If Month 1 closes at $4,000 and Month 2\'s net cash flow is −$6,000, what is Month 2\'s closing balance?',f:[['Month 1 closing balance','$4,000'],['Month 2 net cash flow','-$6,000']],o:['-$2,000','$10,000','$2,000','-$6,000'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A manager spots a cash shortfall forecast two months ahead. What is the most sensible response?',o:['Ignore it, since forecasts are rarely accurate','Arrange a short-term overdraft or delay a planned purchase before the shortfall occurs','Immediately declare the business bankrupt','Increase all staff wages to boost morale'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following in a cash flow forecast would most reassure a lender that a business manages its cash well?',o:['A closing balance that falls every month','Net cash flow that is negative every month','An opening balance of zero every month','A rising trend in the closing balance each month'],a:3}
+  ]},
+  {t:'Causes of Cash Flow Problems',ic:'🚨',mod:'cf',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following best describes a common cause of cash flow problems?',o:['Charging customers a fair market price','Paying suppliers on time','Overtrading — expanding sales too quickly without enough working capital','Holding a small, well-managed level of inventory'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business overtrading is growing its sales rapidly — so why does this usually still create a cash flow problem, rather than solve one?',o:['Because rising sales automatically increase a business\'s fixed costs','Because the extra sales are typically made on credit, so the cash arrives only weeks later — after the extra wages, materials and overheads have already been paid','Because cash sales are recorded as a liability rather than an asset','Because a rise in sales volume always forces the business to lower its selling price'],a:1},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'Allowing customers too long to pay increases trade _____ and can starve the business of cash',o:['receivables','payables','profit','liabilities'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Why can holding excessive inventory cause cash flow problems?',o:['Inventory always increases a business\'s cash balance','Suppliers refuse to sell to businesses holding inventory','Cash is tied up in unsold stock instead of being available to pay bills','Inventory has no effect on a firm\'s cash position'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of these is an example of an EXTERNAL cause of cash flow problems?',o:['Granting customers overly generous credit terms','An unexpected fall in sales during an economic downturn','Over-investing in unnecessary fixed assets','Poor day-to-day cash management by the finance team'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which type of business is most likely to face cash flow problems caused by seasonal demand?',o:['A business with steady, year-round demand','A business with no fixed costs','A business that only sells for cash, never on credit','A business with most of its sales concentrated in a few months of the year'],a:3}
+  ]},
+  {t:'Solutions to Cash Flow Problems',ic:'🛠️',mod:'cf',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is a short-term solution to a cash flow shortfall?',o:['Arranging a short-term bank overdraft','Issuing new long-term share capital','Taking out a 20-year mortgage on new premises','Writing off all outstanding debts'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'What does \'factoring\' involve as a solution to cash flow problems?',o:['Delaying payment to all suppliers indefinitely','Increasing the price of raw materials','Selling unpaid customer invoices to a factoring company for immediate cash','Reducing the number of cash sales'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'How does negotiating longer payment terms with suppliers help cash flow?',o:['It increases the business\'s total costs','It delays cash outflows, keeping more cash available for longer','It guarantees higher sales revenue','It has no effect on the timing of cash outflows'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'A business arranges an overdraft to cover a negative opening balance. What is the closing balance for the month?',f:[['Opening balance','-$1,000'],['Total receipts','$8,500'],['Total payments','$6,000']],o:['$2,500','-$1,500','$1,500','$8,500'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which action would most directly improve a business\'s cash position by speeding up inflows?',o:['Extending the credit period offered to customers','Chasing up customers who pay late','Buying additional inventory in bulk','Investing surplus cash in a 5-year bond'],a:1}
+  ]},
+  {t:'What is HRM? & Human Resource Planning',ic:'👥',mod:'hr',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Human resource management (HRM) is primarily concerned with...',o:['Planning, recruiting, training, motivating and retaining the people a business needs to meet its objectives','Only hiring new staff when a vacancy appears','Only calculating and paying employee wages','Only enforcing discipline and dismissing underperforming staff'],a:0},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'Human resource _____ involves forecasting a business\'s future workforce needs in terms of both the number and skills of employees required.',o:['planning','accounting','marketing','production'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following best describes \'labour turnover\'?',o:['The total number of employees hired in a year','The rate at which employees leave an organization and are replaced, expressed as a percentage over a period','The percentage of staff absent from work during a period','The average wage paid per employee'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'A business had 15 employees leave during the year, out of an average workforce of 150. What is the labour turnover rate?',f:[['Employees leaving','15'],['Average workforce','150']],o:['10%','15%','150%','0.1%'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A consistently high labour turnover rate is most likely to indicate...',o:['A highly motivated, loyal workforce','Excellent working conditions throughout the business','Poor employee motivation, weak recruitment/selection, or uncompetitive pay and conditions','That the business has too few employees'],a:2}
+  ]},
+  {t:'Measuring the Workforce',ic:'📏',mod:'hr',qs:[
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the formula:',s:'Labour productivity = Output ÷ _____',o:['Number of employees','Total revenue','Fixed costs','Labour turnover rate'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'A factory produces 4,800 units in a week using 60 employees. What is labour productivity (output per employee)?',f:[['Output','4,800 units'],['Employees','60']],o:['80 units per employee','4,740 units per employee','4,860 units per employee','0.0125 units per employee'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'\'Labour retention\' measures...',o:['The speed at which a business can recruit new staff','The amount a business pays in total wages','A business\'s ability to keep its employees over a period of time','The total number of new hires in a year'],a:2},
+    {tp:'calc',lb:'Calculate and choose',q:'Last month, a department recorded 45 staff-days lost to absence out of 900 possible staff-days. What is the absenteeism rate?',f:[['Days lost to absence','45'],['Total possible staff-days','900']],o:['5%','45%','20%','0.05%'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business wants to reduce high absenteeism and low labour productivity. Which strategy is most likely to help?',o:['Cutting the training budget','Reducing staff involvement in decisions','Increasing compulsory unpaid overtime','Improving staff motivation and working conditions, e.g. through better rewards, training and communication'],a:3}
+  ]},
+  {t:'Influences on HR Planning',ic:'🔍',mod:'hr',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is an INTERNAL influence on a business\'s human resource planning?',o:['The organization\'s objectives and overall business strategy','Changes in government employment law','The state of the local labour market','A rise in the national minimum wage'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is an EXTERNAL influence on HR planning?',o:['The business\'s financial budget for staffing','The organization\'s culture','The availability of skilled workers in the local labour market','The structure of the business\'s departments'],a:2},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'A shortage of workers with a particular skill in the local labour _____ can force a business to recruit from further afield or invest more in training.',o:['market','turnover','productivity','union'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'How is advancing technology most likely to influence HR planning?',o:['It always increases the total number of staff required','It can reduce the need for certain roles while increasing demand for employees with new technical skills','It removes the need for any staff training','It has no effect on the skills a workforce needs'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business operating in a country with strict employment protection laws is likely to find that...',o:['It can dismiss staff at any time without restriction','Labour laws only affect large multinational companies','Making staff redundant is more costly and time-consuming, so workforce planning decisions need greater care','Legal factors have no impact on HR decisions'],a:2}
+  ]},
+  {t:'Changes in the Workforce',ic:'🔄',mod:'hr',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is an example of a \'flexible work practice\'?',o:['A fixed 9-to-5 contract with no variation','An employee working flexitime, choosing their own start and finish times around a core period','Compulsory unpaid overtime','A permanent full-time role with no choice over hours'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business that uses \'teleworking\' allows employees to...',o:['Work only night shifts','Be employed on a zero-hour contract','Carry out their work from home or another remote location using technology','Job-share their role with another employee'],a:2},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'_____ involves contracting an external provider to carry out a business activity that was previously done in-house.',o:['Outsourcing','Delegating','Recruiting','Appraising'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A key advantage to a business of using flexible work practices (e.g. part-time staff, flexitime, teleworking) is that it can...',o:['Guarantee all staff are permanently full-time','Better match staffing levels and costs to fluctuating demand, while improving work-life balance and motivation','Eliminate the need for any HR planning','Remove the need to pay staff at all'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A possible drawback of relying heavily on flexible and non-standard work practices (e.g. temporary or zero-hour contracts) is that it may...',o:['Guarantee higher staff morale','Eliminate labour turnover entirely','Reduce job security and loyalty, making it harder to retain and motivate staff long-term','Automatically increase labour productivity'],a:2}
+  ]},
+  {t:'Redundancy, Dismissal & Managing Change',ic:'👋',mod:'hr',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'\'Redundancy\' occurs when...',o:['An employee\'s job role is no longer needed by the business, through no fault of the employee','An employee is dismissed for poor performance','An employee resigns voluntarily to join another company','An employee retires at the normal retirement age'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'How does redundancy differ from dismissal?',o:['They are two words for exactly the same thing','Redundancy is always voluntary and dismissal is always compulsory','Redundancy happens because the job itself is no longer needed, while dismissal happens because of the employee\'s own conduct or performance','Dismissal only applies to senior managers'],a:2},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'Employees often _____ organizational change because of fears such as job insecurity, a loss of familiar routines, or simply not understanding why the change is happening.',o:['resist','welcome','ignore','request'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which strategy is most likely to reduce employee resistance to change?',o:['Announcing major changes with no explanation','Communicating clearly with staff and involving them in planning the change','Excluding staff from any discussion of the change','Making changes as suddenly as possible to avoid debate'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business is planning a major restructuring that will make some roles redundant. Which approach best reflects good change management?',o:['Announcing redundancies with no warning or explanation','Refusing to discuss the reasons for the change with affected staff','Communicating honestly and early, offering support such as retraining or redeployment, and following fair, transparent procedures','Making the changes permanent with no consultation at all'],a:2}
+  ]},
+  {t:'Reading an Organizational Chart',ic:'🗂️',mod:'os',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'An organizational chart is best described as...',o:['A chart showing a business\'s financial performance over time','A diagram showing the formal structure of a business, including departments, job roles and lines of authority','A diagram of a factory\'s production process','A list of a business\'s products and prices'],a:1},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'The chain of _____ shows the formal line of authority through which instructions pass from senior management down to employees.',o:['command','control','delegation','production'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'\'Span of control\' refers to...',o:['The number of different departments in a business','The number of subordinates who report directly to one manager or supervisor','The total number of employees in an organization','The distance between a business\'s head office and its branches'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'\'Levels of hierarchy\' refers to...',o:['The number of products a business sells','The number of branches a business operates','The number of layers of management and authority between the top of an organization and the employees at the bottom','The total working hours in a week'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'In an organizational chart, a manager with a WIDE span of control typically has...',o:['Many subordinates reporting directly to them','Very few subordinates reporting directly to them','No subordinates at all','Authority over every department in the business'],a:0}
+  ]},
+  {t:'Tall vs Flat Structures & De-layering',ic:'📶',mod:'os',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'A \'tall\' organizational structure is characterized by...',o:['Few levels of hierarchy and a wide span of control','Many levels of hierarchy and a narrow span of control at each level','No formal chain of command at all','Every employee reporting directly to the CEO'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A \'flat\' organizational structure is characterized by...',o:['Many levels of hierarchy and a narrow span of control','A strict, rigid chain of command with many layers','Few levels of hierarchy and a wider span of control at each level','Managers who have no subordinates'],a:2},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'_____ involves removing one or more layers of management from an organization\'s hierarchy.',o:['De-layering','Delegating','Outsourcing','Recruiting'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A likely benefit of de-layering for a business is...',o:['A wider chain of command','Slower communication between top and bottom','Lower management costs and faster decision-making, since there are fewer layers for information to pass through','Guaranteed higher motivation for every employee'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'A likely drawback of de-layering is that...',o:['It always increases the number of management layers','Remaining managers often take on a wider span of control and a heavier workload, which can increase stress and reduce close supervision','It guarantees improved communication with no downside','It has no effect on remaining staff'],a:1}
+  ]},
+  {t:'Advantages and Disadvantages',ic:'⚖️',mod:'os',sortTopic:'Tall vs Flat Structures',qs:[
+    {tp:'sort',lb:'Drag to sort',q:'Advantages and Disadvantages — Tall Structure',cols:['Advantages','Disadvantages'],tiles:[
+      ['Narrow spans of control let managers supervise and support each employee more closely',0],
+      ['Multiple layers of hierarchy create clear promotion paths, which can motivate ambitious staff',0],
+      ['Messages can become slower and distorted as they pass through many layers of management',1],
+      ['More layers of management increase a business\'s management costs',1]
+    ]},
+    {tp:'sort',lb:'Drag to sort',q:'Advantages and Disadvantages — Flat Structure',cols:['Advantages','Disadvantages'],tiles:[
+      ['Fewer layers of hierarchy usually mean faster communication between senior management and employees',0],
+      ['Lower management costs, since fewer layers means fewer (well-paid) managers to employ',0],
+      ['A wider span of control can leave managers with less time to closely supervise or support each employee',1],
+      ['Fewer layers of hierarchy can mean fewer promotion opportunities for ambitious staff',1]
+    ]}
+  ]},
+  {t:'Delegation, Centralization & Decentralization',ic:'🔀',mod:'os',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'\'Delegation\' means...',o:['An employee resigning from their role','A manager passing authority for a specific task down to a subordinate, while still being accountable for the outcome','A business outsourcing a task to an external provider','A manager making every decision alone with no input from staff'],a:1},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'In a _____ structure, most decision-making authority is held by senior management at head office.',o:['centralized','decentralized','flat','matrix'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A key advantage of decentralization is that...',o:['Decisions can be made more quickly by those closest to the issue, who often have better local knowledge','It guarantees total consistency in every decision across the business','It removes the need for any management structure','It always reduces costs with no risk'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A key advantage of centralization is that...',o:['It speeds up every local decision','It removes the need for communication between head office and branches','It allows senior management to maintain tight control and consistency across the whole organization','It guarantees higher staff motivation at every level'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'A multinational retailer allows each country manager to set local pricing and promotions, while head office sets overall brand strategy. This is best described as a form of...',o:['Pure centralization, since head office makes every decision','Decentralization, since operational decision-making is pushed down to local managers','De-layering, since a management layer has been removed','Bureaucracy, since it relies on strict formal rules'],a:1}
+  ]},
+  {t:'Advantages and Disadvantages',ic:'⚖️',mod:'os',sortTopic:'Centralization vs Decentralization',qs:[
+    {tp:'sort',lb:'Drag to sort',q:'Advantages and Disadvantages — Centralization',cols:['Advantages','Disadvantages'],tiles:[
+      ['Keeps decision-making consistent across the business, since senior management makes the key calls',0],
+      ['Makes it easier for head office to maintain tight control and coordinate overall strategy',0],
+      ['Decisions can take longer to reach local branches, since they must come from head office',1],
+      ['Local managers may feel demotivated, since they have little say in decisions affecting their own branch',1]
+    ]},
+    {tp:'sort',lb:'Drag to sort',q:'Advantages and Disadvantages — Decentralization',cols:['Advantages','Disadvantages'],tiles:[
+      ['Decisions can be made faster by local managers who are closer to the issue',0],
+      ['Local managers often have better knowledge of local markets and customer needs',0],
+      ['It can be harder for head office to maintain consistency and control across the business',1],
+      ['Local decisions may conflict with the overall strategy or objectives set by head office',1]
+    ]}
+  ]},
+  {t:'Bureaucracy & Matrix Structures',ic:'🧩',mod:'os',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'A \'bureaucratic\' organization is one that...',o:['Has no formal rules or procedures at all','Relies on formal rules, procedures and a clear hierarchy to make and control decisions','Makes every decision through informal employee discussion','Has no managers or chain of command'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A likely disadvantage of a highly bureaucratic structure is that...',o:['It always speeds up decision-making','Strict rules and procedures can slow down decision-making and reduce flexibility','It guarantees high levels of innovation','It removes the need for any formal procedures'],a:1},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'A _____ structure organizes employees into project-based teams, so staff report to both a functional manager and a project manager at the same time.',o:['matrix','bureaucratic','tall','centralized'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A key advantage of a matrix structure is that it...',o:['Guarantees only one manager per employee with no overlap','Brings together employees with different specialist skills to work flexibly on a specific project','Removes the need for any teamwork','Is the simplest structure to manage, with no communication challenges'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A likely disadvantage of a matrix structure is that...',o:['Employees always report to exactly one manager','It guarantees clear, single lines of authority','It removes all need for cross-department communication','Reporting to more than one manager can create confusion over authority and conflicting priorities'],a:3}
+  ]},
+  {t:'Outsourcing, Offshoring & Choosing a Structure',ic:'🌐',mod:'os',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'\'Outsourcing\' involves...',o:['Moving a whole department to a cheaper location overseas','Contracting an external organization to carry out a business activity that could otherwise be done in-house','Removing a layer of management from the hierarchy','Recruiting new full-time staff directly into the business'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'\'Offshoring\' specifically involves...',o:['Contracting a task to an external domestic supplier','Delegating a task to a subordinate','Relocating a business activity or function to a different country, often to reduce costs','Removing a layer of hierarchy from the organization'],a:2},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'A key risk of outsourcing or offshoring a business activity is reduced _____ over the quality and timing of the work.',o:['control','cost','revenue','hierarchy'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which factor would most influence whether a growing business chooses a taller or flatter structure?',o:['Only the color scheme of the company logo','Only the location of the company\'s head office','The need to balance management control, favoring taller structures, against faster communication and lower costs, favoring flatter structures','Only the number of competitors in the market'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'A fast-growing tech start-up wants quick decision-making, open communication and minimal bureaucracy as it scales. Which structure is it most likely to choose?',o:['A tall, highly bureaucratic structure with many layers of management','A flat structure with a wide span of control and few levels of hierarchy','A structure with no chain of command or accountability at all','A structure where only one employee reports to the CEO'],a:1}
+  ]},
+  {t:'Advantages and Disadvantages',ic:'⚖️',mod:'os',sortTopic:'Outsourcing vs Offshoring',qs:[
+    {tp:'sort',lb:'Drag to sort',q:'Advantages and Disadvantages — Outsourcing',cols:['Advantages','Disadvantages'],tiles:[
+      ['Can reduce costs by using a specialist external provider instead of building the capability in-house',0],
+      ['Lets a business focus its own resources and management time on its core activities',0],
+      ['Can reduce a business\'s control over the quality and timing of the work',1],
+      ['Can risk confidentiality, since sensitive information may be shared with an external provider',1]
+    ]},
+    {tp:'sort',lb:'Drag to sort',q:'Advantages and Disadvantages — Offshoring',cols:['Advantages','Disadvantages'],tiles:[
+      ['Relocating an activity to a country with lower labour or production costs can significantly cut costs',0],
+      ['Can give a business access to skills, resources or a larger workforce not easily available at home',0],
+      ['Communication can be harder across different time zones, cultures and languages',1],
+      ['Can damage a business\'s reputation if customers disapprove of jobs moving abroad',1]
+    ]}
+  ]},
+  {t:'Leadership vs Management',ic:'🧭',mod:'lm',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'What best distinguishes leadership from management?',o:['Leadership is about inspiring and influencing people toward a vision, while management is about organizing and controlling resources to achieve objectives efficiently','Leadership and management are exactly the same thing','Management only applies to small businesses, while leadership only applies to large ones','Leadership deals only with finance, while management deals only with marketing'],a:0},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'A leader\'s primary role is to set a _____ and inspire others to work toward it, whereas a manager\'s role focuses more on planning, organizing and controlling day-to-day operations.',o:['vision','budget','timetable','invoice'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is most closely associated with the classical management function of \'organizing\'?',o:['Arranging resources, tasks and people into a structure that allows objectives to be achieved efficiently','Motivating employees through inspiring speeches','Monitoring performance against targets and taking corrective action','Setting the long-term vision and direction of the business'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business can have someone who is a good manager but a poor leader. This best illustrates that...',o:['Leadership and management require identical skills','Leadership and management are distinct skill sets — a person can excel at organizing resources (management) without necessarily inspiring and motivating people (leadership)','Management is more important than leadership in every situation','Only senior employees can ever be leaders'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following best describes the \'controlling\' function of management?',o:['Monitoring performance against objectives/targets and taking corrective action where necessary','Setting the overall mission and vision of the business','Arranging staff and resources into departments','Motivating individual employees through personal relationships'],a:0}
+  ]},
+  {t:'Autocratic & Paternalistic Leadership',ic:'👑',mod:'lm',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Which best describes an autocratic leadership style?',o:['The leader makes decisions independently with little or no input from employees, and expects compliance','The leader shares all decision-making power equally with every employee','The leader provides no direction at all, leaving employees to make every decision','The leader only consults employees who have worked at the business for over 10 years'],a:0},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'In a _____ leadership style, the leader retains centralized authority but makes decisions with the employees\' wellbeing in mind, similar to a parent looking after children.',o:['paternalistic','laissez-faire','democratic','situational'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A key advantage of autocratic leadership is...',o:['Decisions can be made quickly, which can be useful in a crisis or when time is limited','It always results in the most motivated workforce','It guarantees the best-quality decisions in every situation','It removes the need for a chain of command'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A key drawback of autocratic leadership is...',o:['It tends to speed up decisions too much','Employees may feel undervalued and demotivated as they have little say in decisions','It always improves staff retention','It eliminates the need for supervision'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A manager who makes all key decisions but also closely considers staff welfare, offering guidance and support much like a parent, is demonstrating which leadership style?',o:['Paternalistic','Laissez-faire','Democratic','Situational'],a:0}
+  ]},
+  {t:'Democratic & Laissez-Faire Leadership',ic:'🗳️',mod:'lm',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Which best describes a democratic (participative) leadership style?',o:['The leader consults employees and involves them in the decision-making process before reaching a final decision','The leader makes every decision alone without consulting anyone','The leader provides no guidance or direction to employees at all','The leader only follows instructions from a higher authority with no independent judgment'],a:0},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'In a _____ leadership style, employees are given a high degree of freedom and the leader provides minimal day-to-day direction or supervision.',o:['laissez-faire','autocratic','paternalistic','bureaucratic'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Democratic leadership is most likely to be effective when...',o:['Employees are skilled, experienced and want to contribute ideas, and there is enough time to consult them','An urgent crisis decision must be made within seconds','Employees have no relevant knowledge or experience at all','The business operates in a highly regulated, rule-bound environment'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Laissez-faire leadership is most appropriate for a team that is...',o:['Highly skilled, self-motivated and capable of working independently with minimal supervision','Inexperienced and in need of close, constant direction','Working under extreme time pressure in a crisis','Unmotivated and requiring strict enforcement of rules'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A key risk of laissez-faire leadership is that...',o:['It always leads to faster decision-making than other styles','Without sufficient guidance, a lack of direction can result in confusion, inconsistency or a lack of progress','It guarantees high levels of staff motivation in every case','It removes the need for employees to have any skills at all'],a:1}
+  ]},
+  {t:'Situational Leadership',ic:'🎯',mod:'lm',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Which best describes situational leadership?',o:['Adapting leadership style to suit the specific circumstances, such as the task, the team\'s experience and the time available','Always using the same leadership style regardless of the situation','Only ever using an autocratic style in any situation','Never making a decision until the situation is explained in writing'],a:0},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'In a genuine crisis requiring an immediate response, a more _____ leadership style is often most appropriate, since there is little time to consult others.',o:['autocratic','laissez-faire','democratic','situational'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A highly experienced, self-directed project team is most likely to respond well to which style, according to situational leadership theory?',o:['A more laissez-faire or democratic style, since the team can be trusted to work with less direct supervision','A strictly autocratic style regardless of their experience','No leadership or direction at all','A style that changes randomly day-to-day with no logic'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Why might a single leader need to vary their leadership style between projects?',o:['Because different tasks, team members, and time pressures call for different approaches, and no single style works best in every situation','Because the law requires leaders to change style every year','Because employees are only allowed one leadership style per company','Because situational leadership is identical to autocratic leadership'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which factor would a situational leader most likely consider before deciding how to lead a particular task?',o:['The skill level and experience of the team, the urgency of the task, and the resources available','The color of the company\'s branding','The number of holidays employees have taken that year','The size of the company\'s advertising budget'],a:0}
+  ]},
+  {t:'Choosing the Right Leadership Style',ic:'⚖️',mod:'lm',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'A new CEO inherits a highly experienced, confident senior management team who are used to making their own decisions. Which leadership style is likely to work best?',o:['A more democratic or laissez-faire style that makes use of the team\'s experience and judgement','A strict autocratic style that ignores their experience','No leadership at all','A purely bureaucratic, rule-based style with no flexibility'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A factory experiences a sudden safety emergency requiring an immediate evacuation. Which leadership style is most appropriate in that moment?',o:['Autocratic — clear, fast, direct instructions with no time for lengthy consultation','Laissez-faire — letting each employee decide individually what to do','Democratic — holding a vote on the best evacuation route','Paternalistic — waiting to check in on each employee\'s personal wellbeing before acting'],a:0},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'Effective leaders often adapt their style to the situation rather than relying on a single fixed approach — this flexible approach is known as _____ leadership.',o:['situational','autocratic','paternalistic','laissez-faire'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is NOT one of the five leadership styles covered in this unit?',o:['Bureaucratic','Autocratic','Democratic','Laissez-faire'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Overall, the most effective leadership style for a business is best described as...',o:['Dependent on the specific situation — the task, the team and the circumstances — rather than one single \'best\' style','Always autocratic, regardless of circumstances','Always laissez-faire, regardless of circumstances','Irrelevant, since leadership style never affects business performance'],a:0}
+  ]},
+  {t:'Why Motivation Matters: Taylor\'s Theory',ic:'💪',mod:'mo',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'What is meant by \'motivation\' in a business context?',o:['The internal and external drive that encourages employees to work harder and achieve business/personal objectives','The total number of hours an employee works per week','The amount of tax deducted from an employee\'s wages','The process of recruiting new employees'],a:0},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'F.W. Taylor\'s theory of scientific management argued that employees are motivated primarily by _____ rewards, and that pay should be linked directly to output.',o:['financial','social','emotional','spiritual'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'According to Taylor, how should workers best be paid to maximize motivation and output?',o:['A flat salary regardless of performance','Piece-rate pay, i.e. a payment for each unit produced, so greater output earns greater pay','Payment based purely on seniority','No pay at all, relying solely on job satisfaction'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A key criticism of Taylor\'s theory of motivation is that it...',o:['Fully explains all aspects of human motivation','Ignores non-financial factors such as job satisfaction, recognition and social needs, assuming money is the only motivator','Overemphasizes teamwork and social needs','Was developed after extensive study of knowledge workers in the modern service industry'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'Taylor\'s approach to work involved breaking production down into...',o:['Simple, repetitive tasks that could be measured, timed and paid for according to output','Fully autonomous roles with no supervision','Long-term strategic planning only undertaken by senior management','Random, unstructured tasks with no clear process'],a:0}
+  ]},
+  {t:'Maslow\'s Hierarchy of Needs',ic:'🔺',mod:'mo',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Maslow\'s Hierarchy of Needs suggests that human needs are arranged...',o:['In a single level with all needs equally important','In a hierarchy or pyramid, where lower-level needs must generally be satisfied before higher-level needs become motivating','Randomly, with no particular order','Only in terms of financial needs'],a:1},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'At the base of Maslow\'s pyramid are _____ needs, such as food, water and sleep.',o:['physiological','esteem','social','self-actualization'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is an example of a \'social\' need in Maslow\'s hierarchy?',o:['A sense of belonging, friendship and positive relationships with colleagues','Physical safety and job security','Food, water and rest','Reaching one\'s full personal potential'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'\'Self-actualization\', at the top of Maslow\'s hierarchy, refers to...',o:['An employee\'s basic need for a safe working environment','An employee reaching their full potential and achieving personal growth','An employee\'s need for a stable monthly salary','An employee\'s need to belong to a team'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A key criticism of Maslow\'s theory is that...',o:['It has strong, universally accepted scientific proof in every culture and situation','Needs do not always follow a strict hierarchy — people can be motivated by higher-level needs even if lower-level ones aren\'t fully met','It focuses only on financial motivators','It was designed specifically for business students'],a:1}
+  ]},
+  {t:'Herzberg\'s Two-Factor Theory',ic:'🧪',mod:'mo',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Herzberg\'s two-factor theory divides workplace factors into...',o:['Hygiene factors and motivators','Financial factors and non-financial factors only','Internal factors and external factors','Leadership factors and management factors'],a:0},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'According to Herzberg, _____ factors (such as salary, working conditions and job security) can cause dissatisfaction if absent, but do not by themselves motivate employees to work harder.',o:['hygiene','motivator','social','esteem'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is an example of a Herzberg \'motivator\', rather than a hygiene factor?',o:['Salary','Working conditions','Recognition and a sense of achievement','Company policy'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'According to Herzberg, simply improving hygiene factors (e.g. raising salary) will...',o:['Guarantee a highly motivated workforce in the long run','Remove dissatisfaction but is unlikely, on its own, to actively motivate employees to perform better','Have no effect on employees at all','Always reduce labour turnover to zero'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'Herzberg recommended which strategy to genuinely motivate employees?',o:['Job enrichment — giving employees more challenging, varied and meaningful tasks with greater responsibility','Cutting salaries to reduce costs','Removing all employee responsibilities','Increasing the number of hygiene factors only, while ignoring motivators'],a:0}
+  ]},
+  {t:'Financial Rewards',ic:'💰',mod:'mo',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is a financial method of motivating employees?',o:['Performance-related pay (PRP), where part of an employee\'s pay depends on meeting individual targets','Job rotation','Empowerment','Teamwork'],a:0},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'Under a _____ scheme, employees receive a percentage of the profit the business makes, giving them a direct financial interest in its success.',o:['profit-related pay','piece-rate','commission','fringe payment'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'A sales employee earns a base salary of $2,000 per month plus a 5% commission on $8,000 of sales they made this month. What is their total pay for the month?',f:[['Base salary','$2,000'],['Sales made','$8,000'],['Commission rate','5%']],o:['$2,400','$2,000','$2,800','$10,000'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'\'Fringe payments\' (fringe benefits) refer to...',o:['Non-cash or indirect benefits in addition to normal pay, such as a company car, health insurance or a pension contribution','An employee\'s basic hourly wage','A one-off bonus for exceeding a sales target','Pay calculated purely on the number of units produced'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A key limitation of relying only on financial rewards to motivate staff is that...',o:['They always guarantee long-term motivation for every employee','Their motivating effect can fade over time, and they may not address non-financial needs such as recognition or personal growth','They are the only motivator recognized by Herzberg','They have no cost to the business'],a:1}
+  ]},
+  {t:'Non-Financial Rewards & Choosing Motivators',ic:'🌱',mod:'mo',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'\'Job enrichment\' involves...',o:['Giving an employee more challenging and varied tasks with greater responsibility and decision-making authority','Paying an employee a higher hourly wage','Reducing an employee\'s working hours with no change to their role','Moving an employee to a lower-skilled position'],a:0},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'_____ involves moving employees between different tasks or roles, which can reduce boredom and help them develop a wider range of skills.',o:['Job rotation','Job enrichment','Empowerment','Outsourcing'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'\'Empowerment\' as a non-financial motivator means...',o:['Giving employees greater autonomy and authority to make decisions about their own work','Reducing an employee\'s responsibilities to the bare minimum','Paying employees entirely in company shares','Removing all employee involvement in decision-making'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is a non-financial motivator, rather than a financial one?',o:['Teamwork and a sense of purpose in meaningful work','Commission on sales','A performance-related bonus','Profit-related pay'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business wants to motivate a team of highly skilled, well-paid employees who report feeling bored and undervalued. Based on Herzberg and non-financial reward theory, which approach is most likely to help?',o:['Offering more challenging, enriched tasks, greater responsibility and genuine recognition, rather than simply raising pay further','Increasing their salary with no other changes','Reducing their responsibilities to make the job easier','Removing them from all team-based projects'],a:0}
+  ]},
+  {t:'Introduction to Efficiency & Gearing Ratios',ic:'🔎',mod:'eg',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'What do efficiency ratios mainly measure?',o:['How effectively a business manages its short-term resources, such as stock and trade credit','How much profit a business makes relative to its revenue','How a business\'s share price has changed over time','How many employees a business has relative to its revenue'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of these is the gearing ratio primarily used to assess?',o:['How a business is financed — the proportion of capital employed that comes from long-term borrowing','How quickly a business sells its inventory','How long a business takes to pay its suppliers','How profitable a business is relative to its sales'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is NOT an efficiency ratio?',o:['Stock turnover','Debtor days','Net Profit Margin','Creditor days'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'Efficiency ratios and the gearing ratio are studied at HL only because they...',o:['Require a deeper, more detailed level of financial analysis than SL profitability and liquidity ratios','Cannot be calculated from a set of final accounts','Replace the need to study profitability ratios','Are only relevant to very small businesses'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business compares its efficiency ratios to a close competitor\'s. What is the main benefit of doing this?',o:['It identifies areas of working capital management that could be improved','It guarantees the business will become more profitable','It removes the need to calculate liquidity ratios','It automatically increases the business\'s gearing ratio'],a:0}
+  ]},
+  {t:'Stock Turnover in Days',ic:'📦',mod:'eg',qs:[
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the formula:',s:'Stock Turnover (days) = (Average Stock ÷ _____) × 365',o:['Cost of Sales','Sales Revenue','Current Liabilities','Gross Profit'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the Stock Turnover in days?',f:[['Average Stock','$40,000'],['Cost of Sales','$200,000']],o:['73 days','40 days','200 days','100 days'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the Stock Turnover in days?',f:[['Opening Stock','$30,000'],['Closing Stock','$50,000'],['Cost of Sales','$146,000']],o:['100 days','50 days','146 days','73 days'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A LOWER stock turnover (days) figure generally indicates...',o:['Stock is selling more slowly','Stock is being converted into sales more quickly, which is usually more efficient','The business holds no inventory at all','The business\'s cost of sales has fallen to zero'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which type of business would you expect to have the HIGHEST stock turnover (days) figure?',o:['A supermarket selling fresh produce','A high-street coffee shop','A luxury furniture retailer, where items can sit in showrooms for months','A fast-food restaurant'],a:2}
+  ]},
+  {t:'Creditor Days',ic:'🧾',mod:'eg',qs:[
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the formula:',s:'Creditor Days = (Creditors ÷ _____) × 365',o:['Cost of Sales','Sales Revenue','Average Stock','Capital Employed'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the Creditor Days figure?',f:[['Creditors','$24,000'],['Cost of Sales','$292,000']],o:['30 days','24 days','90 days','12 days'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the Creditor Days figure?',f:[['Creditors','$50,000'],['Cost of Sales','$365,000']],o:['50 days','100 days','36.5 days','5 days'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business\'s creditor days increases from 30 to 60 days. What does this most directly suggest?',o:['The business is taking longer to pay its suppliers, which can improve its own short-term cash position','The business is paying its suppliers twice as fast','The business has doubled its revenue','The business\'s stock turnover has improved'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Why might a very high creditor days figure eventually become risky for a business?',o:['It guarantees higher profit margins','Suppliers may lose patience, withdraw credit terms, or refuse future orders','It automatically increases the current ratio','It has no effect on supplier relationships'],a:1}
+  ]},
+  {t:'Gearing Ratio',ic:'🏦',mod:'eg',qs:[
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the formula:',s:'Gearing Ratio = (Non-current Liabilities ÷ _____) × 100',o:['Capital Employed','Current Liabilities','Current Assets','Revenue'],a:0},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the formula:',s:'Capital Employed = Non-current Liabilities + _____',o:['Equity','Current Assets','Inventory','Gross Profit'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the Gearing Ratio?',f:[['Non-current Liabilities','$200,000'],['Equity','$300,000']],o:['40%','60%','67%','20%'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the Gearing Ratio?',f:[['Non-current Liabilities','$150,000'],['Equity','$100,000']],o:['60%','40%','150%','67%'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business has a gearing ratio of 65%. This suggests the business is...',o:['Highly geared, relying heavily on debt finance and facing greater financial risk from interest obligations','Entirely funded by equity with no financial risk','Unable to calculate its capital employed','Guaranteed to be more profitable than a lower-geared competitor'],a:0}
+  ]},
+  {t:'Efficiency & Gearing Challenge',ic:'🏆',mod:'eg',qs:[
+    {tp:'calc',lb:'Calculate and choose',q:'What is the Stock Turnover in days?',f:[['Average Stock','$50,000'],['Cost of Sales','$365,000']],o:['50 days','73 days','36.5 days','5 days'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the Creditor Days figure?',f:[['Creditors','$40,000'],['Cost of Sales','$365,000']],o:['40 days','36.5 days','100 days','4 days'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the Gearing Ratio?',f:[['Non-current Liabilities','$120,000'],['Equity','$180,000']],o:['40%','60%','67%','33%'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Business X has a gearing ratio of 40%. Business Y has a gearing ratio of 75%. Which business faces greater financial risk from its capital structure?',o:['Business Y, since a higher proportion of its capital employed is financed by long-term debt','Business X, since it has a lower gearing ratio','Neither — gearing ratio has no link to financial risk','Business Y, because it must have higher profits'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business has low stock turnover in days, pays its creditors quickly (low creditor days), but its customers are slow to pay (high debtor days). What does this combination most likely create for the business?',o:['Pressure on its cash flow, since cash is tied up in stock and owed by customers while it must pay out to suppliers quickly','Guaranteed high profitability','A very low gearing ratio','No effect on cash flow at all'],a:0}
   ]}
 ];
 
@@ -7392,6 +7726,12 @@ var BM_BE_START=12, BM_BE_END=16; /* BM_D[12]–BM_D[16] */
 var BM_LN_START=17, BM_LN_END=22; /* BM_D[17]–BM_D[22] */
 var BM_OM_START=23, BM_OM_END=27; /* BM_D[23]–BM_D[27] */
 var BM_IO_START=28, BM_IO_END=29; /* BM_D[28]–BM_D[29] */
+var BM_CF_START=30, BM_CF_END=34; /* BM_D[30]–BM_D[34] */
+var BM_HR_START=35, BM_HR_END=39; /* BM_D[35]–BM_D[39] — Introduction to HRM */
+var BM_OS_START=40, BM_OS_END=47; /* BM_D[40]–BM_D[47] — Organizational Structure */
+var BM_LM_START=48, BM_LM_END=52; /* BM_D[48]–BM_D[52] — Leadership and Management */
+var BM_MO_START=53, BM_MO_END=57; /* BM_D[53]–BM_D[57] — Motivation and Demotivation */
+var BM_EG_START=58, BM_EG_END=62; /* BM_D[58]–BM_D[62] — Efficiency & Gearing Ratios (HL) */
 
 /* ===================== SPEED ROUND DATA ===================== */
 var BM_BS_SECTIONS=['Non-current Assets','Current Assets','Current Liabilities','Non-current Liabilities','Equity'];
@@ -7540,6 +7880,371 @@ var BM_HINTS=[
   ['GPM formula ends with × 100 to express as a percentage.','The multiplier converts the decimal to a percentage.']]
 ];
 
+/* Cash Flow Forecasting hints (BM_D[30]–BM_D[34]) — set by explicit index since
+   BM_HINTS is otherwise only populated for lessons 0–11; bmRGame() already
+   handles a missing/sparse entry gracefully (BM_HINTS[BM_S.les]?...:null). */
+BM_HINTS[30]=[
+  ['A forecast looks ahead — not backward at results already achieved.','It\'s about WHEN and HOW MUCH cash moves in and out, not profit.'],
+  ['Profit includes things like credit sales and depreciation that aren\'t cash yet.','Cash flow only counts money that has actually changed hands.'],
+  ['An outflow is cash LEAVING the business.','Sales, loans received, and capital invested all bring cash IN.'],
+  ['Rearrange the net cash flow formula.','Net cash flow = Cash inflows − Cash outflows.'],
+  ['Think about what a manager can DO once they see a problem coming.','Forecasts give early warning, so finance can be arranged ahead of time.']
+];
+BM_HINTS[31]=[
+  ['This links one month\'s forecast to the next.','Closing balance = Opening balance + Net cash flow.'],
+  ['A forecast flows month to month — nothing resets to zero.','This month\'s closing balance = next month\'s opening balance.'],
+  ['Closing balance = Opening balance + Net cash flow.','$5,000 + $2,000 = ?'],
+  ['Net cash flow = Total receipts − Total payments.','$18,000 − $12,500 = ?'],
+  ['First find net cash flow, then add it to the opening balance.','$9,000 − $10,500 = −$1,500; then $1,200 + (−$1,500) = ?']
+];
+BM_HINTS[32]=[
+  ['Work out net cash flow first, then add the opening balance.','$6,000 − $9,000 = −$3,000; then $2,000 + (−$3,000) = ?'],
+  ['A negative closing balance means payments exceed the cash available.','It\'s a warning sign, not an automatic business failure.'],
+  ['This month\'s opening balance is last month\'s closing balance.','$4,000 + (−$6,000) = ?'],
+  ['Seeing a shortfall early means there\'s time to act.','Options like an overdraft or delaying spending prevent the shortfall actually happening.'],
+  ['A lender wants to see cash building up, not draining away.','A closing balance that keeps rising shows the business can cover its debts.']
+];
+BM_HINTS[33]=[
+  ['Overtrading means growing faster than the business\'s cash can support.','The other options describe good cash management, not a cause of problems.'],
+  ['Think about WHEN the cash from the extra sales actually lands in the bank.','If a sale is made on credit, the revenue is earned straight away — but the cash follows later, often after wages, materials and suppliers have already had to be paid. If it had been a cash sale instead, the money would already be in the bank.'],
+  ['Receivables = money owed TO the business by customers.','The longer customers take to pay, the longer cash is tied up outside the business.'],
+  ['Stock sitting on shelves is cash that hasn\'t come back in yet.','Until inventory is sold, the cash spent buying/making it is unavailable.'],
+  ['External causes come from OUTSIDE the business\'s control.','A downturn in the wider economy is external; credit terms and spending decisions are internal.'],
+  ['Seasonal businesses earn most revenue in short bursts.','Cash still has to cover costs during the quieter months in between.']
+];
+BM_HINTS[34]=[
+  ['Short-term solutions are quick to arrange and quick to repay.','An overdraft can be drawn on and repaid flexibly, unlike a long-term loan or share issue.'],
+  ['Factoring turns money owed by customers into cash NOW.','A factoring company pays the business upfront, then collects the debt itself.'],
+  ['Paying suppliers later keeps cash in the business for longer.','It\'s about timing — not the total amount owed.'],
+  ['Add net cash flow to the (negative) opening balance.','$8,500 − $6,000 = $2,500; then −$1,000 + $2,500 = ?'],
+  ['Speeding up INFLOWS means getting cash in sooner.','Chasing late payers brings forward cash that\'s already owed.']
+];
+
+/* Break-Even Analysis hints (BM_D[12]–BM_D[16]) */
+BM_HINTS[12]=[
+  ['Break-even is about the point where a business neither makes a profit nor a loss.','Total revenue = Total costs at this output level — not a specific profit figure.'],
+  ['Contribution is what\'s left from each sale after covering the DIRECT cost of making that unit.','Selling Price − Variable Cost per unit = Contribution per unit.'],
+  ['Contribution per unit = Selling price − Variable cost per unit.','$20 − $12 = ?'],
+  ['Contribution per unit is a PER-UNIT figure — multiply it by how many units to get a total.','Total contribution = Contribution per unit × Quantity sold.'],
+  ['Total contribution = Contribution per unit × Quantity sold.','$5 × 200 = ?']
+];
+BM_HINTS[13]=[
+  ['You need to know how many "chunks" of contribution it takes to cover the fixed costs.','Break-even quantity = Fixed Costs ÷ Contribution per unit.'],
+  ['Break-even quantity = Fixed Costs ÷ Contribution per unit.','$4,000 ÷ $8 = ?'],
+  ['First find contribution per unit: Selling price − Variable cost per unit.','$50 − $30 = $20 contribution; then $9,000 ÷ $20 = ?'],
+  ['Break-even quantity = Fixed Costs ÷ Contribution per unit — a bigger denominator with the same numerator gives a smaller result.','Each unit now covers more of the fixed costs, so fewer units are needed to break even.'],
+  ['Break-even quantity = Fixed Costs ÷ Contribution per unit — a bigger numerator with the same denominator gives a bigger result.','More fixed costs means more units must be sold before they\'re all covered.']
+];
+BM_HINTS[14]=[
+  ['Rearrange the break-even formula: Contribution per unit = Fixed Costs ÷ Break-even quantity.','$400 ÷ 40 = ?'],
+  ['Contribution per unit = Selling price − Variable cost per unit, so rearrange it.','$20 − $10 = ?'],
+  ['Beyond the break-even point, EVERY extra unit sold adds its full contribution straight to profit.','20 units × $10 contribution = ?'],
+  ['At zero output, variable costs are zero — but one type of cost still has to be paid.','Fixed costs (rent, insurance, salaries) are incurred regardless of output level.'],
+  ['Below the break-even point, total costs are higher than total revenue.','25 units is to the LEFT of the 40-unit break-even point on the chart — that\'s the loss zone.']
+];
+BM_HINTS[15]=[
+  ['Margin of safety measures how far CURRENT output is above the point of no profit/loss.','Margin of safety = Actual output − Break-even output.'],
+  ['Margin of safety = Actual output − Break-even output.','65 − 40 = ?'],
+  ['To hit a target profit, you need to cover fixed costs AND earn the extra profit on top.','(Fixed costs + Target profit) ÷ Contribution per unit = ($3,000 + $2,000) ÷ $10 = ?'],
+  ['Profit = Total contribution − Fixed costs.','(600 × $15) − $5,000 = ?'],
+  ['Target price goes a step further than break-even — it\'s about hitting a PROFIT goal, not just covering costs.','It\'s the price needed so that, at a given output, the business earns its desired profit.']
+];
+BM_HINTS[16]=[
+  ['A higher selling price means a bigger contribution per unit.','Break-even quantity = Fixed Costs ÷ Contribution per unit — a bigger contribution means fewer units needed, so the break-even point moves LEFT.'],
+  ['More fixed costs means more units must be sold before they\'re all covered.','On the chart, the FC line (and the TC line above it) shifts upward, pushing the break-even point further right.'],
+  ['A higher variable cost per unit shrinks the gap between selling price and variable cost.','Contribution per unit falls, so Fixed Costs ÷ Contribution per unit gets BIGGER — more units are needed to break even.'],
+  ['Break-even analysis is a simplified model — it has to assume some things to work with straight lines.','In reality, not every unit made is guaranteed to sell; the model assumes it is.'],
+  ['Real businesses often get bulk discounts or benefit from economies of scale as output grows — straight lines can\'t capture that.','The model assumes selling price and variable cost per unit never change, however much is produced.']
+];
+
+/* Lean Production hints (BM_D[17]–BM_D[22]) */
+BM_HINTS[17]=[
+  ['Lean production is about cutting out anything that doesn\'t add value for the customer.','The two core ideas are LESS waste and MORE efficiency — not headcount or cost categories.'],
+  ['This is the second half of lean production\'s core aim — paired with "less waste".','Lean production aims to achieve less waste and greater efficiency.'],
+  ['Lean production\'s two core features are about REDUCING things, not increasing them.','"Higher fixed costs" runs directly against the whole point of lean production.'],
+  ['Less waste means fewer resources spent producing the same output.','Lower costs give a business more room to compete on price or improve margins.'],
+  ['Think about what gives a business an edge over rivals.','Lean production is ultimately a competitiveness strategy — efficiency and lower relative costs.']
+];
+BM_HINTS[18]=[
+  ['This term specifically means small, ongoing improvements — not a one-off change.','Kaizen = continuous improvement.'],
+  ['Kaizen is NOT about big, occasional overhauls from management alone.','It\'s small, continuous changes — and everyone, not just managers, is expected to contribute ideas.'],
+  ['JIT is about timing — materials arrive exactly when they\'re needed, not before.','This avoids holding large stockpiles of unused stock.'],
+  ['Think about what JIT lets a business avoid holding.','Without large buffer stocks, there\'s much less tied up in warehousing and storage costs.'],
+  ['Continuous improvement works best when everyone on the shop floor, not just managers, spots ways to improve.','Kaizen explicitly involves the whole workforce in suggesting small changes.']
+];
+BM_HINTS[19]=[
+  ['The name hints at a cycle — from one "cradle" (new product) back to another, not to a "grave" (landfill).','It\'s about designing OUT waste from the very start, so materials keep circulating.'],
+  ['Think about the environmental goal behind designing products this way.','Keeping materials in use rather than discarding them is a core sustainability principle.'],
+  ['Look for the option where NOTHING from the product ends up as waste.','The other options describe products designed to be thrown away or hard to recycle — the opposite of cradle to cradle.'],
+  ['If materials keep getting reused, a business needs to buy less brand-new raw material over time.','This can also reduce the costs and risks associated with waste disposal.'],
+  ['Cradle to cradle is a CIRCULAR model — materials loop back into use.','The opposite is a straight line: take resources, make a product, throw it away once used.']
+];
+BM_HINTS[20]=[
+  ['Quality CONTROL checks happen mainly at the end of the line.','It\'s about catching defects in the finished product, after it\'s already been made.'],
+  ['Assurance is about PREVENTING problems, not just catching them afterward.','It\'s built into every stage of production, not just a check at the very end.'],
+  ['If defects are only caught at the end, think about what\'s already been spent making that faulty item.','Materials, labor and time have already been used on a product that turns out to be faulty.'],
+  ['This is the approach that builds quality in at every stage, not just checks it at the end.','Quality assurance — contrast this with quality control, which inspects the finished product.'],
+  ['One approach reacts to problems after they happen; the other prevents them from happening.','Control = reactive, end-of-line checking. Assurance = proactive, throughout the whole process.']
+];
+BM_HINTS[21]=[
+  ['This is about PEOPLE meeting together, not a financial measure or a single manager.','A quality circle is a small group of employees working together on quality issues.'],
+  ['Benchmarking means measuring yourself against someone else who does it well.','It\'s an external comparison — against a leading competitor or recognized best practice.'],
+  ['TQM spreads responsibility for one specific thing across the WHOLE organization.','Total Quality Management — every employee is responsible for quality.'],
+  ['The word "Total" in TQM is the clue — it\'s not limited to one department.','Quality isn\'t just the quality control team\'s job; everyone shares responsibility for it.'],
+  ['This method specifically involves looking OUTSIDE the business for ideas.','Quality circles and TQM are internal approaches; this one compares against another organization.']
+];
+BM_HINTS[22]=[
+  ['Think back to what lean production and TQM are actually designed to achieve.','Less waste + fewer defects naturally lead to lower costs and better quality output.'],
+  ['These approaches ask employees to work and think differently, not just follow new instructions.','Shifting an entire workforce\'s mindset and skills usually takes real investment in training and culture change.'],
+  ['A recognized certification acts as a signal to people outside the business.','It reassures customers and can be a requirement for winning certain contracts or entering certain markets.'],
+  ['Think about the flip side of the credibility benefit from the previous question.','Without recognized certification, some customers and contracts may simply be out of reach.'],
+  ['This is a "weigh it up" question — think about both the benefits AND the challenges covered in this lesson.','The honest answer acknowledges real gains are possible, but they come with real costs of implementation too.']
+];
+
+/* Operations Methods hints (BM_D[23]–BM_D[27]) */
+BM_HINTS[23]=[
+  ['Job production makes things ONE AT A TIME, built around a specific customer\'s needs.','Think bespoke, one-off — not groups or mass output.'],
+  ['Look for the option describing a single, custom-made item for one customer.','Mass-produced smartphones, assembly-line cars, and identical loaves are all the opposite of job production.'],
+  ['Custom, one-off work usually needs skilled labor and bespoke materials — neither of which is cheap.','Without the efficiencies of repetition, the cost of each individual item tends to be high.'],
+  ['Customers paying for something unique and tailor-made are often willing to pay more for it.','High customization is job production\'s biggest selling point — and it can justify a premium price.'],
+  ['This is the opposite of standardized or identical.','Job production = one unique item, built to order.']
+];
+BM_HINTS[24]=[
+  ['Batch production sits BETWEEN one-off job production and continuous mass production.','Goods move through production in GROUPS — one batch completes a stage before the next batch starts.'],
+  ['Look for the option where a fixed group of IDENTICAL items is made, then production switches to something else.','This matches producing one batch, then changing over to a different product.'],
+  ['Batch production is a middle ground — it keeps some benefits of both job and mass production.','Producing in groups allows some cost savings, while still being able to switch between different products.'],
+  ['Think about what has to happen to machinery/workstations every time production switches to a new batch.','Resetting or cleaning equipment between batches costs time — and time not producing is time not earning.'],
+  ['This word describes a set quantity of identical items made together.','Batch production = fixed-size groups, not continuous streams or individual custom units.']
+];
+BM_HINTS[25]=[
+  ['This method runs NON-STOP, producing huge volumes of the SAME product.','Think assembly line — continuous, high-volume, standardized.'],
+  ['Look for continuous, high-volume output of IDENTICAL items.','Bespoke dresses, custom houses and small daily batches are all the opposite of mass/flow production.'],
+  ['Producing huge volumes of the same thing spreads costs very thinly across each unit.','This is the classic benefit of economies of scale.'],
+  ['Everything coming off the line looks the same — that\'s the whole point of this method.','The trade-off for low cost per unit is that individual customers can\'t easily get something different.'],
+  ['This is the opposite of unique, bespoke or one-off.','Mass/flow production = standardized products, made identically at high volume.']
+];
+BM_HINTS[26]=[
+  ['The name itself is the clue — it blends TWO things that normally seem opposite.','It\'s mass production\'s efficiency, PLUS the ability to personalize for each customer.'],
+  ['Look for an option where customers get some personal choice, but the business still produces at scale.','Identical toys and loaves show no personalization; a single hand-made suit shows no scale — this option has both.'],
+  ['Personalizing products at scale isn\'t done by hand — it needs the right systems behind it.','Flexible technology and good information systems let a business adapt each product without losing efficiency.'],
+  ['Think about what a business gains by combining the two approaches.','Customers get something tailored to them, while the business keeps most of the cost savings of producing at scale.'],
+  ['This is the "customization" half of mass customization.','Mass customization = mass production efficiency + the ability to personalize individual products.']
+];
+BM_HINTS[27]=[
+  ['One-off, made to a specific client\'s exact requirements — that\'s a strong match for one particular method.','Custom, single pieces point to job production, not batch or mass/flow.'],
+  ['Huge volume, every bottle identical — this points clearly to one method.','Continuous, standardized, high-volume output is the hallmark of mass/flow production.'],
+  ['A fixed quantity of one product, then a changeover to a different product — that pattern has a name.','Producing in distinct groups before switching products is exactly how batch production works.'],
+  ['Customer choice AND production at scale together point to one specific method.','This combination — personalization plus efficient large-scale manufacturing — is mass customization.'],
+  ['Every method in this lesson involves giving something up to get something else.','The key trade-off running through all of them is customization versus cost efficiency at higher volume.']
+];
+
+/* Introduction to Operations hints (BM_D[28]–BM_D[29]) */
+BM_HINTS[28]=[
+  ['Operations management sits at the core of HOW a business actually makes what it sells.','It\'s about turning inputs (materials, labor) into outputs (goods/services) that customers value.'],
+  ['Think about what goes INTO the production process before it becomes a finished product.','Inputs — like raw materials, labor and machinery — get converted into finished goods or services.'],
+  ['Inputs are what goes IN to the process, before anything has been produced yet.','Profit, the finished product and a customer survey all come AFTER production — they\'re not inputs.'],
+  ['A business only makes sense if the finished product is worth MORE than what went into making it.','This difference — output value minus input cost — is "added value".'],
+  ['Look for the option where something of low value is transformed into something customers will pay more for.','Raw beans alone aren\'t worth much — but turned into a brewed coffee, customers pay a premium.']
+];
+BM_HINTS[29]=[
+  ['Operations managers constantly juggle several competing priorities at once, not just one.','The classic set to balance is cost, quality, speed and flexibility.'],
+  ['Think about operations management\'s core job: actually making what customers want, well.','It\'s about efficient production that matches what customers are demanding.'],
+  ['Think about which other department feels the impact of decisions like buying new machinery or changing output levels.','Operations choices often involve spending money and making investments — which directly affects finance.'],
+  ['Think about the opposite of what good operations management achieves.','Poor operations typically shows up as rising costs, worse quality, or failing to deliver what customers want.'],
+  ['This isn\'t about legal requirements or company size — think about what EVERY organization does, no matter what it is.','Any organization, whatever it does, has to turn some kind of input into some kind of output to deliver value.']
+];
+
+/* Introduction to HRM hints (BM_D[35]–BM_D[39]) */
+BM_HINTS[35]=[
+  ['HRM is about the whole employee lifecycle, not just one task.','Think planning, recruiting, training, motivating AND retaining staff — not just hiring.'],
+  ['This word means forecasting what the business will need in the future.','Human resource planning looks ahead at both the number of staff and the skills required.'],
+  ['Turnover is about staff LEAVING and being replaced, not staff numbers or pay.','It\'s normally expressed as a percentage of the workforce over a set period, like a year.'],
+  ['Labour turnover rate = (employees leaving ÷ average workforce) × 100.','15 ÷ 150 × 100 = ?'],
+  ['High turnover means people keep leaving — think about WHY that would happen.','Low pay, poor conditions or weak recruitment often drive staff away, not strong loyalty.']
+];
+BM_HINTS[36]=[
+  ['Productivity is about OUTPUT per worker, not total output alone.','It tells you how efficiently the workforce is being used.'],
+  ['Labour productivity = Output ÷ Number of employees.','4,800 ÷ 60 = ?'],
+  ['Retention is the opposite side of the coin from turnover.','It measures how well a business holds on to the staff it already has.'],
+  ['Absenteeism rate = (days lost to absence ÷ total possible staff-days) × 100.','45 ÷ 900 × 100 = ?'],
+  ['Both absenteeism and low productivity often trace back to the same root cause.','A demotivated workforce tends to show up less and produce less — so motivation is usually the fix.']
+];
+BM_HINTS[37]=[
+  ['Internal influences come from WITHIN the business itself.','Objectives and strategy are set by the business, not imposed from outside.'],
+  ['External influences come from OUTSIDE the business, in its wider environment.','The local labour market exists whether or not this particular business does.'],
+  ['Think about where workers with a particular skill are found.','If very few people locally have that skill, the business has a smaller pool to recruit from.'],
+  ['New technology changes WHAT skills are needed, not just how many staff.','Some roles shrink or disappear while new, more technical roles are created.'],
+  ['Strong legal protection makes it harder and slower to cut staff.','That means HR planning has to think further ahead before committing to redundancies.']
+];
+BM_HINTS[38]=[
+  ['Flexibility is about employees having more CHOICE over how/when they work.','Flexitime lets staff vary their start and finish times around a core period — a fixed 9-to-5 is the opposite.'],
+  ['Teleworking is about WHERE the work happens.','It means working remotely, often from home, using technology to stay connected.'],
+  ['This term means using an outside company to do work that used to be done internally.','It\'s a word you\'ll also meet in operations management, for the same basic idea.'],
+  ['Flexible practices help a business match staffing to demand that goes up and down.','They can also improve work-life balance, which tends to boost motivation.'],
+  ['Think about what workers lose when contracts are temporary or hours aren\'t guaranteed.','Less certainty over hours or continued employment can weaken loyalty and make retention harder.']
+];
+BM_HINTS[39]=[
+  ['Redundancy is about the ROLE disappearing, not the employee\'s performance.','It happens when a job is no longer needed — through no fault of the person doing it.'],
+  ['The key difference is WHY the employee leaves.','Redundancy = the job no longer exists; dismissal = the employee\'s own conduct or performance.'],
+  ['Think about how people typically react to uncertainty or losing something familiar.','Fear of job insecurity or simply not understanding the reasons tends to make people push back.'],
+  ['Reducing resistance usually means bringing staff INTO the process, not shutting them out.','Clear communication and involvement help people understand and accept why change is happening.'],
+  ['Good change management is about honesty and support, even when the news is bad.','Early communication, retraining/redeployment options and fair process reduce harm and resistance.']
+];
+
+/* Organizational Structure hints (BM_D[40]–BM_D[44]) */
+BM_HINTS[40]=[
+  ['An org chart is a PICTURE of how a business is structured, not its finances or products.','It shows departments, job roles, and who reports to whom.'],
+  ['This phrase describes the formal PATH instructions travel down the organization.','Chain of command — from senior management, through each level, down to employees.'],
+  ['Span of control is about how many people ONE manager looks after directly.','It\'s a headcount of direct reports, not a count of departments or total staff.'],
+  ['Levels of hierarchy count the LAYERS stacked between the top and the bottom.','More layers of management = more levels of hierarchy.'],
+  ['A WIDE span means a manager is responsible for MANY people at once.','The opposite — very few or no direct reports — would be a narrow span of control.']
+];
+BM_HINTS[41]=[
+  ['\'Tall\' describes a shape with many layers stacked on top of each other.','Many levels of hierarchy go together with a narrower span of control at each level.'],
+  ['\'Flat\' is the opposite shape — short and wide.','Few levels of hierarchy go together with a wider span of control at each level.'],
+  ['This word describes TAKING AWAY layers, like removing floors from a building.','De-layering removes one or more levels of management from the hierarchy.'],
+  ['Fewer layers means information and decisions don\'t have to pass through as many people.','That usually means lower management costs and quicker decisions.'],
+  ['If a layer of managers disappears, their old responsibilities don\'t vanish — someone else picks them up.','The managers who remain often end up with a wider span of control and more pressure.']
+];
+BM_HINTS[42]=[
+  ['A tall structure means many layers of management with a narrow span of control at each level.','Close supervision and clear promotion paths are the upside; slow, distorted communication and higher management costs are the downside.'],
+  ['A flat structure means few layers of management with a wider span of control at each level.','Faster communication and lower management costs are the upside; less close supervision and fewer promotion opportunities are the downside.']
+];
+BM_HINTS[43]=[
+  ['Delegation is about PASSING DOWN a task, while still being accountable for it.','A manager hands over authority for a specific job, but remains responsible for the outcome.'],
+  ['This word describes decision-making power staying at the TOP, in one place.','Centralized = most authority held by senior management at head office.'],
+  ['Decentralization pushes decisions OUT to people closer to the situation.','Local managers often know local conditions and customers better than head office does.'],
+  ['Centralization keeps control concentrated at the top.','That makes it easier for senior management to keep decisions consistent across the whole business.'],
+  ['Local managers making local decisions, while head office keeps overall strategy — that\'s decision-making spread OUT.','That pattern describes decentralization, not centralization or a removed layer of management.']
+];
+BM_HINTS[44]=[
+  ['Centralization keeps decision-making power at the TOP, with senior management.','Consistency and central control are the upside; slower local decisions and lower local morale are the downside.'],
+  ['Decentralization pushes decision-making power OUT to local managers.','Speed and local knowledge are the upside; less head-office control and possible conflicts with strategy are the downside.']
+];
+BM_HINTS[45]=[
+  ['Bureaucracy is built on RULES and procedures, applied consistently.','A clear hierarchy plus formal rules for how decisions get made and checked.'],
+  ['Lots of rules and sign-offs take TIME to work through.','That slows decisions down and makes the business less able to react quickly.'],
+  ['This structure is named after a grid — think rows AND columns of reporting lines.','Staff report to both a functional manager and a project manager at the same time.'],
+  ['Matrix structures pull together people with DIFFERENT skills for one project.','That mix of specialists working flexibly together is the big advantage.'],
+  ['Having two managers instead of one can create a problem.','Conflicting instructions or unclear authority between the two managers is the classic downside.']
+];
+BM_HINTS[46]=[
+  ['Outsourcing means paying an OUTSIDE organization to do work that used to be done in-house.','The business itself doesn\'t have to do the job anymore — someone else does, under contract.'],
+  ['Offshoring is outsourcing\'s more specific cousin — it\'s about location.','It means moving the activity to a different COUNTRY, usually to cut costs.'],
+  ['When someone else does the work, you lose some say over how it\'s done.','Reduced control over quality and timing is the classic risk of outsourcing or offshoring.'],
+  ['Taller structures give more control; flatter structures give more speed.','The business has to weigh up how much control it needs against how fast it wants to move.'],
+  ['Quick decisions and open communication point toward fewer layers, not more.','A flat structure, with a wide span of control, suits a business that wants to move fast.']
+];
+BM_HINTS[47]=[
+  ['Outsourcing hands a specific activity to an external provider — look at what the business gains and loses by not doing it in-house.','Lower cost and sharper focus on core activities are the upside; less control over quality/timing and confidentiality risk are the downside.'],
+  ['Offshoring is outsourcing with a location twist — the activity moves to another COUNTRY.','Lower costs and access to skills/resources abroad are the upside; harder cross-border communication and possible reputational damage are the downside.']
+];
+BM_HINTS[48]=[
+    ['Leadership and management are related but distinct — think about VISION versus DAY-TO-DAY OPERATIONS.','Leadership is about inspiring people toward a shared vision; management is about organizing and controlling resources efficiently.'],
+    ['A leader\'s core job is to set a clear direction for others to follow.','The missing word describes what a leader creates and inspires others toward — a vision.'],
+    ['\'Organizing\' is one of the four classical functions of management — think about what it actually involves doing.','Organizing means arranging people, tasks and resources into a structure that lets objectives be achieved efficiently.'],
+    ['This scenario shows that being good at one doesn\'t automatically make you good at the other.','Leadership and management need different skill sets — someone can manage resources well without necessarily inspiring people.'],
+    ['\'Controlling\' is about checking progress, not about starting it.','Controlling means monitoring performance against targets and taking corrective action if something is off track.']
+  ];
+BM_HINTS[49]=[
+    ['Autocratic leaders keep decision-making power to themselves.','Little or no employee input, with the leader expecting their decisions to be followed.'],
+    ['Think of a parent figure who still makes the final call but cares about their \'children\'s\' welfare.','Paternalistic leadership keeps authority centralized but factors in employee wellbeing when deciding.'],
+    ['Think about what autocratic leadership is good for when time is short.','Fast, clear decision-making is the main benefit — useful in emergencies or time-pressured situations.'],
+    ['Think about how employees feel when they have no say in decisions.','Being excluded from decisions tends to lower morale and motivation over time.'],
+    ['The manager keeps control, but with a caring, parent-like approach to staff welfare.','That combination — retained authority plus concern for employee wellbeing — is paternalistic leadership.']
+  ];
+BM_HINTS[50]=[
+    ['Democratic leadership brings employees INTO the decision, rather than deciding alone.','The leader consults staff and involves them before making the final decision.'],
+    ['This style gives employees the most freedom of all, with very little oversight from the top.','Laissez-faire leaders step back and let employees direct their own work.'],
+    ['Think about what kind of employees can be trusted to contribute good ideas and don\'t need close supervision.','Skilled, experienced, motivated staff — with enough time to consult them — suit a democratic approach.'],
+    ['Think about the opposite of a team that needs constant direction.','A highly skilled, self-motivated team can be trusted to work well with minimal supervision.'],
+    ['Giving employees total freedom has a flip side — what happens without any guidance at all?','Too little direction can lead to confusion, inconsistency, or a lack of progress.']
+  ];
+BM_HINTS[51]=[
+    ['This style isn\'t fixed — it bends to fit the circumstances.','Situational leadership means adapting your approach to the task, the team, and the time available.'],
+    ['When there\'s no time to consult anyone, which style allows the fastest decision?','Autocratic leadership suits a genuine emergency, where speed matters more than consultation.'],
+    ['An experienced, self-directed team doesn\'t need someone making every decision for them.','Teams like this usually respond better to a more hands-off, laissez-faire or democratic approach.'],
+    ['No single style fits every situation a leader will face.','Different tasks, people and time pressures call for different leadership approaches.'],
+    ['Think about what actually changes from one task or team to the next.','A situational leader weighs the team\'s skill/experience, the urgency of the task, and the resources available.']
+  ];
+BM_HINTS[52]=[
+    ['An experienced team that\'s used to deciding things for itself doesn\'t need a controlling leader.','Their experience and judgement are best used with a more democratic or laissez-faire approach.'],
+    ['A safety emergency needs instructions NOW, not a group discussion.','Autocratic leadership — fast, clear, direct instructions — suits a genuine emergency.'],
+    ['This is the name for adapting your leadership style to fit the circumstances.','The missing word is \'situational\' — matching your approach to the specific situation.'],
+    ['Four of these are leadership styles from this unit; one describes an organizational STRUCTURE instead.','\'Bureaucratic\' describes how a business is structured (rules and hierarchy), not a leadership style.'],
+    ['There isn\'t one style that\'s always best — it depends on the task, team and context.','The most effective style is the one that fits the specific situation, not a single fixed approach.']
+  ];
+BM_HINTS[53]=[
+    ['Motivation is about what drives someone to put in effort at work.','It\'s the internal and external drive that encourages employees to work harder toward business and personal goals.'],
+    ['Taylor\'s theory is closely linked to pay and output.','Taylor believed workers are motivated mainly by money — financial rewards tied directly to output.'],
+    ['Think about how Taylor linked pay directly to the amount produced.','Piece-rate pay — paying per unit produced — rewards higher output with higher pay.'],
+    ['Taylor\'s theory assumes people only care about one thing.','It\'s criticized for ignoring non-financial motivators like job satisfaction, recognition, and social needs.'],
+    ['Taylor wanted work to be measurable, timed, and efficient.','He broke production into simple, repetitive tasks that could be measured and paid for by output.']
+  ];
+BM_HINTS[54]=[
+    ['Think of a pyramid, with more basic needs at the bottom.','Needs are arranged in levels, where lower-level needs generally need satisfying before higher ones motivate someone.'],
+    ['These are the most basic survival needs, right at the bottom of the pyramid.','Physiological needs — food, water, sleep — form the base of Maslow\'s hierarchy.'],
+    ['This level is about relationships and belonging, not survival or achievement.','Social needs include friendship, belonging, and positive relationships with others.'],
+    ['This is the very top of the pyramid — about becoming the best version of yourself.','Self-actualization means reaching your full potential and achieving personal growth.'],
+    ['Not every psychologist agrees people move strictly level-by-level up the pyramid.','A common criticism is that needs don\'t always follow a strict hierarchy — higher needs can motivate even if lower ones aren\'t fully met.']
+  ];
+BM_HINTS[55]=[
+    ['Herzberg split workplace factors into two separate groups.','Hygiene factors and motivators — two different categories with two different effects.'],
+    ['These factors stop people being unhappy, but don\'t necessarily make them WANT to work harder.','Hygiene factors — like salary, conditions, and job security — prevent dissatisfaction if present.'],
+    ['A motivator actively drives someone to perform better, unlike a hygiene factor.','Recognition and a sense of achievement are classic Herzberg motivators, not hygiene factors.'],
+    ['Improving hygiene factors fixes unhappiness — but does it actively inspire extra effort?','It mainly removes dissatisfaction; on its own, it\'s unlikely to genuinely motivate higher performance.'],
+    ['Herzberg\'s solution was to make the work itself more interesting and rewarding.','Job enrichment — more challenging, varied, meaningful tasks — was his recommended motivator.']
+  ];
+BM_HINTS[56]=[
+    ['This reward directly ties part of someone\'s pay to hitting their own targets.','Performance-related pay (PRP) links part of an employee\'s pay to meeting individual performance targets.'],
+    ['This scheme shares a slice of the COMPANY\'s success with employees.','Profit-related pay gives employees a percentage of the profit the business makes.'],
+    ['Total pay = base salary + commission earned on sales.','Commission = 5% × $8,000 = $400. Add that to the $2,000 base salary.'],
+    ['These aren\'t cash in your pay packet — think company car, health insurance, pension.','Fringe payments are non-cash or indirect benefits on top of normal pay.'],
+    ['Financial rewards alone don\'t fix everything — what do they tend to miss?','Their motivating effect can fade over time, and they don\'t address needs like recognition or personal growth.']
+  ];
+BM_HINTS[57]=[
+    ['This is about making a job more interesting and important, not about paying more.','Job enrichment adds more challenging tasks and greater responsibility to a role.'],
+    ['Think about employees SWAPPING roles or tasks periodically.','Job rotation moves employees between different tasks, reducing boredom and building varied skills.'],
+    ['This is about giving staff more control over their own work.','Empowerment means giving employees greater autonomy and authority over decisions in their own role.'],
+    ['Three of the options involve extra pay; one doesn\'t.','Teamwork and a sense of purpose are non-financial — they don\'t involve extra money.'],
+    ['These employees are already well paid — so what\'s actually missing?','More challenging, enriched work and genuine recognition tend to help more than simply paying them even more.']
+  ];
+BM_HINTS[58]=[
+    ['Think about what stock, debtors and creditors all have in common — none of them are about profit margins.','Efficiency ratios look at how well a business manages its short-term, day-to-day resources.'],
+    ['Gearing is about how a business is FUNDED, long-term.','It measures what proportion of capital employed comes from long-term borrowing rather than equity.'],
+    ['Three of these measure stock, debtors or creditors. One measures profit as a percentage of revenue.','Net Profit Margin is a profitability ratio, not an efficiency ratio.'],
+    ['Think about why these are only introduced at the higher level.','They demand a more detailed level of financial analysis than the SL profitability/liquidity ratios.'],
+    ['Comparing ratios against a rival tells you where you stand, not just how you\'ve changed over time.','It helps pinpoint specific areas of working capital management that could be tightened up.']
+  ];
+BM_HINTS[59]=[
+    ['The "days" version turns the ratio into a time period, so it needs the 365-day year somewhere.','Stock Turnover (days) = (Average Stock ÷ Cost of Sales) × 365.'],
+    ['Stock Turnover (days) = (Average Stock ÷ Cost of Sales) × 365.','($40,000 ÷ $200,000) × 365 = ?'],
+    ['First find average stock: (Opening + Closing) ÷ 2.','Average stock = ($30,000 + $50,000) ÷ 2 = $40,000, then ($40,000 ÷ $146,000) × 365 = ?'],
+    ['Fewer days tied up in stock before it\'s sold is usually a good thing.','A lower figure means stock is moving through the business and converting into sales faster.'],
+    ['Think about which of these products sits on a shelf the longest before being sold.','Furniture is a slow-moving, high-value item — it can sit in a showroom for months, unlike fresh produce, coffee or fast food.']
+  ];
+BM_HINTS[60]=[
+    ['Creditor days measures how long a business takes to pay what IT owes — using the same cost figure as stock turnover.','Creditor Days = (Creditors ÷ Cost of Sales) × 365.'],
+    ['Creditor Days = (Creditors ÷ Cost of Sales) × 365.','($24,000 ÷ $292,000) × 365 = ?'],
+    ['Creditor Days = (Creditors ÷ Cost of Sales) × 365.','($50,000 ÷ $365,000) × 365 — notice how dividing by 365,000 and multiplying by 365 is the same as dividing by 1,000.'],
+    ['A business paying its own bills more slowly holds onto its own cash for longer.','Rising creditor days means the business is taking longer to pay suppliers — which helps its own short-term cash position.'],
+    ['Suppliers aren\'t paid instantly forever without a reaction.','If a business takes too long to pay, suppliers may withdraw credit terms or refuse to supply it in future.']
+  ];
+BM_HINTS[61]=[
+    ['Gearing compares long-term debt to the TOTAL long-term financing of the business.','Gearing Ratio = (Non-current Liabilities ÷ Capital Employed) × 100.'],
+    ['Capital employed is the business\'s total long-term financing, from two possible sources.','Capital Employed = Non-current Liabilities + Equity.'],
+    ['First find capital employed: Non-current Liabilities + Equity.','Capital employed = $200,000 + $300,000 = $500,000, then ($200,000 ÷ $500,000) × 100 = ?'],
+    ['First find capital employed: Non-current Liabilities + Equity.','Capital employed = $150,000 + $100,000 = $250,000, then ($150,000 ÷ $250,000) × 100 = ?'],
+    ['Over half of this business\'s long-term financing comes from borrowing, not equity.','A gearing ratio above 50% is generally considered highly geared, with greater financial risk from interest obligations.']
+  ];
+BM_HINTS[62]=[
+    ['Stock Turnover (days) = (Average Stock ÷ Cost of Sales) × 365.','($50,000 ÷ $365,000) × 365 — the 365s cancel out neatly here.'],
+    ['Creditor Days = (Creditors ÷ Cost of Sales) × 365.','($40,000 ÷ $365,000) × 365 — the 365s cancel out neatly here too.'],
+    ['First find capital employed: Non-current Liabilities + Equity.','Capital employed = $120,000 + $180,000 = $300,000, then ($120,000 ÷ $300,000) × 100 = ?'],
+    ['A higher gearing ratio means a bigger share of financing comes from long-term debt.','Business Y\'s 75% means more of its capital employed is borrowed, so it carries greater financial risk than Business X\'s 40%.'],
+    ['Picture the cash flowing in and out: slow to come in from customers, but paid out quickly to suppliers.','Cash tied up in stock and owed by customers, combined with paying suppliers quickly, puts real pressure on cash flow.']
+  ];
+
 /* ===================== STATE ===================== */
 var BM_S={
   dn:new Set(), perfect:new Set(),
@@ -7552,17 +8257,24 @@ var BM_S={
   curMod:null,           /* key of the module currently open on the hub map screen */
   lastLes:null,          /* index of the last lesson opened, for the hub's Resume tile; persisted */
   view:0, answers:[],    /* which question is currently displayed (vs BM_S.qi, the live/furthest question), and per-question answer history for review */
-  mPlaced:{}, mMistake:false, mTermOrder:null, mDefOrder:null, mSel:null   /* match-type question state */
+  mPlaced:{}, mMistake:false, mTermOrder:null, mDefOrder:null, mSel:null,  /* match-type question state */
+  srtPlaced:{}, srtMistake:false, srtOrder:null, srtSel:null, srtFillOrder:[]   /* sort-type question state */
 };
 
 /* ===================== MODULE REGISTRY (hub tiles) ===================== */
 var BM_MODULES=[
   {key:'fa',unit:'Finance & Accounts',syl:'3.4',title:'Final Accounts',emoji:'📋',tag:'📋 Final Accounts','cls':'mod-fa',col:'#00c4a7',idx:[0,1,2,3,4,5],level:'SL'},
   {key:'ra',unit:'Finance & Accounts',syl:'3.5, 3.6',title:'Ratio Analysis',emoji:'📐',tag:'📐 Ratio Analysis','cls':'mod-ra',col:'#ce82ff',idx:[6,7,8,9,10,11],level:'SL'},
+  {key:'eg',unit:'Finance & Accounts',syl:'3.6',title:'Efficiency & Gearing Ratios',emoji:'🧮',tag:'🧮 Efficiency & Gearing Ratios','cls':'mod-eg',col:'#3dd9eb',idx:[58,59,60,61,62],level:'HL'},
+  {key:'cf',unit:'Finance & Accounts',syl:'3.7',title:'Cash Flow Forecasting',emoji:'💵',tag:'💵 Cash Flow Forecasting','cls':'mod-cf',col:'#ff6b6b',idx:[30,31,32,33,34],level:'SL'},
   {key:'io',unit:'Operations',syl:'5.1',title:'Introduction to Operations',emoji:'🎛️',tag:'🎛️ Introduction to Operations','cls':'mod-io',col:'#6fcf97',idx:[28,29],level:'SL'},
   {key:'om',unit:'Operations',syl:'5.2',title:'Operations Methods',emoji:'⚙️',tag:'⚙️ Operations Methods','cls':'mod-om',col:'#4fb0e0',idx:[23,24,25,26,27],level:'SL'},
   {key:'ln',unit:'Operations',syl:'5.3',title:'Lean Production',emoji:'🏭',tag:'🏭 Lean Production','cls':'mod-ln',col:'#8b7ff0',idx:[17,18,19,20,21,22],level:'HL'},
-  {key:'be',unit:'Operations',syl:'5.5',title:'Break-Even Analysis',emoji:'📈',tag:'📈 Break-Even Analysis','cls':'mod-be-ops',col:'#f5a623',idx:[12,13,14,15,16],level:'SL'}
+  {key:'be',unit:'Operations',syl:'5.5',title:'Break-Even Analysis',emoji:'📈',tag:'📈 Break-Even Analysis','cls':'mod-be-ops',col:'#f5a623',idx:[12,13,14,15,16],level:'SL'},
+  {key:'hr',unit:'Human Resources',syl:'2.1',title:'Introduction to HRM',emoji:'👥',tag:'👥 Introduction to HRM','cls':'mod-hr',col:'#ff6fa8',idx:[35,36,37,38,39],level:'SL'},
+  {key:'os',unit:'Human Resources',syl:'2.2',title:'Organizational Structure',emoji:'🏢',tag:'🏢 Organizational Structure','cls':'mod-os',col:'#c9a876',idx:[40,41,42,43,44,45,46,47],level:'SL'},
+  {key:'lm',unit:'Human Resources',syl:'2.3',title:'Leadership and Management',emoji:'🧭',tag:'🧭 Leadership and Management','cls':'mod-lm',col:'#5ec8f0',idx:[48,49,50,51,52],level:'SL'},
+  {key:'mo',unit:'Human Resources',syl:'2.4',title:'Motivation and Demotivation',emoji:'💪',tag:'💪 Motivation and Demotivation','cls':'mod-mo',col:'#ffb86b',idx:[53,54,55,56,57],level:'SL'}
 ];
 
 /* Unlock logic — each module independent */
@@ -7573,7 +8285,7 @@ function bmCalcSpeedUnlocked(){ return BM_S.perfect.has(9)&&BM_S.perfect.has(10)
 
 /* Within-module unlock: lesson i is unlocked if it's the module's first lesson, or prev is done */
 function bmLesUnlocked(i){
-  if(i===BM_FA_START||i===BM_RA_START||i===BM_BE_START||i===BM_LN_START||i===BM_OM_START||i===BM_IO_START) return true;
+  if(i===BM_FA_START||i===BM_RA_START||i===BM_BE_START||i===BM_LN_START||i===BM_OM_START||i===BM_IO_START||i===BM_CF_START||i===BM_HR_START||i===BM_OS_START||i===BM_LM_START||i===BM_MO_START||i===BM_EG_START) return true;
   /* Must be same module and previous lesson complete */
   if(i>BM_FA_START && i<=BM_FA_END) return BM_S.dn.has(i-1);
   if(i>BM_RA_START && i<=BM_RA_END) return BM_S.dn.has(i-1);
@@ -7581,6 +8293,12 @@ function bmLesUnlocked(i){
   if(i>BM_LN_START && i<=BM_LN_END) return BM_S.dn.has(i-1);
   if(i>BM_OM_START && i<=BM_OM_END) return BM_S.dn.has(i-1);
   if(i>BM_IO_START && i<=BM_IO_END) return BM_S.dn.has(i-1);
+  if(i>BM_CF_START && i<=BM_CF_END) return BM_S.dn.has(i-1);
+  if(i>BM_HR_START && i<=BM_HR_END) return BM_S.dn.has(i-1);
+  if(i>BM_OS_START && i<=BM_OS_END) return BM_S.dn.has(i-1);
+  if(i>BM_LM_START && i<=BM_LM_END) return BM_S.dn.has(i-1);
+  if(i>BM_MO_START && i<=BM_MO_END) return BM_S.dn.has(i-1);
+  if(i>BM_EG_START && i<=BM_EG_END) return BM_S.dn.has(i-1);
   return false;
 }
 
@@ -7716,12 +8434,68 @@ function bmAddSilver(n){
   if(BM_S.silver>=100){var g=Math.floor(BM_S.silver/100);BM_S.silver=BM_S.silver%100;BM_S.gold+=g;bmShowGoldFlash();}
   bmSaveProgress();
 }
+/* ── BM's own verified practice-silver path — mirrors syncPracticeSilverToServer/
+   awardPracticeSilver on the Economics side exactly (same queueing, same retry/
+   backoff, same "only trust the server once the queue is empty" rule), just
+   aimed at the independent bm_gold/bm_silver columns via p_subject:'bm'. As on
+   the Economics side, BM's own speed round (bmSSel) deliberately does NOT call
+   this — it stays local-only/optimistic, same as before, since there is no
+   server-verified BM speed-round session to reconcile it against. */
+var _bmPsQueue=[];
+var _bmPsBusy=false;
+var _bmPsMaxTries=6;
+function bmSyncPracticeSilverToServer(n){
+  if(!sb||!CLOUD.user) return;
+  _bmPsQueue.push({d:n,tries:0});
+  _bmPsDrain();
+}
+function _bmRefreshCoinPills(){
+  document.querySelectorAll('[id^="bm-sc-"] .coin-pill').forEach(function(p){ p.innerHTML=bmCoinPillHTML(); });
+}
+function _bmPsDrain(){
+  if(_bmPsBusy||!_bmPsQueue.length) return;
+  _bmPsBusy=true;
+  var item=_bmPsQueue.shift();
+  sb.rpc('award_practice_silver',{p_subject:'bm',p_delta:item.d}).then(function(r){
+    if(r&&!r.error&&r.data){
+      if(_bmPsQueue.length===0){
+        if(typeof r.data.gold==='number') BM_S.gold=r.data.gold;
+        if(typeof r.data.silver==='number') BM_S.silver=r.data.silver;
+        bmSaveProgress();
+        _bmRefreshCoinPills();
+      }
+    } else {
+      item.tries++;
+      var msg=r&&r.error&&r.error.message;
+      if(item.tries<_bmPsMaxTries){ console.warn('award_practice_silver (bm) rejected, retrying:',msg); _bmPsQueue.unshift(item); }
+      else console.warn('award_practice_silver (bm) gave up after '+_bmPsMaxTries+' tries, keeping local value:',msg);
+    }
+  },function(e){
+    item.tries++;
+    if(item.tries<_bmPsMaxTries){ console.warn('award_practice_silver (bm) network error, retrying:',e&&e.message); _bmPsQueue.unshift(item); }
+    else console.warn('award_practice_silver (bm) gave up after '+_bmPsMaxTries+' tries, keeping local value:',e&&e.message);
+  }).then(function(){
+    setTimeout(function(){ _bmPsBusy=false; _bmPsDrain(); },320);
+  });
+}
+function bmAwardPracticeSilver(n){
+  if(n>0) bmAddSilver(n); else bmSubSilver(-n);
+  bmSyncPracticeSilverToServer(n);
+}
 function bmShowGoldFlash(){
   var gf=document.getElementById('bm-gold-flash');
   document.getElementById('bm-gf-count').textContent='100 silver coins converted!';
   document.getElementById('bm-gf-balance').innerHTML='<span style="color:#f0b429;font-size:16px;">'+BM_S.gold+' gold</span> &nbsp;·&nbsp; <span style="font-size:16px;">🪙</span> <span style="color:#b0c4de;">'+BM_S.silver+' silver</span>';
   gf.classList.add('show');
   setTimeout(function(){gf.classList.remove('show');},2500);
+}
+function bmShowDiamondFlash(modTitle){
+  var df=document.getElementById('bm-diamond-flash');
+  if(!df)return;
+  document.getElementById('bm-df-count').textContent=modTitle+' — every lesson complete!';
+  document.getElementById('bm-df-balance').innerHTML=gemSVG(16)+' <span style="color:#8fd8ff;">'+bmTotalDiamonds()+' diamond'+(bmTotalDiamonds()===1?'':'s')+'</span>';
+  df.classList.add('show');
+  setTimeout(function(){df.classList.remove('show');},2800);
 }
 function bmPopCoin(){
   var el=document.createElement('div');el.className='coin-pop';
@@ -7768,6 +8542,7 @@ function bmBuyHint(){
   /* Don't add to lessilver — this is a cost not a reward */
   BM_S.hintLevel++;
   bmSaveProgress();
+  bmSyncPracticeSilverToServer(-5);
   bmRGame();
 }
 
@@ -7968,7 +8743,8 @@ function bmRHub(){
     +'</div>'
     +'</div>'
     +'<div id="bm-hiw-dim" onclick="bmToggleHowItWorks()" style="position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:8;opacity:0;pointer-events:none;transition:opacity .25s ease;"></div>'
-    /* How it works + Resume — leaderboard and duel omitted for BM until it has its own Supabase backend */
+    /* How it works + Resume + Leaderboard — duel is still omitted for BM, it has
+       no server-verified speed-round/duel session infrastructure of its own. */
     +'<div style="display:flex;gap:18px;flex-wrap:wrap;margin:16px 0 10px;align-items:stretch;">'
     +'<div style="display:flex;flex-direction:column;gap:16px;max-width:360px;flex:1;min-width:280px;">'
     +'<div id="bm-hiw-card" style="position:relative;z-index:10;background:#fff;border:2.5px solid #f0b429;border-radius:18px;padding:20px 26px;">'
@@ -7985,6 +8761,7 @@ function bmRHub(){
     +'</div></div>'
     +resumeTileHTML
     +'</div>'
+    +(sb?'<div style="flex:1;min-width:280px;background:#fff;border:2.5px solid #f0b429;border-radius:18px;padding:20px 24px;box-sizing:border-box;"><div id="bm-leaderboard-inner"><div style="font-size:23px;font-weight:800;color:#182234;display:flex;align-items:center;gap:8px;"><span style="font-size:22px;">🏆</span>Leaderboard</div><div style="font-size:14px;color:#7a90b8;margin-top:10px;">Loading…</div></div></div>':'')
     +'</div>'
     +'<div style="margin:16px 0 26px;">'
     +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">'
@@ -7996,6 +8773,48 @@ function bmRHub(){
     +'</div></div>'
     +tiles
     +'</div>';
+  bmLoadLeaderboardTile();
+}
+/* Fills in the BM leaderboard tile's skeleton once its data is ready — exact
+   mirror of loadLeaderboardTile() (same narrow +/-window-around-me privacy
+   design, same markup), just pointed at get_bm_leaderboard_window and
+   bm-leaderboard-inner so it's a completely independent ranking from the
+   Economics leaderboard, same as the coin tallies it's built on. */
+function bmLoadLeaderboardTile(){
+  var el=document.getElementById('bm-leaderboard-inner');
+  if(!el||!sb)return;
+  var INK='#182234',MUT='#7a90b8';
+  function head(mb){ return '<div style="font-size:23px;font-weight:800;color:'+INK+';display:flex;align-items:center;gap:8px;margin-bottom:'+mb+';"><span style="font-size:44px;">🏆</span>Leaderboard</div>'; }
+  if(!CLOUD.user){
+    el.innerHTML=head('10px')
+      +'<div style="font-size:15px;color:'+MUT+';margin-bottom:14px;">Sign in to see where you rank against your class.</div>'
+      +'<button onclick="gLogin()" style="font-family:inherit;font-size:15px;font-weight:800;padding:10px 16px;border:none;border-radius:10px;background:#0f766e;color:#fff;cursor:pointer;">Sign in</button>';
+    return;
+  }
+  sb.rpc('get_bm_leaderboard_window',{window_size:3}).then(function(r){
+    if(!r||r.error||!r.data||!r.data.length){
+      el.innerHTML=head('0')
+        +'<div style="font-size:14px;color:'+MUT+';margin-top:10px;">Play a few lessons to join the leaderboard.</div>';
+      return;
+    }
+    var coin='<span style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffe97a,#f0b429 45%,#b8820a 80%,#7a5200 100%);box-shadow:0 1px 0 #7a5200,0 1px 1px rgba(0,0,0,.35),inset 0 1px 1px rgba(255,255,230,.5);font-size:7.5px;font-weight:900;color:#7a5200;border:1px solid #c8900a;vertical-align:1px;">$</span>';
+    var rows=r.data.map(function(row){
+      var isMe=!!row.is_me;
+      var badgeBg=isMe?'#e8613c':'#f0f0ee', badgeCol=isMe?'#ffffff':'#5f5e5a';
+      var col=isMe?'#993C1D':'#182234';
+      var rowStyle=isMe?'background:#FAECE7;border-radius:10px;padding:9px 10px;':'border-bottom:0.5px solid #f0f0ee;padding:9px 0;';
+      var name=isMe?'You':escHtml(row.display_name);
+      return '<div style="display:flex;align-items:center;gap:12px;'+rowStyle+'">'
+        +'<span style="flex-shrink:0;width:30px;height:30px;border-radius:50%;background:'+badgeBg+';color:'+badgeCol+';font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;">'+row.rank+'</span>'
+        +'<span style="flex:1;font-size:19px;font-weight:700;color:'+col+';overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+name+'</span>'
+        +'<span style="font-size:19px;font-weight:700;color:'+col+';white-space:nowrap;">'+coin+' '+(row.gold|0)+'</span>'
+        +'</div>';
+    }).join('');
+    el.innerHTML=head('16px')+rows;
+  },function(){
+    el.innerHTML=head('0')
+      +'<div style="font-size:14px;color:'+MUT+';margin-top:10px;">Couldn’t load the leaderboard right now.</div>';
+  });
 }
 function bmToggleHowItWorks(){
   var content=document.getElementById('bm-hiw-content');
@@ -8064,7 +8883,46 @@ function bmSyncFromDisk(){
   }catch(e){}
 }
 /* Called by the top-level subject picker when the BM tile is chosen */
-function bmEnterSubject(){ bmSyncFromDisk(); bmSw('hub'); bmRHub(); }
+function bmEnterSubject(){ bmSyncFromDisk(); bmSw('hub'); bmRHub(); bmCloudSyncCoinsOnEntry(); }
+
+/* BM has only ever persisted gold/silver to localStorage (see bmSyncFromDisk/
+   bmSaveProgress above) — this is the one place that reconciles it with the
+   cloud, for a signed-in student only. Two cases:
+     - This account has never been seeded into bm_gold/bm_silver before (a
+       brand new column as of this feature): push whatever this browser
+       already has up to the server ONCE via seed_bm_coins_from_local, then
+       adopt whatever the server actually stored (it clamps/validates, so
+       the server's answer is the one trusted from here on) — this is what
+       stops a student's existing BM coin balance from appearing to reset to
+       zero the moment the leaderboard ships.
+     - Already seeded: the server is the source of truth going forward
+       (exactly like Economics' cloudLoadAndEnter trusts S.gold/S.silver
+       straight from their own columns) — adopt bm_gold/bm_silver as-is.
+   Either way this resolves asynchronously after the hub has already
+   rendered with local numbers, so it re-renders the hub once it lands, but
+   only if the hub is still the screen on display. */
+function bmCloudSyncCoinsOnEntry(){
+  if(!sb||!CLOUD.user) return;
+  sb.from('progress').select('bm_gold,bm_silver,bm_coins_seeded').eq('user_id',CLOUD.user.id).maybeSingle()
+    .then(function(r){
+      if(!r||r.error||!r.data) return;
+      function adopt(g,s){
+        if(typeof g==='number') BM_S.gold=g;
+        if(typeof s==='number') BM_S.silver=s;
+        bmSaveProgress();
+        _bmRefreshCoinPills();
+        var hub=document.getElementById('bm-sc-hub');
+        if(hub&&hub.classList.contains('on')) bmRHub();
+      }
+      if(!r.data.bm_coins_seeded){
+        sb.rpc('seed_bm_coins_from_local',{p_gold:BM_S.gold,p_silver:BM_S.silver}).then(function(r2){
+          if(r2&&!r2.error&&r2.data) adopt(r2.data.gold,r2.data.silver);
+        },function(e){ console.warn('seed_bm_coins_from_local failed:',e&&e.message); });
+      } else {
+        adopt(r.data.bm_gold,r.data.bm_silver);
+      }
+    },function(e){ console.warn('BM cloud coin sync failed:',e&&e.message); });
+}
 
 /* ===================== HOME ===================== */
 function bmRHome(){
@@ -8079,14 +8937,16 @@ function bmRHome(){
   function makeRow(di, accentCol){
     var l=BM_D[di];
     var dn=BM_S.dn.has(di), un=bmLesUnlocked(di), perf=BM_S.perfect.has(di);
-    var isLast=(di===BM_FA_END||di===BM_RA_END||di===BM_BE_END||di===BM_LN_END||di===BM_OM_END||di===BM_IO_END);
-    var localNum=(di-(di<=BM_FA_END?BM_FA_START:di<=BM_RA_END?BM_RA_START:di<=BM_BE_END?BM_BE_START:di<=BM_LN_END?BM_LN_START:di<=BM_OM_END?BM_OM_START:BM_IO_START))+1;
+    var isLast=(di===BM_FA_END||di===BM_RA_END||di===BM_BE_END||di===BM_LN_END||di===BM_OM_END||di===BM_IO_END||di===BM_CF_END||di===BM_HR_END||di===BM_OS_END||di===BM_LM_END||di===BM_MO_END||di===BM_EG_END);
+    var localNum=(di-(di<=BM_FA_END?BM_FA_START:di<=BM_RA_END?BM_RA_START:di<=BM_BE_END?BM_BE_START:di<=BM_LN_END?BM_LN_START:di<=BM_OM_END?BM_OM_START:di<=BM_IO_END?BM_IO_START:di<=BM_CF_END?BM_CF_START:di<=BM_HR_END?BM_HR_START:di<=BM_OS_END?BM_OS_START:di<=BM_LM_END?BM_LM_START:di<=BM_MO_END?BM_MO_START:BM_EG_START))+1;
+    var isSort=l.qs.length>0&&l.qs[0].tp==='sort';
 
     var ico=dn?(perf?'🌟':'✅'):un?l.ic:'🔒';
-    var icoBg=dn?'rgba(0,196,167,.2)':un?'rgba(255,255,255,.08)':'rgba(255,255,255,.04)';
-    var border=dn?'rgba(0,196,167,.35)':un?'rgba(255,255,255,.12)':'rgba(255,255,255,.04)';
-    var bg=dn?'rgba(0,196,167,.06)':un?'#152038':'rgba(255,255,255,.015)';
-    var tc=dn?'#00c4a7':un?'#fff':'#3a5078';
+    var icoBg=isSort?(dn?'rgba(0,196,167,.18)':'rgba(0,0,0,.05)'):(dn?'rgba(0,196,167,.2)':un?'rgba(255,255,255,.08)':'rgba(255,255,255,.04)');
+    var border=isSort?(dn?(perf?'#f0b429':'#00a389'):'rgba(0,0,0,.15)'):(dn?'rgba(0,196,167,.35)':un?'rgba(255,255,255,.12)':'rgba(255,255,255,.04)');
+    var bg=isSort?'#ffffff':(dn?'rgba(0,196,167,.06)':un?'#152038':'rgba(255,255,255,.015)');
+    var tc=isSort?'#10131a':(dn?'#00c4a7':un?'#fff':'#3a5078');
+    var subc=isSort?'#5a6b85':'#7a90b8';
     var op=(!un&&!dn)?'0.38':'1';
     var oc=un?'onclick="bmSL('+di+')"':'';
     var cursor=un?'pointer':'default';
@@ -8109,7 +8969,7 @@ function bmRHome(){
       +'<div style="width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:'+icoBg+';">'+ico+'</div>'
       +'<div style="flex:1;min-width:0;">'
       +'<div style="font-size:14px;font-weight:700;color:'+tc+';line-height:1.3;">'+localNum+'. '+l.t+(isLast?' 🏁':'')+'</div>'
-      +'<div style="font-size:11px;color:#7a90b8;margin-top:1px;">'+l.qs.length+' questions</div>'
+      +'<div style="font-size:11px;color:'+subc+';margin-top:1px;">'+l.qs.length+' questions'+(isSort&&l.sortTopic?' ('+l.sortTopic+')':'')+'</div>'
       +'</div>'
       +badge
       +'</div>';
@@ -8208,6 +9068,12 @@ function bmRHome(){
     ].filter(function(b){return b.show;})
   );
 
+  var egSection=makeModule(
+    'Efficiency & Gearing Ratios','🧮 Efficiency & Gearing Ratios','mod-eg',
+    [58,59,60,61,62],'#3dd9eb',
+    []
+  );
+
   var beSection=makeModule(
     'Break-Even Analysis','📈 Break-Even Analysis','mod-be-ops',
     [12,13,14,15,16],'#f5a623',
@@ -8232,12 +9098,42 @@ function bmRHome(){
     []
   );
 
+  var cfSection=makeModule(
+    'Cash Flow Forecasting','💵 Cash Flow Forecasting','mod-cf',
+    [30,31,32,33,34],'#ff6b6b',
+    []
+  );
+
+  var hrSection=makeModule(
+    'Introduction to HRM','👥 Introduction to HRM','mod-hr',
+    [35,36,37,38,39],'#ff6fa8',
+    []
+  );
+
+  var osSection=makeModule(
+    'Organizational Structure','🏢 Organizational Structure','mod-os',
+    [40,41,42,43,44,45,46,47],'#c9a876',
+    []
+  );
+
+  var lmSection=makeModule(
+    'Leadership and Management','🧭 Leadership and Management','mod-lm',
+    [48,49,50,51,52],'#5ec8f0',
+    []
+  );
+
+  var moSection=makeModule(
+    'Motivation and Demotivation','💪 Motivation and Demotivation','mod-mo',
+    [53,54,55,56,57],'#ffb86b',
+    []
+  );
+
   var modInfo=BM_MODULES.find(function(m){return m.key===BM_S.curMod;})||BM_MODULES[0];
   document.getElementById('bm-sc-home').innerHTML=
     '<div style="padding-top:10px;padding-bottom:30px;">'
     +'<button onclick="bmGoHub()" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.16);color:#c0cfe8;font-size:13px;font-weight:800;cursor:pointer;padding:9px 15px;border-radius:11px;font-family:inherit;margin-bottom:14px;">☰ All Business Management Modules</button>'
     +'<div style="display:flex;justify-content:flex-end;margin-bottom:14px;"><div class="coin-pill">'+bmCoinPillHTML()+'</div></div>'
-    +({fa:faSection,ra:raSection,be:beSection,ln:lnSection,om:omSection,io:ioSection}[BM_S.curMod]||faSection)
+    +({fa:faSection,ra:raSection,eg:egSection,be:beSection,ln:lnSection,om:omSection,io:ioSection,cf:cfSection,hr:hrSection,os:osSection,lm:lmSection,mo:moSection}[BM_S.curMod]||faSection)
     +'<div style="text-align:center;margin-top:8px;padding-bottom:10px;">'
     +'<button onclick="bmResetProgress()" style="background:none;border:none;color:#3a5078;font-size:11px;font-family:inherit;cursor:pointer;padding:6px 12px;border-radius:8px;" onmouseenter="this.style.color=\'#7a90b8\'" onmouseleave="this.style.color=\'#3a5078\'">↺ Reset all progress</button>'
     +'</div>'
@@ -8249,6 +9145,7 @@ function bmSL(i){
   BM_S.les=i;BM_S.qi=0;BM_S.sel=null;BM_S.sub=false;BM_S.cor=null;BM_S.sc=0;BM_S.lessilver=0;BM_S.mistake=false;BM_S.hintLevel=0;
   BM_S.answers=[];BM_S.view=0;
   BM_S.mPlaced={};BM_S.mMistake=false;BM_S.mTermOrder=null;BM_S.mDefOrder=null;BM_S.mSel=null;
+  BM_S.srtPlaced={};BM_S.srtMistake=false;BM_S.srtOrder=null;BM_S.srtSel=null;BM_S.srtFillOrder=[];
   BM_S.lastLes=i; bmSaveProgress();
   bmSw('game');bmRGame();
 }
@@ -8296,8 +9193,7 @@ function bmRGame(){
       else if(sel===i)c+=' sel';
       return '<button class="'+c+'" onclick="bmSelA('+i+')" '+(subbed?'disabled':'')+'>'+o+'</button>';
     }).join('');
-    qH='<div style="font-size:18px;font-weight:700;color:#fff;line-height:1.5;margin-bottom:14px;">'+q.q+'</div>'
-      +'<div style="font-size:19px;font-weight:600;color:#fff;line-height:2.4;margin-bottom:18px;">'+q.s.replace('_____',slot)+'</div>'
+    qH='<div style="font-size:19px;font-weight:600;color:#fff;line-height:2.4;margin-bottom:18px;">'+q.s.replace('_____',slot)+'</div>'
       +'<div style="display:flex;flex-wrap:wrap;">'+chips+'</div>';
   }
 
@@ -8322,6 +9218,36 @@ function bmRGame(){
       +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div>'+termsHTML+'</div><div>'+defsHTML+'</div></div>';
   }
 
+  if(q.tp==='sort'){
+    if(!BM_S.srtOrder){
+      var tids=q.tiles.map(function(_,ix){return ix;});
+      BM_S.srtOrder=bmShuffle(tids.slice());
+    }
+    var trayHTML=BM_S.srtOrder.filter(function(tid){return BM_S.srtPlaced[tid]==null;}).map(function(tid){
+      var picked=BM_S.srtSel===tid;
+      return '<div class="srt-tile'+(picked?' picked':'')+'" draggable="true" ondragstart="bmSrtDragStart(event,'+tid+')" onclick="bmSrtPick('+tid+')">'+q.tiles[tid][0]+'</div>';
+    }).join('');
+    var colsHTML=q.cols.map(function(colName,ci){
+      var slotCount=q.tiles.filter(function(t){return t[1]===ci;}).length;
+      var filledIds=BM_S.srtFillOrder.filter(function(tid){return BM_S.srtPlaced[tid]===ci;});
+      var rowsHTML='';
+      for(var ri=0;ri<slotCount;ri++){
+        var tid=filledIds[ri];
+        rowsHTML+=(tid!=null)
+          ?'<div class="srt-row filled"><span class="srt-row-num">'+(ri+1)+'.</span><span class="srt-row-text">'+q.tiles[tid][0]+'</span></div>'
+          :'<div class="srt-row"><span class="srt-row-num">'+(ri+1)+'.</span></div>';
+      }
+      return '<div class="srt-col" id="bm-srtcol-'+ci+'" ondragover="event.preventDefault();this.classList.add(\'dragover\')" ondragleave="this.classList.remove(\'dragover\')" ondrop="bmSrtDrop(event,'+ci+')" onclick="bmSrtTry('+ci+')">'
+        +'<div class="srt-col-head">'+colName+'</div>'
+        +'<div class="srt-table">'+rowsHTML+'</div></div>';
+    }).join('');
+    var doneCountS=Object.keys(BM_S.srtPlaced).length, totalS=q.tiles.length;
+    qH='<div style="font-size:18px;font-weight:700;color:#fff;line-height:1.5;margin-bottom:8px;">'+q.q+'</div>'
+      +'<div style="font-size:12px;color:#8a97b8;margin-bottom:14px;">Drag each tile into the correct column (or tap a tile, then tap a column) · '+doneCountS+'/'+totalS+' sorted</div>'
+      +'<div class="srt-tray">'+trayHTML+'</div>'
+      +'<div class="srt-cols">'+colsHTML+'</div>';
+  }
+
   var fbH='';
   if(subbed){
     var q2=q;
@@ -8329,6 +9255,10 @@ function bmRGame(){
       fbH=cor
         ?'<div class="fb ok"><span style="font-size:22px;">✅</span><div><div style="font-size:14px;font-weight:800;color:#00c4a7;">All matched!'+(live?' <span style="font-size:13px;color:#b0c4de;font-weight:600;">+10 🪙</span>':'')+'</div><div style="font-size:12px;color:#7a90b8;margin-top:2px;">'+(live?'Perfect run — no wrong guesses.':'You matched this correctly.')+'</div></div></div>'
         :'<div class="fb ok" style="border-color:rgba(240,180,41,.4);background:rgba(240,180,41,.08);"><span style="font-size:22px;">✅</span><div><div style="font-size:14px;font-weight:800;color:#f0b429;">All matched'+(live?' <span style="font-size:13px;color:#ff8080;font-weight:600;">−20 🪙</span>':'')+'</div><div style="font-size:12px;color:#7a90b8;margin-top:2px;">A wrong guess along the way cost you coins.</div></div></div>';
+    } else if(q2.tp==='sort'){
+      fbH=cor
+        ?'<div class="fb ok"><span style="font-size:22px;">✅</span><div><div style="font-size:14px;font-weight:800;color:#00c4a7;">All sorted!'+(live?' <span style="font-size:13px;color:#b0c4de;font-weight:600;">+10 🪙</span>':'')+'</div><div style="font-size:12px;color:#7a90b8;margin-top:2px;">'+(live?'Perfect run — no wrong guesses.':'You sorted this correctly.')+'</div></div></div>'
+        :'<div class="fb ok" style="border-color:rgba(240,180,41,.4);background:rgba(240,180,41,.08);"><span style="font-size:22px;">✅</span><div><div style="font-size:14px;font-weight:800;color:#f0b429;">All sorted'+(live?' <span style="font-size:13px;color:#ff8080;font-weight:600;">−20 🪙</span>':'')+'</div><div style="font-size:12px;color:#7a90b8;margin-top:2px;">A wrong guess along the way cost you coins.</div></div></div>';
     } else {
     fbH=cor
       ?'<div class="fb ok"><span style="font-size:22px;">✅</span><div><div style="font-size:14px;font-weight:800;color:#00c4a7;">Correct!'+(live?' <span style="font-size:13px;color:#b0c4de;font-weight:600;">+10 🪙</span>':'')+'</div><div style="font-size:12px;color:#7a90b8;margin-top:2px;">'+(live?'Keep going!':'You answered this correctly.')+'</div></div></div>'
@@ -8337,7 +9267,7 @@ function bmRGame(){
   }
 
   var isLast=BM_S.qi===tot-1;
-  var isMatchPending=(q.tp==='match'&&live&&!subbed);
+  var isMatchPending=((q.tp==='match'||q.tp==='sort')&&live&&!subbed);
   var bl=!subbed?'Check':isLast?'Finish Lesson →':'Continue →';
   var bd=(sel===null&&!subbed)?'disabled':'';
 
@@ -8403,7 +9333,7 @@ function bmMTry(defPid){
     BM_S.mSel=null;
     if(!BM_S.mMistake){
       BM_S.mMistake=true;
-      bmSubSilver(20);
+      bmAwardPracticeSilver(-20);
     }
     bmRGame();
     var el=document.getElementById('bm-mdef-'+defPid);
@@ -8413,19 +9343,63 @@ function bmMTry(defPid){
 function bmMComplete(){
   BM_S.sub=true;BM_S.cor=!BM_S.mMistake;
   BM_S.answers[BM_S.qi]={sel:null,cor:BM_S.cor};
-  if(BM_S.cor){BM_S.sc++;bmPlayCorrect();bmAddSilver(10);bmPopCoin();}
+  if(BM_S.cor){BM_S.sc++;bmPlayCorrect();bmAwardPracticeSilver(10);bmPopCoin();}
+  bmRGame();
+}
+
+function bmSrtPick(tid){
+  if(BM_S.view!==BM_S.qi||BM_S.sub)return;
+  if(BM_S.srtPlaced[tid]!=null)return;
+  BM_S.srtSel=(BM_S.srtSel===tid?null:tid);bmRGame();
+}
+function bmSrtDragStart(evt,tid){
+  if(BM_S.view!==BM_S.qi||BM_S.sub)return;
+  BM_S.srtSel=tid;
+  try{evt.dataTransfer.setData('text/plain',String(tid));evt.dataTransfer.effectAllowed='move';}catch(e){}
+}
+function bmSrtDrop(evt,colIdx){
+  evt.preventDefault();
+  var el=document.getElementById('bm-srtcol-'+colIdx);
+  if(el)el.classList.remove('dragover');
+  bmSrtTry(colIdx);
+}
+function bmSrtTry(colIdx){
+  if(BM_S.view!==BM_S.qi||BM_S.sub)return;
+  var picked=BM_S.srtSel;
+  if(picked==null)return;
+  var q=BM_D[BM_S.les].qs[BM_S.qi];
+  if(q.tiles[picked][1]===colIdx){
+    BM_S.srtPlaced[picked]=colIdx;BM_S.srtFillOrder.push(picked);BM_S.srtSel=null;bmPlayCorrect();
+    if(Object.keys(BM_S.srtPlaced).length===q.tiles.length){bmSrtComplete();return;}
+    bmRGame();
+  } else {
+    bmPlayWrong();
+    BM_S.srtSel=null;
+    if(!BM_S.srtMistake){
+      BM_S.srtMistake=true;
+      bmAwardPracticeSilver(-20);
+    }
+    bmRGame();
+    var el=document.getElementById('bm-srtcol-'+colIdx);
+    if(el){el.classList.add('shake');setTimeout(function(){el.classList.remove('shake');},400);}
+  }
+}
+function bmSrtComplete(){
+  BM_S.sub=true;BM_S.cor=!BM_S.srtMistake;
+  BM_S.answers[BM_S.qi]={sel:null,cor:BM_S.cor};
+  if(BM_S.cor){BM_S.sc++;bmPlayCorrect();bmAwardPracticeSilver(10);bmPopCoin();}
   bmRGame();
 }
 
 function bmSubA(){
   var q=BM_D[BM_S.les].qs[BM_S.qi];
-  if(q.tp==='match')return;
+  if(q.tp==='match'||q.tp==='sort')return;
   BM_S.sub=true;BM_S.cor=(BM_S.sel===q.a);
   BM_S.answers[BM_S.qi]={sel:BM_S.sel,cor:BM_S.cor};
-  if(BM_S.cor){BM_S.sc++;bmPlayCorrect();bmAddSilver(10);bmPopCoin();}
+  if(BM_S.cor){BM_S.sc++;bmPlayCorrect();bmAwardPracticeSilver(10);bmPopCoin();}
   else{
     bmPlayWrong();BM_S.mistake=true;
-    bmSubSilver(20);
+    bmAwardPracticeSilver(-20);
   }
   bmRGame();
   if(!BM_S.cor){var fb=document.getElementById('fb-ng');if(fb){fb.classList.add('shake');setTimeout(function(){fb.classList.remove('shake');},400);}}
@@ -8436,17 +9410,25 @@ function bmNxt(){
   if(BM_S.qi===les.qs.length-1){bmFin();return;}
   BM_S.qi++;BM_S.view=BM_S.qi;BM_S.sel=null;BM_S.sub=false;BM_S.cor=null;BM_S.hintLevel=0;
   BM_S.mPlaced={};BM_S.mMistake=false;BM_S.mTermOrder=null;BM_S.mDefOrder=null;BM_S.mSel=null;
+  BM_S.srtPlaced={};BM_S.srtMistake=false;BM_S.srtOrder=null;BM_S.srtSel=null;BM_S.srtFillOrder=[];
   bmRGame();
 }
 
 function bmFin(){
+  var modKey=BM_D[BM_S.les].mod;
+  var wasComplete=bmModuleComplete(modKey);
   BM_S.dn.add(BM_S.les);
   if(!BM_S.mistake)BM_S.perfect.add(BM_S.les);
   bmSaveProgress();
   var tot=BM_D[BM_S.les].qs.length;
   var pct=Math.round(BM_S.sc/tot*100);
+  var newDiamond=(!wasComplete&&bmModuleComplete(modKey));
   if(pct>=60){bmShowCelebration(!BM_S.mistake&&BM_S.sc===tot);}
   else{bmSw('res');bmRRes();}
+  if(newDiamond){
+    var modObj=BM_MODULES.filter(function(x){return x.key===modKey;})[0];
+    setTimeout(function(){bmShowDiamondFlash(modObj?modObj.title:'Module');},1300);
+  }
 }
 
 function bmGH(){bmSw('home');bmRHome();}
@@ -8474,7 +9456,7 @@ function bmRRes(){
 
   /* Next lesson within same module */
   var nx=BM_S.les+1;
-  var hasNx=(mod==='fa'&&nx<=BM_FA_END)||(mod==='ra'&&nx<=BM_RA_END)||(mod==='be'&&nx<=BM_BE_END)||(mod==='ln'&&nx<=BM_LN_END)||(mod==='om'&&nx<=BM_OM_END)||(mod==='io'&&nx<=BM_IO_END);
+  var hasNx=(mod==='fa'&&nx<=BM_FA_END)||(mod==='ra'&&nx<=BM_RA_END)||(mod==='be'&&nx<=BM_BE_END)||(mod==='ln'&&nx<=BM_LN_END)||(mod==='om'&&nx<=BM_OM_END)||(mod==='io'&&nx<=BM_IO_END)||(mod==='cf'&&nx<=BM_CF_END)||(mod==='hr'&&nx<=BM_HR_END)||(mod==='os'&&nx<=BM_OS_END)||(mod==='lm'&&nx<=BM_LM_END)||(mod==='mo'&&nx<=BM_MO_END)||(mod==='eg'&&nx<=BM_EG_END);
 
   /* Bonus unlock banners */
   var banners='';
@@ -8500,7 +9482,7 @@ function bmRRes(){
     +'</div>'
     +banners
     +(hasNx?'<button class="btn gold-btn" onclick="bmRunUnlockAnimation(function(){bmSL('+nx+');})">Next Lesson →</button>'
-      :'<div style="text-align:center;padding:14px;background:rgba(240,180,41,.08);border-radius:13px;border:1px solid rgba(240,180,41,.3);margin-bottom:14px;"><div style="font-size:15px;font-weight:800;color:#f0b429;">🎓 Module complete!</div><div style="font-size:12px;color:#7a90b8;margin-top:4px;">Total: '+BM_S.gold+' 🟡 · '+BM_S.silver+' 🪙</div></div>')
+      :'<div style="text-align:center;padding:14px;background:rgba(240,180,41,.08);border-radius:13px;border:1px solid rgba(240,180,41,.3);margin-bottom:14px;"><div style="font-size:15px;font-weight:800;color:#f0b429;">🎓 Module complete!</div></div>')
     +'<button class="btn ghost" onclick="bmGH()">Back to Map</button>';
 }
 
