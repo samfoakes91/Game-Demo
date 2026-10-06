@@ -3898,7 +3898,14 @@ function coinPillHTML(){
 }
 function addSilver(n){
   S.silver+=n;S.lessilver+=n;
-  if(S.silver>=100){var g=Math.floor(S.silver/100);S.silver=S.silver%100;S.gold+=g;showGoldFlash();}
+  /* Suppress the full-screen gold-flash overlay during speed rounds and
+     duels (S.sactive covers both — a duel is just a speed round driven by
+     CHALLENGE.active, see startChallengeRound). The overlay takes
+     pointer-events:all for ~2.5s, which would eat the player's taps on a
+     live, ticking timer; the carry-over math still happens so the coin
+     totals stay correct, the celebration just waits for ordinary lesson
+     play, where there's no clock to race. */
+  if(S.silver>=100){var g=Math.floor(S.silver/100);S.silver=S.silver%100;S.gold+=g;if(!S.sactive)showGoldFlash();}
   saveProgress();
 }
 /* The verified path for ordinary lesson-play silver (NOT speed rounds
@@ -3956,6 +3963,20 @@ function _psDrain(){
         if(typeof r.data.silver==='number') S.silver=r.data.silver;
         var pill=document.querySelector('.coin-pill');
         if(pill) pill.innerHTML=coinPillHTML();
+        /* The hub's own coin counter and its leaderboard tile are a bespoke,
+           hand-rolled block (not a `.coin-pill`), and the leaderboard tile is
+           a live DB read that only ever gets (re)fetched when rHub() runs —
+           not every time the coin total changes. Without this, a gold/silver
+           carry-over confirmed by the server while the student is sitting on
+           the hub (e.g. they just finished a lesson and came straight back,
+           landing here before this very award had finished confirming) can
+           leave the hub's own count and the leaderboard's "You" row stuck a
+           step behind what's actually been saved, until their next full hub
+           visit. Re-rendering the hub here — only when it's actually the
+           screen on display — catches both up within moments of the server
+           confirming. */
+        var hub=document.getElementById('sc-hub');
+        if(hub&&hub.classList.contains('on')) rHub();
       }
     } else {
       item.tries++;
@@ -5211,8 +5232,8 @@ function graphSVG(key){
       +'<circle cx="148" cy="132" r="5" fill="#f5a623" stroke="#0e1e36" stroke-width="2"/>'
       +'<line x1="173.8" y1="123.1" x2="167.05" y2="129.85" stroke="#93bbff" stroke-width="2.5" stroke-linecap="round"/>'
       +'<polygon points="162.5,134.5 164.5,127.3 169.6,132.4" fill="#93bbff"/>'
-      +'<text x="258" y="196" fill="#5b9bff" font-size="9" font-weight="800">D1</text>'
-      +'<text x="212" y="196" fill="#93bbff" font-size="9" font-weight="800">D2</text>'
+      +'<text x="258" y="183" fill="#5b9bff" font-size="9" font-weight="800">D1</text>'
+      +'<text x="212" y="183" fill="#93bbff" font-size="9" font-weight="800">D2</text>'
       +'<text x="258" y="26" fill="#ff8f5c" font-size="9" font-weight="800">S</text>';
     return wrap(s,'A decrease in demand (D1 &#8594; D2): the new equilibrium slides DOWN along the supply curve');
   }
@@ -5225,8 +5246,8 @@ function graphSVG(key){
       +'<circle cx="194" cy="86" r="5" fill="#f5a623" stroke="#0e1e36" stroke-width="2"/>'
       +'<line x1="185.1" y1="111.8" x2="191.85" y2="105.05" stroke="#93bbff" stroke-width="2.5" stroke-linecap="round"/>'
       +'<polygon points="196.5,100.5 194.4,107.6 189.3,102.5" fill="#93bbff"/>'
-      +'<text x="258" y="196" fill="#5b9bff" font-size="9" font-weight="800">D1</text>'
-      +'<text x="304" y="196" fill="#93bbff" font-size="9" font-weight="800">D2</text>'
+      +'<text x="258" y="183" fill="#5b9bff" font-size="9" font-weight="800">D1</text>'
+      +'<text x="304" y="183" fill="#93bbff" font-size="9" font-weight="800">D2</text>'
       +'<text x="258" y="26" fill="#ff8f5c" font-size="9" font-weight="800">S</text>';
     return wrap(s,'An increase in demand (D1 &#8594; D2): the new equilibrium slides UP along the supply curve');
   }
@@ -5241,7 +5262,7 @@ function graphSVG(key){
       +'<polygon points="156.44,85.96 159.34,94.46 164.94,88.86" fill="#e8edf7"/>'
       +'<text x="258" y="26" fill="#ff8f5c" font-size="9" font-weight="800">S1</text>'
       +'<text x="212" y="26" fill="#ffb892" font-size="9" font-weight="800">S2</text>'
-      +'<text x="258" y="196" fill="#5b9bff" font-size="9" font-weight="800">D</text>';
+      +'<text x="258" y="183" fill="#5b9bff" font-size="9" font-weight="800">D</text>';
     return wrap(s,'A decrease in supply (S1 &#8594; S2): the new equilibrium slides UP along the demand curve');
   }
   if(key==='supplyShift'){
@@ -5255,7 +5276,7 @@ function graphSVG(key){
       +'<polygon points="196.5,117.5 189.3,115.5 194.4,110.4" fill="#ffb892"/>'
       +'<text x="258" y="26" fill="#ff8f5c" font-size="9" font-weight="800">S1</text>'
       +'<text x="304" y="26" fill="#ffb892" font-size="9" font-weight="800">S2</text>'
-      +'<text x="258" y="196" fill="#5b9bff" font-size="9" font-weight="800">D</text>';
+      +'<text x="258" y="183" fill="#5b9bff" font-size="9" font-weight="800">D</text>';
     return wrap(s,'An increase in supply (S1 &#8594; S2): the new equilibrium slides DOWN along the demand curve');
   }
   if(key==='surplus'){
@@ -7686,7 +7707,7 @@ var BM_D=[
     {tp:'mc',lb:'Choose the correct answer',q:'What do efficiency ratios mainly measure?',o:['How effectively a business manages its short-term resources, such as stock and trade credit','How much profit a business makes relative to its revenue','How a business\'s share price has changed over time','How many employees a business has relative to its revenue'],a:0},
     {tp:'mc',lb:'Choose the correct answer',q:'Which of these is the gearing ratio primarily used to assess?',o:['How a business is financed — the proportion of capital employed that comes from long-term borrowing','How quickly a business sells its inventory','How long a business takes to pay its suppliers','How profitable a business is relative to its sales'],a:0},
     {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is NOT an efficiency ratio?',o:['Stock turnover','Debtor days','Net Profit Margin','Creditor days'],a:2},
-    {tp:'mc',lb:'Choose the correct answer',q:'Efficiency ratios and the gearing ratio are studied at HL only because they...',o:['Require a deeper, more detailed level of financial analysis than SL profitability and liquidity ratios','Cannot be calculated from a set of final accounts','Replace the need to study profitability ratios','Are only relevant to very small businesses'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Efficiency ratios and the gearing ratio sit alongside profitability and liquidity ratios in the syllabus. What is true about them?',o:['They are HL-only additions, studied alongside the profitability and liquidity ratios that both SL and HL students learn','They are SL-only ratios that HL students are not required to know','They completely replace the need to study profitability and liquidity ratios at HL','They are not examinable at either level, and are included only for general interest'],a:0},
     {tp:'mc',lb:'Choose the correct answer',q:'A business compares its efficiency ratios to a close competitor\'s. What is the main benefit of doing this?',o:['It identifies areas of working capital management that could be improved','It guarantees the business will become more profitable','It removes the need to calculate liquidity ratios','It automatically increases the business\'s gearing ratio'],a:0}
   ]},
   {t:'Stock Turnover in Days',ic:'📦',mod:'eg',qs:[
@@ -8213,7 +8234,7 @@ BM_HINTS[58]=[
     ['Think about what stock, debtors and creditors all have in common — none of them are about profit margins.','Efficiency ratios look at how well a business manages its short-term, day-to-day resources.'],
     ['Gearing is about how a business is FUNDED, long-term.','It measures what proportion of capital employed comes from long-term borrowing rather than equity.'],
     ['Three of these measure stock, debtors or creditors. One measures profit as a percentage of revenue.','Net Profit Margin is a profitability ratio, not an efficiency ratio.'],
-    ['Think about why these are only introduced at the higher level.','They demand a more detailed level of financial analysis than the SL profitability/liquidity ratios.'],
+    ['Think about who studies these four extra ratios, and what they\'re added on top of.','Efficiency ratios and the gearing ratio are HL-only extensions — SL and HL students both study profitability and liquidity ratios, but only HL students add these on top.'],
     ['Comparing ratios against a rival tells you where you stand, not just how you\'ve changed over time.','It helps pinpoint specific areas of working capital management that could be tightened up.']
   ];
 BM_HINTS[59]=[
@@ -8431,7 +8452,9 @@ function bmCoinPillHTML(){
 }
 function bmAddSilver(n){
   BM_S.silver+=n;BM_S.lessilver+=n;
-  if(BM_S.silver>=100){var g=Math.floor(BM_S.silver/100);BM_S.silver=BM_S.silver%100;BM_S.gold+=g;bmShowGoldFlash();}
+  /* Same speed-round/duel suppression as Economics' addSilver() — see the
+     comment there. BM_S.sactive covers both. */
+  if(BM_S.silver>=100){var g=Math.floor(BM_S.silver/100);BM_S.silver=BM_S.silver%100;BM_S.gold+=g;if(!BM_S.sactive)bmShowGoldFlash();}
   bmSaveProgress();
 }
 /* ── BM's own verified practice-silver path — mirrors syncPracticeSilverToServer/
@@ -8463,6 +8486,13 @@ function _bmPsDrain(){
         if(typeof r.data.silver==='number') BM_S.silver=r.data.silver;
         bmSaveProgress();
         _bmRefreshCoinPills();
+        /* Same hub re-sync as Economics' _psDrain() — see the comment there.
+           The hub's own coin counter and leaderboard tile are a bespoke block
+           (not a `.coin-pill`) and the leaderboard only re-fetches when
+           bmRHub() runs, so without this a confirmed award can leave the hub
+           looking a step behind the server until the next full hub visit. */
+        var hub=document.getElementById('bm-sc-hub');
+        if(hub&&hub.classList.contains('on')) bmRHub();
       }
     } else {
       item.tries++;
