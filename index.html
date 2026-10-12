@@ -10,6 +10,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 html,body{overflow-x:hidden}
 body.hub-light{background:#000;}
 .hub-tile{transition:all .16s ease;}
+@media(max-width:600px){.hub-tile .hf-row{gap:12px !important}.hub-tile .hf-chip{width:52px !important;height:52px !important;font-size:26px !important;border-radius:14px !important}.hub-tile .hf-row svg{width:72px;height:72px}.hub-tile .hf-title{font-size:22px !important}.hub-tile .hf-sub{font-size:16px !important}}
 .hub-tile:hover{box-shadow:0 4px 16px rgba(24,34,52,.10);transform:translateY(-2px);}
 .hub-tile:active{transform:translateY(0);box-shadow:0 1px 4px rgba(24,34,52,.08);}
 .hub-tile.sl:hover{background:#e3f4f1 !important;border-color:#0f766e !important;}
@@ -60,6 +61,43 @@ body.hub-light{background:#000;}
 .map-btn{background:#fff;color:#182234;border:none;border-bottom:4px solid #c3cad6;font-size:14px;font-weight:800;cursor:pointer;padding:11px 18px;border-radius:11px;font-family:inherit;white-space:nowrap;flex-shrink:0;letter-spacing:.01em;transition:all .15s}
 .crumb-seg:hover{text-decoration:underline}
 .duel-icon{position:relative;width:220px;height:215px;margin:0 auto 6px;max-width:100%;}
+.duel-count{margin-top:7px;line-height:1.2;}
+.duel-count:empty{display:none;}
+.duel-count-n{display:block;font-size:30px;font-weight:800;color:#6d4bd8;letter-spacing:-.01em;}
+.duel-count-l{display:block;font-size:12px;font-weight:700;color:#5b6784;margin-top:1px;}
+.lb-wrap{position:relative;}
+.lb-sc{position:relative;max-height:340px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#cfd5e2 transparent;margin-right:-8px;padding-right:8px;}
+.lb-sc::-webkit-scrollbar{width:6px;}
+.lb-sc::-webkit-scrollbar-thumb{background:#cfd5e2;border-radius:3px;}
+.lb-sc:focus-visible{outline:2px solid #f0b429;outline-offset:2px;border-radius:10px;}
+.lb-fade{position:absolute;left:0;right:8px;height:30px;pointer-events:none;opacity:0;transition:opacity .15s;z-index:1;}
+.lb-fade.t{top:0;background:linear-gradient(#fff,rgba(255,255,255,0));}
+.lb-fade.b{bottom:0;background:linear-gradient(rgba(255,255,255,0),#fff);}
+.lb-wrap.up .lb-fade.t,.lb-wrap.dn .lb-fade.b{opacity:1;}
+.ff-flag{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:42px;height:42px;}
+.ff-svg{display:block;width:100%;height:100%;overflow:visible;}
+.ffa,.ffk,.ffs,.ffc{animation-iteration-count:infinite;animation-timing-function:cubic-bezier(.37,0,.63,1);}
+.ffk{transform-box:fill-box;transform-origin:50% 50%;}
+.ffa{animation-name:ffA;}.ffk{animation-name:ffK;}.ffs{animation-name:ffS;}
+.ffc{transform-origin:8px 6px;animation-name:ffSway;}
+@keyframes ffA{0%{transform:translateY(var(--a));}50%{transform:translateY(calc(var(--a)*-1));}100%{transform:translateY(var(--a));}}
+@keyframes ffK{0%{transform:skewY(var(--k));}50%{transform:skewY(calc(var(--k)*-1));}100%{transform:skewY(var(--k));}}
+@keyframes ffS{0%{opacity:0;}50%{opacity:var(--s);}100%{opacity:0;}}
+@keyframes ffSway{0%{transform:rotate(-1.2deg);}50%{transform:rotate(1.2deg);}100%{transform:rotate(-1.2deg);}}
+@media (prefers-reduced-motion:reduce){.ff-svg *{animation:none !important;}}
+.ff-badge{display:flex;}
+@media (max-width:440px){
+.ff-row{display:grid !important;grid-template-columns:42px minmax(0,1fr) auto;column-gap:12px;align-items:center;}
+.ff-row>.ff-flag{grid-column:3;grid-row:1;}
+.ff-row>.ff-badge{grid-column:2 / 4;grid-row:2;justify-self:start;margin-top:6px;flex-direction:row !important;align-items:center !important;gap:8px !important;}
+.ff-row>div:nth-child(2){overflow-wrap:anywhere;}
+.ff-row>.ff-badge.ff-lockb{grid-column:3;grid-row:2;justify-self:center;margin-top:2px;}
+}
+.lk-ic{display:block;font-size:40px;line-height:1;}
+.lk-ic.lk-sm{font-size:34px;}
+.bsr-badge.bsr-lock{font-size:22px;top:2px;right:3px;}
+@media (max-width:480px){.bsr-badge.bsr-lock{font-size:18px;top:1px;right:2px;}}
+@media (max-width:340px){[style*="flex:1;display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:13px;"]>div:nth-child(2){overflow-wrap:anywhere;}}
 .duel-sword{position:absolute;top:0;width:127px;height:191px;transform-origin:50% 92%;}
 .duel-swordL{left:14.7px;transform:rotate(32deg);}
 .duel-swordR{right:14.7px;transform:rotate(-32deg);}
@@ -232,6 +270,7 @@ body.hub-light{background:#000;}
 .srt-col{border:2px solid rgba(255,255,255,.18);border-radius:14px;padding:12px;transition:all .15s}
 .srt-col.dragover{border-color:#f0b429;background:rgba(240,180,41,.08)}
 .srt-col-head{font-size:22px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#fff;margin-bottom:10px;text-align:center}
+@media(max-width:600px){.srt-cols{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.srt-col{padding:10px 8px}.srt-col-head{font-size:clamp(11px,3.6vw,16px);letter-spacing:.02em;overflow-wrap:anywhere}}
 .srt-table{border:2px solid rgba(0,0,0,.15);border-radius:12px;overflow:hidden;background:#ffffff}
 .srt-row{position:relative;padding:26px 12px 26px 32px;font-size:12.5px;font-weight:700;line-height:1.4;color:#8b94a7;min-height:36px}
 .srt-row:not(:last-child){border-bottom:1px solid rgba(0,0,0,.1)}
@@ -3816,7 +3855,8 @@ function rSubjects(){
     {name:'Human resource management',available:true},
     {name:'Finance & accounts',available:true},
     {name:'Marketing',available:false},
-    {name:'Operations management',available:true}
+    {name:'Operations management',available:true},
+    {name:'Business management toolkit (BMT)',available:true}
   ];
   function subjectTile(onclickFn,title,accentCol,subjCls,units){
     var unitRows=units.map(function(u){
@@ -4531,7 +4571,7 @@ function rHome(){
     var isLast=(di===FA_END||di===HL_END||di===RA_END||di===HS_END||di===ME_END||di===MH_END||di===GV_END||di===GH_END||di===BE_END||di===BO_END||di===MF_END||di===PG_END||di===AI_END||di===DM_END||di===DH_END||di===SP_END||di===SH_END||di===WI_END||di===HA_END||di===CF_END||di===PC_END||di===YED_END);
     var localNum=(di-(di<=FA_END?FA_START:di<=HL_END?HL_START:di<=RA_END?RA_START:di<=HS_END?HS_START:di<=ME_END?ME_START:di<=MH_END?MH_START:di<=GV_END?GV_START:di<=GH_END?GH_START:di<=BE_END?BE_START:di<=BO_END?BO_START:di<=MF_END?MF_START:di<=PG_END?PG_START:di<=AI_END?AI_START:di<=DM_END?DM_START:di<=DH_END?DH_START:di<=SP_END?SP_START:di<=SH_END?SH_START:di<=WI_END?WI_START:di<=HA_END?HA_START:di<=CF_END?CF_START:di<=PC_END?PC_START:YED_START))+1;
 
-    var ico=dn?(perf?'🌟':'✅'):un?l.ic:'🔒';
+    var ico=dn?(perf?'🌟':'✅'):un?l.ic:'<span class="lk-ic">🔒</span>';
     var icoBg=dn?'rgba(0,196,167,.2)':un?'rgba(255,255,255,.08)':'rgba(255,255,255,.04)';
     var border=dn?'rgba(0,196,167,.35)':un?'rgba(255,255,255,.12)':'rgba(255,255,255,.04)';
     var bg=dn?'rgba(0,196,167,.06)':un?'#152038':'rgba(255,255,255,.015)';
@@ -4544,7 +4584,7 @@ function rHome(){
     if(dn) badge=perf
       ?'<span style="font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px;background:rgba(240,180,41,.18);color:#f0b429;white-space:nowrap;">★ Perfect</span>'
       :'<span style="font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px;background:rgba(0,196,167,.18);color:#00c4a7;white-space:nowrap;">✓ Done</span>';
-    else if(!un) badge='<span style="font-size:16px;opacity:.5;">🔒</span>';
+    else if(!un) badge='<span style="font-size:32px;line-height:1;opacity:.5;">🔒</span>';
 
     var accBadge='';
     if(dn&&!perf){
@@ -4560,9 +4600,9 @@ function rHome(){
       if(dn) badge=perf
         ?'<span style="font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px;background:#2e1d00;color:#ffe97a;white-space:nowrap;">★ Perfect</span>'
         :'<span style="font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px;background:rgba(46,29,0,.16);color:#2e1d00;white-space:nowrap;">✓ Done</span>';
-      else if(!un) badge='<span style="font-size:16px;opacity:.75;">🔒</span>';
+      else if(!un) badge='<span style="font-size:32px;line-height:1;opacity:.75;">🔒</span>';
     }
-    var badgeWrap=(badge||accBadge)?('<div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">'+accBadge+badge+'</div>'):'';
+    var badgeWrap=(badge||accBadge)?('<div class="ff-badge'+((!un&&!dn)?' ff-lockb':'')+'" style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">'+accBadge+badge+'</div>'):'';
 
     /* connector dot — coloured left bar */
     var dot=un||dn
@@ -4570,14 +4610,15 @@ function rHome(){
       :'<div style="width:3px;flex-shrink:0;"></div>';
 
     return dot
-      +'<div id="les-'+di+'" '+oc+' style="flex:1;display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:13px;'
+      +'<div id="les-'+di+'" '+oc+(isLast?' class="ff-row"':'')+' style="flex:1;display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:13px;'
       +'background:'+bg+';border:1.5px solid '+border+';cursor:'+cursor+';transition:all .15s;opacity:'+op+';" '
       +(un&&!dn?'onmouseenter="this.style.borderColor=\''+(gold?'#8a5f00':accentCol)+'\'" onmouseleave="this.style.borderColor=\''+border+'\'"':'')+' >'
       +'<div style="width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:'+icoBg+';">'+ico+'</div>'
       +'<div style="flex:1;min-width:0;">'
-      +'<div style="font-size:14px;font-weight:700;color:'+tc+';line-height:1.3;">'+'Lesson '+localNum+': '+l.t+(isLast?' 🏁':'')+'</div>'
+      +'<div style="font-size:14px;font-weight:700;color:'+tc+';line-height:1.3;">'+'Lesson '+localNum+': '+l.t+'</div>'
       +'<div style="font-size:11px;color:'+(gold?'#4a3200':'#7a90b8')+';margin-top:1px;">'+l.qs.length+' questions</div>'
       +'</div>'
+      +(isLast?finishFlagHTML():'')
       +badgeWrap
       +'</div>';
   }
@@ -4588,7 +4629,7 @@ function rHome(){
     var border=unlocked?'rgba(240,180,41,.3)':'rgba(255,255,255,.05)';
     var bg=unlocked?'rgba(240,180,41,.06)':'rgba(255,255,255,.015)';
     var tc=unlocked?'#f0b429':'#3a5078';
-    var ico=unlocked?'⚡':'🔒';
+    var ico=unlocked?'⚡':'<span class="lk-ic lk-sm">🔒</span>';
     var icoBg=unlocked?'rgba(240,180,41,.18)':'rgba(255,255,255,.04)';
     return '<div style="margin-left:15px;margin-bottom:8px;">'
       +'<div '+oc+' style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;'
@@ -4963,6 +5004,7 @@ function rHub(){
     +'<div style="margin-top:-16px;margin-bottom:10px;">'
     +'<div style="font-size:12px;font-weight:700;color:'+INK+';line-height:1.4;margin-bottom:4px;">Got a code from a friend?</div>'
     +'<div style="font-size:24px;font-weight:800;color:'+INK+';">Accept a Duel</div>'
+    +'<div id="duel-count" class="duel-count">'+duelCountHTML()+'</div>'
     +'</div>'
     +'</div>'
     +'</div>'
@@ -4981,16 +5023,102 @@ function rHub(){
     +'</div>'
     +'</div>';
   loadLeaderboardTile();
+  loadDuelCount();
   initDuelSwordScene();
 }
 
 function goHub(){ sw('hub'); rHub(); if(window.scrollTo)window.scrollTo(0,0); }
 
-/* Fills in the leaderboard tile's skeleton once its data is ready. Only ever
-   shows a narrow window of ranks around the signed-in student (via the
-   get_leaderboard_window RPC) — never the full top-of-class ranking, so a
-   student near the bottom doesn't just see an unreachable podium every time
-   they open the hub. */
+/* ===================== FINISH FLAG (the last lesson of every module) =====================
+   A small chequered flag drawn as a picture, so it looks the same on every phone and laptop (an emoji does not).
+   It is made of 12 thin strips of cloth that ripple one after another in a gentle breeze, each strip also tilted
+   to the slope of the wave so the strips join up into one piece of cloth. The motion is plain CSS and stops for
+   anyone whose device is set to "reduce motion". It is drawn once and reused for every module. */
+var FINISH_FLAG_CACHE=null;
+function finishFlagHTML(){
+  if(FINISH_FLAG_CACHE) return FINISH_FLAG_CACHE;
+  var per=2.4, step=.13, a0=.6, a1=2.4, shade=.30, sway=3.6;       /* seconds per ripple, delay between strips, ripple size at the pole / at the free end, fold shading, sway */
+  var N=12, W=3.5, X0=8, Y0=5, S=7, out='', i, r;
+  var kw=2*Math.PI*step/per/W;                                       /* how fast the wave turns along the cloth, so the folds join up */
+  for(i=0;i<N;i++){
+    var a=a0+(a1-a0)*i/(N-1);                                        /* the free end moves more than the end at the pole */
+    var k=Math.atan(a*kw)*180/Math.PI;
+    var d=(i*step-per);
+    var sq='';
+    for(r=0;r<4;r++){ sq+='<rect x="'+(X0+i*W)+'" y="'+(Y0+r*S)+'" width="'+(W+.45)+'" height="'+S+'" fill="'+((((i>>1)+r)&1)?'#fff':'#1b1b1b')+'"/>'; }
+    var dk=(d+per/4).toFixed(3);
+    sq+='<rect class="ffs" x="'+(X0+i*W)+'" y="'+Y0+'" width="'+(W+.45)+'" height="'+(4*S)+'" fill="#2e1d00" opacity="0" style="--s:'+shade+';animation-duration:'+per+'s;animation-delay:'+dk+'s"/>';
+    out+='<g class="ffa" style="--a:'+a.toFixed(2)+'px;animation-duration:'+per+'s;animation-delay:'+d.toFixed(3)+'s">'
+      +'<g class="ffk" style="--k:'+k.toFixed(2)+'deg;animation-duration:'+per+'s;animation-delay:'+dk+'s">'+sq+'</g></g>';
+  }
+  FINISH_FLAG_CACHE='<span class="ff-flag" role="img" aria-label="Finish flag">'
+    +'<svg class="ff-svg" viewBox="0 0 56 56" aria-hidden="true" focusable="false">'
+    +'<rect x="4.8" y="2.5" width="3" height="52" rx="1.5" fill="#4a3200"/><circle cx="6.3" cy="3" r="3" fill="#2e1d00"/>'
+    +'<g class="ffc" style="animation-duration:'+sway+'s">'+out+'</g></svg></span>';
+  return FINISH_FLAG_CACHE;
+}
+
+/* ===================== DUEL COUNTER (on the "Accept a Duel" tile) =====================
+   How many duels have been fought, from the server's get_duel_count() (finished duels only; it returns just the
+   total, nothing about who played). The number is kept for a minute so the landing page, which is redrawn after
+   every lesson, does not ask each time, and it is drawn straight from that copy so it never flickers. If the
+   server cannot be reached, or the SQL has not been run yet, the tile simply shows no number: never a wrong one. */
+var DUEL_COUNT={n:null,t:0,busy:false,failAt:0};
+function duelCountHTML(){
+  var n=DUEL_COUNT.n;
+  if(n===null||!sb) return '';
+  if(n===0) return '<span class="duel-count-l">No duels yet — be the first!</span>';
+  return '<span class="duel-count-n">'+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',')+'</span>'
+    +'<span class="duel-count-l">'+(n===1?'duel':'duels')+' fought since launch</span>';
+}
+function loadDuelCount(){
+  if(!sb||DUEL_COUNT.busy) return;
+  var now=Date.now();
+  if(DUEL_COUNT.n!==null&&now-DUEL_COUNT.t<60000) return;     /* fresh enough */
+  if(DUEL_COUNT.failAt&&now-DUEL_COUNT.failAt<300000) return;  /* it failed lately: try again in 5 minutes */
+  DUEL_COUNT.busy=true;
+  function fail(){ DUEL_COUNT.busy=false; DUEL_COUNT.failAt=Date.now(); }
+  try{
+    sb.rpc('get_duel_count').then(function(r){
+      DUEL_COUNT.busy=false;
+      var n=(r&&!r.error&&r.data!==null&&r.data!==undefined)?Number(r.data):NaN;
+      if(!isFinite(n)||n<0){ fail(); return; }
+      DUEL_COUNT.n=Math.floor(n); DUEL_COUNT.t=Date.now(); DUEL_COUNT.failAt=0;
+      var el=document.getElementById('duel-count');
+      if(el) el.innerHTML=duelCountHTML();
+    },fail);
+  }catch(e){ fail(); }
+}
+
+/* ===================== LEADERBOARD LIST (scrolls) =====================
+   Both leaderboards (Economics and Business Management) load a long window of places around the signed-in
+   student (the RPCs take any window size; no new SQL is needed) and show it in a panel about seven rows tall.
+   The panel opens with the student's own row in the middle - exactly the view the tile always had - and the
+   student can scroll up or down (mouse wheel, touch, scroll bar, or the arrow keys once it has focus) to see
+   everyone else. A soft fade at the top / bottom edge shows there is more in that direction. */
+var LB_WINDOW=100;      /* places loaded above and below the student */
+function lbListHTML(rows){
+  return '<div class="lb-wrap"><div class="lb-sc" tabindex="0" role="region" aria-label="Leaderboard. Scroll to see more players.">'+rows+'</div>'
+    +'<div class="lb-fade t" aria-hidden="true"></div><div class="lb-fade b" aria-hidden="true"></div></div>';
+}
+function lbWire(el){
+  var wrap=el.querySelector('.lb-wrap'), sc=el.querySelector('.lb-sc'), me;
+  if(!wrap||!sc) return;
+  function edges(){
+    wrap.classList.toggle('up',sc.scrollTop>2);
+    wrap.classList.toggle('dn',sc.scrollTop+sc.clientHeight<sc.scrollHeight-2);
+  }
+  me=sc.querySelector('[data-me]');
+  if(me) sc.scrollTop=Math.max(0,me.offsetTop-(sc.clientHeight-me.offsetHeight)/2);   /* the student's own row in the middle */
+  edges();
+  sc.addEventListener('scroll',edges,{passive:true});
+}
+
+/* Fills in the leaderboard tile's skeleton once its data is ready. Loads a long
+   window of ranks around the signed-in student (via the get_leaderboard_window
+   RPC) and shows it as a scrolling list that OPENS on the student's own place
+   with a few above and below, so a student near the bottom is not met by an
+   unreachable podium every time they open the hub - the rest is one scroll away. */
 function loadLeaderboardTile(){
   var el=document.getElementById('leaderboard-inner');
   if(!el||!sb)return;
@@ -5002,7 +5130,7 @@ function loadLeaderboardTile(){
       +'<button onclick="gLogin()" style="font-family:inherit;font-size:15px;font-weight:800;padding:10px 16px;border:none;border-radius:10px;background:#0f766e;color:#fff;cursor:pointer;">Sign in</button>';
     return;
   }
-  sb.rpc('get_leaderboard_window',{window_size:3}).then(function(r){
+  sb.rpc('get_leaderboard_window',{window_size:LB_WINDOW}).then(function(r){
     if(!r||r.error||!r.data||!r.data.length){
       el.innerHTML=head('0')
         +'<div style="font-size:14px;color:'+MUT+';margin-top:10px;">Play a few lessons to join the leaderboard.</div>';
@@ -5015,13 +5143,14 @@ function loadLeaderboardTile(){
       var col=isMe?'#993C1D':'#182234';
       var rowStyle=isMe?'background:#FAECE7;border-radius:10px;padding:9px 10px;':'border-bottom:0.5px solid #f0f0ee;padding:9px 0;';
       var name=isMe?'You':escHtml(row.display_name);
-      return '<div style="display:flex;align-items:center;gap:12px;'+rowStyle+'">'
+      return '<div'+(isMe?' data-me="1"':'')+' style="display:flex;align-items:center;gap:12px;'+rowStyle+'">'
         +'<span style="flex-shrink:0;width:30px;height:30px;border-radius:50%;background:'+badgeBg+';color:'+badgeCol+';font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;">'+row.rank+'</span>'
         +'<span style="flex:1;font-size:19px;font-weight:700;color:'+col+';overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+name+'</span>'
         +'<span style="font-size:19px;font-weight:700;color:'+col+';white-space:nowrap;">'+coin+' '+(row.gold|0)+'</span>'
         +'</div>';
     }).join('');
-    el.innerHTML=head('16px')+rows;
+    el.innerHTML=head('16px')+lbListHTML(rows);
+    lbWire(el);
   },function(){
     el.innerHTML=head('0')
       +'<div style="font-size:14px;color:'+MUT+';margin-top:10px;">Couldn\u2019t load the leaderboard right now.</div>';
@@ -5371,6 +5500,154 @@ function resumeLastLesson(){
 /* Optional supporting diagrams. Tag a question with g:'<key>' to show one.
    Diagrams are answer-neutral: they show geometry (points, shapes, the MR
    relationship) without printing the term that is the answer. */
+/* ===================== DECISION TREE DIAGRAMS (Business Management Toolkit) =====================
+   Every tree on the Decision Trees questions is drawn from the small data table below by one routine, so the
+   numbers on the screen are exactly the numbers the answers were worked out from. graphSVG() hands any key
+   that is in this table to BM_DT.svg().
+   Layout (viewBox 360 x 224): decision node (square) on the left, one horizontal branch per option,
+   a chance node (circle) at the end of each option that has outcomes, then one branch per outcome with its
+   probability in a small pill on the branch and its pay-off written at the end.
+   Nothing in the picture may touch anything else, whatever font the device uses: every piece of text is measured
+   with a deliberately generous width table (the widest of several common bold fonts, plus 3%), an option name that
+   would run into its chance node is wrapped onto two lines above its branch, and any text that still cannot fit
+   is made slightly smaller (and, as a last resort, shortened with ...) rather than allowed to collide. */
+var BM_DT=(function(){
+  var TREES={"dtParts":{"options":[{"name":"Launch product","cost":"$20,000","outs":[{"n":"High demand","p":"0.6","v":"$90,000"},{"n":"Low demand","p":"0.4","v":"$30,000"}]},{"name":"Do nothing","leaf":"$0"}],"cap":"The parts of a decision tree, labelled A to D","marks":true},"dtP1":{"options":[{"name":"Launch product","cost":null,"outs":[{"n":"High demand","p":"0.65","v":"$90,000"},{"n":"Low demand","p":"?","v":"$30,000"}]},{"name":"Do nothing","leaf":"$0"}]},"dtP2":{"options":[{"name":"Launch product","cost":null,"outs":[{"n":"Strong sales","p":"0.2","v":"$120,000"},{"n":"Average sales","p":"0.5","v":"$70,000"},{"n":"Weak sales","p":"0.3","v":"$20,000"}]},{"name":"Do nothing","leaf":"$0"}]},"dtEV1":{"options":[{"name":"Launch product","cost":null,"outs":[{"n":"Success","p":"0.6","v":"$50,000"},{"n":"Partial success","p":"0.4","v":"$20,000"}]},{"name":"Do nothing","leaf":"$0"}]},"dtEV2":{"options":[{"name":"Launch product","cost":null,"outs":[{"n":"Success","p":"0.75","v":"$80,000"},{"n":"Failure","p":"0.25","v":"−$20,000"}]},{"name":"Do nothing","leaf":"$0"}]},"dtNG1":{"options":[{"name":"Launch new product","cost":"$40,000","outs":[{"n":"High demand","p":"0.5","v":"$120,000"},{"n":"Low demand","p":"0.5","v":"$30,000"}]},{"name":"Do nothing","leaf":"$0"}]},"dtNG2":{"options":[{"name":"Option A","cost":"$20,000","outs":[{"n":"High demand","p":"0.6","v":"$100,000"},{"n":"Low demand","p":"0.4","v":"$30,000"}]},{"name":"Option B","cost":"$50,000","outs":[{"n":"High demand","p":"0.5","v":"$150,000"},{"n":"Low demand","p":"0.5","v":"$40,000"}]}]},"dtC":{"options":[{"name":"Open a second café","cost":"$50,000","outs":[{"n":"High demand","p":"0.4","v":"$180,000"},{"n":"Medium demand","p":"0.4","v":"$90,000"},{"n":"Low demand","p":"0.2","v":"$20,000"}]},{"name":"Refurbish the café","cost":"$20,000","outs":[{"n":"High demand","p":"0.7","v":"$80,000"},{"n":"Low demand","p":"0.3","v":"$40,000"}]}]}};
+  var DEFAULT_CAP='Decision tree: square = decision node, circle = chance node; probabilities on the branches, pay-offs at the ends';
+  var LINE='#8a97b8', DEC='#5b9bff', CH='#f5a623', PROB='#7ee8c8', PAY='#f0b429', NAME='#e8eefc', COST='#ff8f8f', MUT='#9fb0d0', ASK='#ffd166', BG='#16243f', INK='#0e1e36';
+  var XR=22, XV=46, XC=158, XE=262, XT=270, TOP=18, BOT=206;
+  function r1(n){ return Math.round(n*10)/10; }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  /* text width in viewBox units, from a per-character table: the WIDEST bold advance of DejaVu Sans, Inter, FreeSans,
+     Carlito and Liberation Sans (in thousandths of an em), with 3% to spare. Wider than any font the game is likely to meet. */
+  var CW_CHARS=" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u00e9\u2212\u2026\u2013\u2014\u00a3\u20ac\u00e8\u00e0\u00fc\u00f6\u00e4", CW_W=[350,460,625,840,700,1045,875,375,460,460,610,840,380,475,380,430,715,700,700,700,705,700,700,700,700,700,400,400,840,840,840,615,1060,795,765,750,830,685,685,825,840,375,600,775,640,995,840,850,735,850,770,720,690,815,795,1105,790,775,725,460,430,460,840,560,500,675,720,605,720,680,435,720,715,345,345,665,345,1045,715,690,720,720,495,595,480,715,655,925,645,655,590,715,475,715,840,680,840,1120,560,1000,700,700,680,675,715,690,675], CW={}, SAFE=1.03, i0;
+  for(i0=0;i0<CW_CHARS.length;i0++) CW[CW_CHARS.charAt(i0)]=CW_W[i0]/1000;
+  function tw(s,fs){ s=String(s); var w=0,i; for(i=0;i<s.length;i++) w+=(CW[s.charAt(i)]||0.85); return w*fs*SAFE; }
+  /* the room an option name has: from x=52 to a little short of the chance node's left edge (XC-9.75) */
+  var OPT_X=52, OPT_FS=9.5, OPT_LH=11.5, OPT_MAXW=XC-9.75-4-OPT_X, RIGHT_MAXW=360-2.5-XT;
+  /* shorten with ... until it fits (the very last resort) */
+  function clip(s,fs,maxw){ s=String(s); if(tw(s,fs)<=maxw) return s; while(s.length>1&&tw(s+'\u2026',fs)>maxw) s=s.slice(0,-1).replace(/\s+$/,''); return s+'\u2026'; }
+  /* the type size (never above fs, never below minfs) at which s fits in maxw, and the text to write */
+  function fit(s,fs,minfs,maxw){
+    s=String(s); var f=fs;
+    while(f>minfs&&tw(s,f)>maxw) f=Math.round((f-0.25)*100)/100;
+    return {s:clip(s,f,maxw),fs:f};
+  }
+  /* an option name as one or two lines that fit in maxw: one line if it fits, otherwise the most even split at a space;
+     only if even that is too wide is the type made smaller (to 8) and finally the name shortened */
+  function nameLines(name){
+    var full=String(name).replace(/\s+/g,' ').replace(/^ | $/g,''), words=full.split(' '), f, k, best, a, b, w;
+    for(f=OPT_FS;f>=8;f-=0.5){
+      if(tw(full,f)<=OPT_MAXW) return {lines:[full],fs:f};
+      best=null;
+      for(k=1;k<words.length;k++){
+        a=words.slice(0,k).join(' '); b=words.slice(k).join(' ');
+        w=Math.max(tw(a,f),tw(b,f));
+        if(!best||w<best.w) best={w:w,lines:[a,b]};
+      }
+      if(best&&best.w<=OPT_MAXW) return {lines:best.lines,fs:f};
+    }
+    /* last resort: the best split (or the whole name) at the smallest size, with whatever is still too wide shortened */
+    f=8; best=null;
+    for(k=1;k<words.length;k++){
+      a=words.slice(0,k).join(' '); b=words.slice(k).join(' ');
+      w=Math.max(tw(a,f),tw(b,f));
+      if(!best||w<best.w) best={w:w,lines:[a,b]};
+    }
+    return {lines:(best?best.lines:[full]).map(function(t){ return clip(t,f,OPT_MAXW); }),fs:f};
+  }
+  function badge(x,y,ch){
+    return '<circle cx="'+r1(x)+'" cy="'+r1(y)+'" r="7.5" fill="#f0b429" stroke="'+INK+'" stroke-width="1.2"/>'
+      +'<text x="'+r1(x)+'" y="'+r1(y+3.2)+'" fill="#2a1a00" font-size="9" font-weight="900" text-anchor="middle">'+ch+'</text>';
+  }
+  function layout(sp){
+    var rows=[];
+    sp.options.forEach(function(o,oi){
+      if(o.leaf!=null) rows.push({oi:oi,leaf:true});
+      else o.outs.forEach(function(u,ui){ rows.push({oi:oi,ui:ui}); });
+    });
+    var pitch=(BOT-TOP)/rows.length;
+    rows.forEach(function(r,k){ r.y=TOP+pitch*(k+0.5); });
+    var oy=sp.options.map(function(o,oi){
+      var ys=rows.filter(function(r){return r.oi===oi;}).map(function(r){return r.y;});
+      return (ys[0]+ys[ys.length-1])/2;
+    });
+    return {rows:rows,oy:oy,ry:(oy[0]+oy[oy.length-1])/2};
+  }
+  function draw(sp){
+    var L=layout(sp), s='', texts=[];
+    var lines='', nodes='', labels='';
+    /* root stem and the vertical that joins the options */
+    lines+='<line x1="30" y1="'+r1(L.ry)+'" x2="'+XV+'" y2="'+r1(L.ry)+'" stroke="'+LINE+'" stroke-width="1.8"/>';
+    if(sp.options.length>1) lines+='<line x1="'+XV+'" y1="'+r1(L.oy[0])+'" x2="'+XV+'" y2="'+r1(L.oy[L.oy.length-1])+'" stroke="'+LINE+'" stroke-width="1.8"/>';
+    var marks={};
+    /* where along its branch a probability pill sits (0 = at the node, 1 = at the end). With few rows 0.45 is plenty; with many rows
+       the branches are closer together, so the pills slide further out to keep a gap between neighbouring pills */
+    var tp=Math.max(0.45,Math.min(0.8,16.5/((BOT-TOP)/L.rows.length)));
+    sp.options.forEach(function(o,oi){
+      var y=L.oy[oi];
+      /* the name sits just above its branch, the last (or only) line closest to it; a long name wraps upwards */
+      var nl=(o.leaf!=null)?{lines:[String(o.name)],fs:OPT_FS}:nameLines(o.name);
+      nl.lines.forEach(function(t,li){
+        labels+='<text x="'+OPT_X+'" y="'+r1(y-5-(nl.lines.length-1-li)*OPT_LH)+'" fill="'+NAME+'" font-size="'+nl.fs+'" font-weight="800">'+esc(t)+'</text>';
+      });
+      texts.push(o.name);
+      if(o.leaf!=null){
+        lines+='<line x1="'+XV+'" y1="'+r1(y)+'" x2="'+XE+'" y2="'+r1(y)+'" stroke="'+LINE+'" stroke-width="1.8"/>';
+        nodes+='<circle cx="'+XE+'" cy="'+r1(y)+'" r="2.6" fill="'+LINE+'"/>';
+        var lf=fit(o.leaf,11,8,RIGHT_MAXW);
+        labels+='<text x="'+XT+'" y="'+r1(y+3.5)+'" fill="'+PAY+'" font-size="'+lf.fs+'" font-weight="900">'+esc(lf.s)+'</text>';
+        texts.push(o.leaf);
+        return;
+      }
+      lines+='<line x1="'+XV+'" y1="'+r1(y)+'" x2="'+XC+'" y2="'+r1(y)+'" stroke="'+LINE+'" stroke-width="1.8"/>';
+      if(o.cost){
+        var cf=fit('Cost: '+o.cost,9,7.5,OPT_MAXW);
+        labels+='<text x="'+OPT_X+'" y="'+r1(y+12.5)+'" fill="'+COST+'" font-size="'+cf.fs+'" font-weight="800">'+esc(cf.s)+'</text>';
+        texts.push('Cost: '+o.cost);
+      }
+      o.outs.forEach(function(u,ui){
+        var row=L.rows.filter(function(r){return r.oi===oi&&r.ui===ui;})[0];
+        lines+='<line x1="'+XC+'" y1="'+r1(y)+'" x2="'+XE+'" y2="'+r1(row.y)+'" stroke="'+LINE+'" stroke-width="1.8"/>';
+        nodes+='<circle cx="'+XE+'" cy="'+r1(row.y)+'" r="2.6" fill="'+LINE+'"/>';
+        /* probability pill, sitting on its branch */
+        var px=XC+(XE-XC)*tp, py=y+(row.y-y)*tp, ask=(u.p==='?'), pw=Math.max(22,8+tw(u.p,9.5));
+        nodes+='<rect x="'+r1(px-pw/2)+'" y="'+r1(py-7)+'" width="'+r1(pw)+'" height="14" rx="7" fill="'+INK+'" stroke="'+(ask?ASK:'#3a5078')+'" stroke-width="'+(ask?1.6:1)+'"/>'
+          +'<text x="'+r1(px)+'" y="'+r1(py+3.5)+'" fill="'+(ask?ASK:PROB)+'" font-size="9.5" font-weight="900" text-anchor="middle">'+esc(u.p)+'</text>';
+        texts.push(u.p);
+        var vf=fit(u.v,11,8,RIGHT_MAXW), nf=fit(u.n,9,7,RIGHT_MAXW);
+        labels+='<text x="'+XT+'" y="'+r1(row.y-1)+'" fill="'+PAY+'" font-size="'+vf.fs+'" font-weight="900">'+esc(vf.s)+'</text>'
+          +'<text x="'+XT+'" y="'+r1(row.y+10.5)+'" fill="'+MUT+'" font-size="'+nf.fs+'" font-weight="600">'+esc(nf.s)+'</text>';
+        texts.push(u.v,u.n);
+        if(oi===0&&ui===0){
+          marks.C={x:px,y:py-21};
+          marks.D={x:XT+tw(vf.s,vf.fs)+14.5,y:row.y-7};   /* just after the pay-off, and high enough to clear the label underneath it */
+          if(marks.D.x>360-2.5-8.1) marks.D={x:XT+8.5,y:row.y-21};   /* a very wide pay-off leaves no room beside it: sit above it instead */
+        }
+      });
+      if(oi===0) marks.B={x:XC,y:y-21};
+    });
+    /* nodes drawn last so the branches meet them cleanly */
+    nodes+='<rect x="'+(XR-8)+'" y="'+r1(L.ry-8)+'" width="16" height="16" rx="2.5" fill="'+DEC+'" stroke="'+INK+'" stroke-width="1.5"/>';
+    sp.options.forEach(function(o,oi){
+      if(o.leaf==null) nodes+='<circle cx="'+XC+'" cy="'+r1(L.oy[oi])+'" r="9" fill="'+CH+'" stroke="'+INK+'" stroke-width="1.5"/>';
+    });
+    var b='';
+    if(sp.marks){
+      marks.A={x:XR,y:L.ry-21};
+      ['A','B','C','D'].forEach(function(ch){ b+=badge(marks[ch].x,marks[ch].y,ch); });
+    }
+    var title='<title>'+esc('Decision tree. '+texts.join(', '))+'</title>';
+    return title+lines+nodes+labels+b;
+  }
+  return {
+    has:function(k){ return Object.prototype.hasOwnProperty.call(TREES,k); },
+    svg:function(k){ return draw(TREES[k]); },
+    cap:function(k){ return TREES[k].cap||DEFAULT_CAP; },
+    trees:TREES
+  };
+})();
+
 function graphSVG(key,q){   /* q (optional): the question being drawn, for diagrams that carry its own figures */
   function wrap(inner,cap){
     return '<div class="gwrap" style="background:#16243f;border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 12px 8px;margin-bottom:18px;">'
@@ -5384,6 +5661,7 @@ function graphSVG(key,q){   /* q (optional): the question being drawn, for diagr
     +'<text x="350" y="200" fill="#9fb0d0" font-size="9" font-weight="700">Q</text>'
     +'<text x="40" y="208" fill="#7a90b8" font-size="7.5" text-anchor="middle">0</text>';
 
+  if(typeof BM_DT!=='undefined'&&BM_DT.has(key)) return wrap(BM_DT.svg(key),BM_DT.cap(key));
   if(key==='beChart1'){
     /* Basic break-even chart: FC=$400, SP=$20/unit, VC=$10/unit -> BEQ=40 units.
        Geometry computed directly from these figures (not eyeballed), and the
@@ -7302,6 +7580,7 @@ function showDuelResult(d){
   CHALLENGE.myFinished=true;CHALLENGE.oppFinished=true;
   CHALLENGE.stealApplied=true;
   CHALLENGE.stealMsg=buildStealMsg(d);
+  DUEL_COUNT.t=0; DUEL_COUNT.failAt=0;   /* this duel is now counted: ask again next time the landing page is drawn */
   S.gold=d.gold;saveProgress();
   sw('challenge'); rChallengeResults();
 }
@@ -8236,6 +8515,53 @@ var BM_D=[
     {tp:'calc',lb:'Calculate and choose',q:'What is the Gearing Ratio?',f:[['Non-current Liabilities','$120,000'],['Equity','$180,000']],o:['33%','60%','67%','40%'],a:3},
     {tp:'mc',lb:'Choose the correct answer',q:'Business X has a gearing ratio of 40%. Business Y has a gearing ratio of 75%. Which business faces greater financial risk from its capital structure?',o:['Business X, since a lower proportion of its capital employed is financed by long-term debt','Business X, since it has a lower gearing ratio and therefore needs to pay more interest on its borrowing','Business Y, since a higher proportion of its capital employed is financed by long-term debt','Neither, since gearing ratio measures profitability and has no link to financial risk from borrowing'],a:2},
     {tp:'mc',lb:'Choose the correct answer',q:'A business has high stock turnover in days (stock is held for a long time), pays its creditors quickly (low creditor days), but its customers are slow to pay (high debtor days). What does this combination most likely create for the business?',o:['Pressure on its cash flow, since cash is tied up in stock and owed by customers while it must pay out to suppliers quickly','Higher short-term profitability, since holding more stock and offering generous credit terms to customers is likely to increase sales','Strong cash flow, since cash is received quickly from customers while suppliers can be paid later','A very low gearing ratio, since the cash tied up in stock and debtors is financed entirely by shareholders'],a:0}
+  ]},
+  {id:'dt-what-is-a-decision-tree',t:'What is a Decision Tree?',ic:'🌳',mod:'dt',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'What is a decision tree?',o:['A chart that shows the levels of authority in a business, from the top manager down to the operational staff','A graph that shows the output at which total revenue equals total costs, so the business makes neither a profit nor a loss','A forecast that shows the cash coming into and going out of a business each month, together with its closing balance','A diagram that sets out the choices open to a business, the possible outcomes of each, and their likelihood and financial results'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'What does the square labelled A on the decision tree represent?',g:'dtParts',o:['A decision node, where managers must choose between options','A chance node, where an uncertain event leads to different outcomes','A pay-off, the financial result shown at the end of a branch','A probability, showing how likely one of the outcomes is'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'What does the circle labelled B on the decision tree represent?',g:'dtParts',o:['A chance node, where the result depends on uncertain events','A decision node, where managers must choose between options','An option cost, the money spent to carry out a decision','An expected value, the weighted average of all the outcomes'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which letter on the decision tree marks a pay-off?',g:'dtParts',o:['Letter A','Letter D','Letter B','Letter C'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A business can build a new factory or expand its existing one, and each choice could lead to high or low demand. Why would a manager draw a decision tree?',o:['To compare the likely financial results of the two options, taking the chance of each outcome into account','To find the output at which the business would cover all of its costs under either of the two options','To record the cash the business expects to receive and to pay out in each month of the coming year','To work out what proportion of the business is financed by long-term borrowing under each option'],a:0}
+  ]},
+  {id:'dt-probabilities-and-payoffs',t:'Probabilities and Pay-offs',ic:'🎲',mod:'dt',qs:[
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'The probabilities on the branches leaving one chance node must add up to _____ (when written as decimals).',o:['0.5','10','1','0'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'A branch on a decision tree is labelled 0.25. What does this mean?',o:['There is a 1 in 4 chance that this outcome will happen','The pay-off from this outcome will be 25% of the cost of the option','There is a 3 in 4 chance that this outcome will happen','The business can expect to gain 25% on the money it spends'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the probability of low demand, shown by the question mark?',g:'dtP1',f:[['Probability of high demand','0.65']],o:['0.45','0.35','0.65','0.25'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'A business is launching a new product. There are three possible outcomes: strong sales, average sales or weak sales. The probabilities of the first two are shown below. What is the probability of weak sales?',f:[['Probability of strong sales','0.50'],['Probability of average sales','0.30']],o:['0.80','0.20','0.30','0.15'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'If the business chooses to launch the product, which outcome is the most likely to happen?',g:'dtP2',o:['Strong sales, because its pay-off of $120,000 is the highest of the three','Weak sales, because its pay-off of $20,000 is the lowest of the three','Average sales, because its probability of 0.5 is the highest of the three','All three are equally likely, because the probabilities add up to 1'],a:2}
+  ]},
+  {id:'dt-expected-value',t:'Expected Value',ic:'🧮',mod:'dt',qs:[
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'Expected Value = the sum of (probability × _____) for each outcome.',o:['cost','pay-off','net gain','selling price'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the expected value of launching the product?',g:'dtEV1',f:[['Probability of success','0.6'],['Pay-off if successful','$50,000'],['Probability of partial success','0.4'],['Pay-off if partly successful','$20,000']],o:['$70,000','$35,000','$30,000','$38,000'],a:3},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the expected value of this option?',f:[['Strong sales','0.5 chance of $80,000'],['Average sales','0.3 chance of $40,000'],['Weak sales','0.2 chance of $10,000']],o:['$130,000','$54,000','$40,000','$62,000'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the expected value of launching the product?',g:'dtEV2',f:[['Probability of success','0.75'],['Pay-off if successful','$80,000'],['Probability of failure','0.25'],['Pay-off if it fails','−$20,000']],o:['$65,000','$60,000','$55,000','$30,000'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'What does the expected value of an option tell the managers?',o:['The pay-off that the business is certain to receive if it chooses that option','The highest pay-off that the business could possibly receive from that option','The total amount of money that the business must spend to carry out that option','The average pay-off they could expect if the same decision were made many times'],a:3}
+  ]},
+  {id:'dt-net-gain-and-best-option',t:'Net Gain and Choosing an Option',ic:'⚖️',mod:'dt',qs:[
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'Net Gain = Expected Value − _____',o:['the cost of the option','the probability of success','the highest pay-off','the lowest pay-off'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the net gain of this option?',f:[['Expected value','$64,000'],['Cost of the option','$25,000']],o:['$89,000','$64,000','$39,000','$25,000'],a:2},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the net gain of launching the new product?',g:'dtNG1',f:[['Cost of launching','$40,000']],o:['$75,000','$35,000','$115,000','$40,000'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'Based on net gain alone, which option should the business choose?',g:'dtNG2',o:['Option A, because its net gain of $52,000 is higher than Option B’s net gain of $45,000','Option B, because its expected value of $95,000 is higher than Option A’s expected value of $72,000','Option B, because its highest pay-off of $150,000 is higher than any pay-off from Option A','Option A, because its cost of $20,000 is lower, so it must be the more profitable option'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'An option has a net gain of −$8,000. What does this suggest?',o:['The option will certainly lose the business $8,000, whichever of the possible outcomes happens','The option has the highest expected value of all the options that are available','On average its pay-offs do not cover its cost, so financially it is not worth choosing','The option should be chosen, because every one of its possible pay-offs is above its cost'],a:2}
+  ]},
+  {id:'dt-advantages-and-limitations',t:'Advantages and Limitations',ic:'🔍',mod:'dt',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of these is an ADVANTAGE of using a decision tree?',o:['It guarantees that the option with the highest net gain will be the one that succeeds in practice','It removes the risk from the decision, because every possible outcome has already been considered','It sets out the options and possible outcomes clearly, helping managers compare their choices logically','It replaces the need for managers to use their own judgement, experience or knowledge of the market'],a:2},
+    {tp:'sort',lb:'Drag to sort',q:'Advantages and Limitations — Decision Trees',cols:['Advantages','Limitations'],tiles:[
+      ['Puts numbers on the risk of each option, so that costs and benefits can be compared',0],
+      ['Lays out the choices and outcomes visually, so the decision is easy to explain',0],
+      ['The probabilities and pay-offs are only estimates, so the results may be unreliable',1],
+      ['Ignores qualitative factors such as employee morale or the firm’s reputation',1]
+    ]},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'Because the probabilities and pay-offs in a decision tree are _____, the final net gain figures may not be accurate.',o:['guarantees','audited figures','legal limits','estimates'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'The managers are very keen on one project and give its successful outcome a probability that is too high. What is the most likely effect?',o:['The cost of that option rises, which reduces its net gain compared with the other options','The decision tree becomes more accurate, because the managers know most about their favourite project','The expected values of the other options all fall, because probabilities are shared across the whole tree','The expected value of that option is overstated, which could lead the business to make a poor decision'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following would a decision tree NOT usually take into account?',o:['The estimated cost of carrying out each one of the options that are being compared','The effect of the decision on the firm’s reputation and on employee morale','The estimated chance that each of the possible outcomes will actually happen','The estimated financial return from each of the possible outcomes of an option'],a:1}
+  ]},
+  {id:'dt-decision-trees-challenge',t:'Decision Trees Challenge',ic:'🏆',mod:'dt',qs:[
+    {tp:'calc',lb:'Calculate and choose',q:'What is the expected value of Option A, opening a second café?',g:'dtC',f:[['Option A cost','$50,000']],o:['$112,000','$290,000','$62,000','$108,000'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the expected value of Option B, refurbishing the café?',g:'dtC',f:[['Option B cost','$20,000']],o:['$120,000','$48,000','$68,000','$60,000'],a:2},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the net gain of Option A?',g:'dtC',f:[['Expected value of Option A','$112,000'],['Cost of Option A','$50,000']],o:['$62,000','$162,000','$112,000','$50,000'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Based on net gain alone, which option should the business choose?',g:'dtC',o:['Option B, because its cost of $20,000 is lower than the $50,000 cost of Option A','Option B, because high demand is more likely for it (0.7) than for Option A (0.4)','Neither option, because the lowest pay-off of Option A is less than its own cost','Option A, because its net gain of $62,000 is higher than Option B’s net gain of $48,000'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'Why might the managers still choose Option B, even though Option A has the higher net gain?',g:'dtC',o:['Option B has the higher expected value, so it must be the better choice whatever the risks involved in choosing Option A','The probabilities on Option B’s branches are exact, whereas those on Option A’s branches are only rough guesses','Option B’s net gain of $48,000 is higher than Option A’s net gain of $62,000 once the costs of both are taken into account','Option A could make a loss, as its lowest pay-off of $20,000 is below its $50,000 cost; Option B always covers its cost'],a:3}
   ]}
 ];
 
@@ -8252,6 +8578,7 @@ var BM_OS_START=40, BM_OS_END=47; /* BM_D[40]–BM_D[47] — Organizational Stru
 var BM_LM_START=48, BM_LM_END=52; /* BM_D[48]–BM_D[52] — Leadership and Management */
 var BM_MO_START=53, BM_MO_END=57; /* BM_D[53]–BM_D[57] — Motivation and Demotivation */
 var BM_EG_START=58, BM_EG_END=62; /* BM_D[58]–BM_D[62] — Efficiency & Gearing Ratios (HL) */
+var BM_DT_START=63, BM_DT_END=68; /* BM_D[63]–BM_D[68] — Decision Trees (Business Management Toolkit) */
 
 /* ===================== SPEED ROUND DATA ===================== */
 var BM_BS_SECTIONS=['Non-current Assets','Current Assets','Current Liabilities','Non-current Liabilities','Equity'];
@@ -8824,6 +9151,48 @@ BM_HINTS[62]=[
     ['A higher gearing ratio means a bigger share of financing comes from long-term debt.','Business Y\'s 75% means more of its capital employed is borrowed, so it carries greater financial risk than Business X\'s 40%.'],
     ['Picture the cash flowing in and out: slow to come in from customers, but paid out quickly to suppliers.','Cash tied up in stock and owed by customers, combined with paying suppliers quickly, puts real pressure on cash flow.']
   ];
+BM_HINTS[63]=[
+    ['Think about what a “tree” of choices would need to show: the options, what might happen, and how likely each result is.','A decision tree maps options → possible outcomes → probabilities and pay-offs, so that the choices can be compared.'],
+    ['Look at the shape: squares and circles mean different things in a decision tree.','A square is a decision node: the point where managers choose which branch to follow.'],
+    ['A circle is not a choice that the managers make.','A circle is a chance node: which branch happens next depends on probabilities, not on the manager.'],
+    ['A pay-off is the financial result of an outcome, so look for a money figure at the very end of a branch.','Letter C is a probability (a decimal on a branch). Letter D is the dollar figure at the end of the branch.'],
+    ['The business has two options and each has uncertain outcomes, so the manager needs a way to compare them.','A decision tree weighs up the likely financial result of each option using probabilities; the other tools measure different things.']
+  ];
+BM_HINTS[64]=[
+    ['The branches leaving a chance node cover every possible outcome.','Between them they must account for every possibility: the probabilities add up to 1 (or 100%).'],
+    ['A probability written as a decimal can be turned into a fraction or a percentage.','0.25 = 25% = 1 in 4.'],
+    ['The probabilities leaving one chance node add up to 1.','1 − 0.65 = ?'],
+    ['The three probabilities must add up to 1.','1 − (0.50 + 0.30) = ?'],
+    ['Likelihood (probability) and size (pay-off) are different things, and the question asks about likelihood.','Find the branch with the highest probability, not the one with the biggest pay-off.']
+  ];
+BM_HINTS[65]=[
+    ['Expected value weights each outcome by how likely it is.','Multiply each probability by its pay-off, then add the results together.'],
+    ['Multiply each pay-off by its probability, then add the results.','(0.6 × $50,000) + (0.4 × $20,000) = ?'],
+    ['Work out probability × pay-off for all three outcomes, then add them up.','(0.5 × $80,000) + (0.3 × $40,000) + (0.2 × $10,000) = ?'],
+    ['A loss is a negative pay-off, so its probability × pay-off is negative too.','(0.75 × $80,000) + (0.25 × −$20,000) = $60,000 − $5,000 = ?'],
+    ['Expected value is a weighted average, not a promise.','It is the average result over many repeats of the decision; in practice only one outcome actually happens.']
+  ];
+BM_HINTS[66]=[
+    ['Net gain tells you whether the expected return is worth the money that has to be spent.','Net Gain = Expected Value − the cost of the option.'],
+    ['Net Gain = Expected Value − the cost of the option.','$64,000 − $25,000 = ?'],
+    ['Step 1: find the expected value of the option. Step 2: subtract its cost.','Expected value = (0.5 × $120,000) + (0.5 × $30,000) = $75,000. Now subtract the cost.'],
+    ['Work out the net gain of EACH option before you compare them.','Option A: expected value $72,000, cost $20,000. Option B: expected value $95,000, cost $50,000. Subtract each cost, then compare.'],
+    ['Compare the net gain with doing nothing, which would be $0.','A negative net gain means that, on average, the pay-offs do not even cover the cost of the option.']
+  ];
+BM_HINTS[67]=[
+    ['Think about what a diagram of options and outcomes does well.','It presents the choices clearly and puts numbers on the risk, but it cannot guarantee results or replace judgement.'],
+    ['Advantages are strengths of the tool; limitations are its weaknesses.','Quantifying risk and a clear layout are advantages. Relying on estimates and leaving out qualitative factors are limitations.'],
+    ['Think about where the probabilities and pay-offs in a tree come from.','They are the managers’ own estimates or forecasts, so the results are only as reliable as those estimates.'],
+    ['If a probability is too high, what happens to probability × pay-off for that outcome?','The expected value gets inflated, so the option can look better than it really is.'],
+    ['A decision tree works with numbers and money.','It leaves out qualitative factors such as reputation, morale or ethics, which managers must weigh up separately.']
+  ];
+BM_HINTS[68]=[
+    ['Multiply each probability by its pay-off, then add all three results.','(0.4 × $180,000) + (0.4 × $90,000) + (0.2 × $20,000) = ?'],
+    ['Use the same method for Option B, which has two outcomes.','(0.7 × $80,000) + (0.3 × $40,000) = ?'],
+    ['Net Gain = Expected Value − the cost of the option.','Start from the expected value of Option A, then subtract its cost of $50,000.'],
+    ['Work out both net gains. Option B’s is its expected value less its $20,000 cost.','Option A’s net gain is $62,000. Option B’s is $68,000 − $20,000. Choose the higher one.'],
+    ['Think about risk: could either option lose money?','Compare each option’s lowest pay-off with its own cost. Option A: $20,000 against $50,000. Option B: $40,000 against $20,000.']
+  ];
 
 /* ===================== STATE ===================== */
 var BM_S={
@@ -8857,7 +9226,8 @@ var BM_MODULES=[
   {key:'hr',unit:'Human Resources',syl:'2.1',title:'Introduction to HRM',emoji:'👥',tag:'👥 Introduction to HRM','cls':'mod-hr',col:'#ff6fa8',idx:[35,36,37,38,39],level:'SL'},
   {key:'os',unit:'Human Resources',syl:'2.2',title:'Organizational Structure',emoji:'🏢',tag:'🏢 Organizational Structure','cls':'mod-os',col:'#c9a876',idx:[40,41,42,43,44,45,46,47],level:'SL'},
   {key:'lm',unit:'Human Resources',syl:'2.3',title:'Leadership and Management',emoji:'🧭',tag:'🧭 Leadership and Management','cls':'mod-lm',col:'#5ec8f0',idx:[48,49,50,51,52],level:'SL'},
-  {key:'mo',unit:'Human Resources',syl:'2.4',title:'Motivation and Demotivation',emoji:'💪',tag:'💪 Motivation and Demotivation','cls':'mod-mo',col:'#ffb86b',idx:[53,54,55,56,57],level:'SL'}
+  {key:'mo',unit:'Human Resources',syl:'2.4',title:'Motivation and Demotivation',emoji:'💪',tag:'💪 Motivation and Demotivation','cls':'mod-mo',col:'#ffb86b',idx:[53,54,55,56,57],level:'SL'},
+  {key:'dt',unit:'Business Management Toolkit (BMT)',title:'Decision Trees',emoji:'🌳',tag:'🌳 Decision Trees','cls':'mod-dt',col:'#a3e635',idx:[63,64,65,66,67,68],level:'SL'}
 ];
 
 /* Unlock logic — each module independent */
@@ -8870,7 +9240,7 @@ function bmLmSpeedUnlocked(){ return bmPerf('lm-situational-leadership')&&bmPerf
 
 /* Within-module unlock: lesson i is unlocked if it's the module's first lesson, or prev is done */
 function bmLesUnlocked(i){
-  if(i===BM_FA_START||i===BM_RA_START||i===BM_BE_START||i===BM_LN_START||i===BM_OM_START||i===BM_IO_START||i===BM_CF_START||i===BM_HR_START||i===BM_OS_START||i===BM_LM_START||i===BM_MO_START||i===BM_EG_START) return true;
+  if(i===BM_FA_START||i===BM_RA_START||i===BM_BE_START||i===BM_LN_START||i===BM_OM_START||i===BM_IO_START||i===BM_CF_START||i===BM_HR_START||i===BM_OS_START||i===BM_LM_START||i===BM_MO_START||i===BM_EG_START||i===BM_DT_START) return true;
   /* Must be same module and previous lesson complete */
   if(i>BM_FA_START && i<=BM_FA_END) return BM_S.dn.has(i-1);
   if(i>BM_RA_START && i<=BM_RA_END) return BM_S.dn.has(i-1);
@@ -8884,6 +9254,7 @@ function bmLesUnlocked(i){
   if(i>BM_LM_START && i<=BM_LM_END) return BM_S.dn.has(i-1);
   if(i>BM_MO_START && i<=BM_MO_END) return BM_S.dn.has(i-1);
   if(i>BM_EG_START && i<=BM_EG_END) return BM_S.dn.has(i-1);
+  if(i>BM_DT_START && i<=BM_DT_END) return BM_S.dn.has(i-1);
   return false;
 }
 
@@ -9351,12 +9722,12 @@ function bmRHub(){
       return '<button class="hub-tile '+(m.level==='HL'?'hl':'sl')+'" onclick="bmOpenModule(\''+m.key+'\')" style="position:relative;grid-column:1 / -1;display:flex;flex-direction:column;text-align:left;cursor:pointer;font-family:inherit;background:#fff;border:2.5px solid #f0b429;border-radius:20px;padding:22px 26px;">'
         +gemBadgeFull
         +'<div style="font-size:16px;font-style:italic;font-weight:600;color:'+MUT+';margin-bottom:14px;">Unit: '+(m.unit||'Finance & Accounts')+(m.syl?' \u00b7 '+m.syl:'')+'</div>'
-        +'<div style="display:flex;align-items:center;gap:22px;">'
-        +'<div style="width:70px;height:70px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;background:'+chipBg2+';">'+(m.chip||m.emoji)+'</div>'
+        +'<div class="hf-row" style="display:flex;align-items:center;gap:22px;">'
+        +'<div class="hf-chip" style="width:70px;height:70px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;background:'+chipBg2+';">'+(m.chip||m.emoji)+'</div>'
         +ring(col,pct,96)
         +'<div style="min-width:0;">'
-        +'<div style="font-size:30px;font-weight:800;color:'+INK+';line-height:1.2;">'+m.title+'</div>'
-        +'<div style="font-size:23px;font-weight:800;color:'+col+';margin-top:7px;">'+m.level+' · '+status+'</div>'
+        +'<div class="hf-title" style="font-size:30px;font-weight:800;color:'+INK+';line-height:1.2;">'+m.title+'</div>'
+        +'<div class="hf-sub" style="font-size:23px;font-weight:800;color:'+col+';margin-top:7px;">'+m.level+' · '+status+'</div>'
         +'</div></div></button>';
     }
     var chipBg=(m.level==='HL')?'rgba(180,83,9,.10)':'rgba(15,118,110,.10)';
@@ -9452,8 +9823,8 @@ function bmRHub(){
   bmLoadLeaderboardTile();
 }
 /* Fills in the BM leaderboard tile's skeleton once its data is ready — exact
-   mirror of loadLeaderboardTile() (same narrow +/-window-around-me privacy
-   design, same markup), just pointed at get_bm_leaderboard_window and
+   mirror of loadLeaderboardTile() (same scrolling list that opens on the
+   student's own place, same markup), just pointed at get_bm_leaderboard_window and
    bm-leaderboard-inner so it's a completely independent ranking from the
    Economics leaderboard, same as the coin tallies it's built on. */
 function bmLoadLeaderboardTile(){
@@ -9467,7 +9838,7 @@ function bmLoadLeaderboardTile(){
       +'<button onclick="gLogin()" style="font-family:inherit;font-size:15px;font-weight:800;padding:10px 16px;border:none;border-radius:10px;background:#0f766e;color:#fff;cursor:pointer;">Sign in</button>';
     return;
   }
-  sb.rpc('get_bm_leaderboard_window',{window_size:3}).then(function(r){
+  sb.rpc('get_bm_leaderboard_window',{window_size:LB_WINDOW}).then(function(r){
     if(!r||r.error||!r.data||!r.data.length){
       el.innerHTML=head('0')
         +'<div style="font-size:14px;color:'+MUT+';margin-top:10px;">Play a few lessons to join the leaderboard.</div>';
@@ -9480,13 +9851,14 @@ function bmLoadLeaderboardTile(){
       var col=isMe?'#993C1D':'#182234';
       var rowStyle=isMe?'background:#FAECE7;border-radius:10px;padding:9px 10px;':'border-bottom:0.5px solid #f0f0ee;padding:9px 0;';
       var name=isMe?'You':escHtml(row.display_name);
-      return '<div style="display:flex;align-items:center;gap:12px;'+rowStyle+'">'
+      return '<div'+(isMe?' data-me="1"':'')+' style="display:flex;align-items:center;gap:12px;'+rowStyle+'">'
         +'<span style="flex-shrink:0;width:30px;height:30px;border-radius:50%;background:'+badgeBg+';color:'+badgeCol+';font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;">'+row.rank+'</span>'
         +'<span style="flex:1;font-size:19px;font-weight:700;color:'+col+';overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+name+'</span>'
         +'<span style="font-size:19px;font-weight:700;color:'+col+';white-space:nowrap;">'+coin+' '+(row.gold|0)+'</span>'
         +'</div>';
     }).join('');
-    el.innerHTML=head('16px')+rows;
+    el.innerHTML=head('16px')+lbListHTML(rows);
+    lbWire(el);
   },function(){
     el.innerHTML=head('0')
       +'<div style="font-size:14px;color:'+MUT+';margin-top:10px;">Couldn’t load the leaderboard right now.</div>';
@@ -9618,11 +9990,11 @@ function bmRHome(){
   function makeRow(di, accentCol){
     var l=BM_D[di];
     var dn=BM_S.dn.has(di), un=bmLesUnlocked(di), perf=BM_S.perfect.has(di);
-    var isLast=(di===BM_FA_END||di===BM_RA_END||di===BM_BE_END||di===BM_LN_END||di===BM_OM_END||di===BM_IO_END||di===BM_CF_END||di===BM_HR_END||di===BM_OS_END||di===BM_LM_END||di===BM_MO_END||di===BM_EG_END);
-    var localNum=(di-(di<=BM_FA_END?BM_FA_START:di<=BM_RA_END?BM_RA_START:di<=BM_BE_END?BM_BE_START:di<=BM_LN_END?BM_LN_START:di<=BM_OM_END?BM_OM_START:di<=BM_IO_END?BM_IO_START:di<=BM_CF_END?BM_CF_START:di<=BM_HR_END?BM_HR_START:di<=BM_OS_END?BM_OS_START:di<=BM_LM_END?BM_LM_START:di<=BM_MO_END?BM_MO_START:BM_EG_START))+1;
+    var isLast=(di===BM_FA_END||di===BM_RA_END||di===BM_BE_END||di===BM_LN_END||di===BM_OM_END||di===BM_IO_END||di===BM_CF_END||di===BM_HR_END||di===BM_OS_END||di===BM_LM_END||di===BM_MO_END||di===BM_EG_END||di===BM_DT_END);
+    var localNum=(di-(di<=BM_FA_END?BM_FA_START:di<=BM_RA_END?BM_RA_START:di<=BM_BE_END?BM_BE_START:di<=BM_LN_END?BM_LN_START:di<=BM_OM_END?BM_OM_START:di<=BM_IO_END?BM_IO_START:di<=BM_CF_END?BM_CF_START:di<=BM_HR_END?BM_HR_START:di<=BM_OS_END?BM_OS_START:di<=BM_LM_END?BM_LM_START:di<=BM_MO_END?BM_MO_START:di<=BM_EG_END?BM_EG_START:BM_DT_START))+1;
     var isSort=l.qs.length>0&&l.qs[0].tp==='sort';
 
-    var ico=dn?(perf?'🌟':'✅'):un?l.ic:'🔒';
+    var ico=dn?(perf?'🌟':'✅'):un?l.ic:'<span class="lk-ic">🔒</span>';
     var icoBg=isSort?(dn?'rgba(0,196,167,.18)':'rgba(0,0,0,.05)'):(dn?'rgba(0,196,167,.2)':un?'rgba(255,255,255,.08)':'rgba(255,255,255,.04)');
     var border=isSort?(dn?(perf?'#f0b429':'#00a389'):'rgba(0,0,0,.15)'):(dn?'rgba(0,196,167,.35)':un?'rgba(255,255,255,.12)':'rgba(255,255,255,.04)');
     var bg=isSort?'#ffffff':(dn?'rgba(0,196,167,.06)':un?'#152038':'rgba(255,255,255,.015)');
@@ -9636,7 +10008,7 @@ function bmRHome(){
     if(dn) badge=perf
       ?'<span style="font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px;background:rgba(240,180,41,.18);color:#f0b429;white-space:nowrap;">★ Perfect</span>'
       :'<span style="font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px;background:rgba(0,196,167,.18);color:#00c4a7;white-space:nowrap;">✓ Done</span>';
-    else if(!un) badge='<span style="font-size:16px;opacity:.5;">🔒</span>';
+    else if(!un) badge='<span style="font-size:32px;line-height:1;opacity:.5;">🔒</span>';
 
     /* connector dot — coloured left bar */
     var dot=un||dn
@@ -9650,18 +10022,19 @@ function bmRHome(){
       if(dn) badge=perf
         ?'<span style="font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px;background:#2e1d00;color:#ffe97a;white-space:nowrap;">★ Perfect</span>'
         :'<span style="font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px;background:rgba(46,29,0,.16);color:#2e1d00;white-space:nowrap;">✓ Done</span>';
-      else if(!un) badge='<span style="font-size:16px;opacity:.75;">🔒</span>';
+      else if(!un) badge='<span style="font-size:32px;line-height:1;opacity:.75;">🔒</span>';
     }
     return dot
-      +'<div '+oc+' style="flex:1;display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:13px;'
+      +'<div '+oc+(isLast?' class="ff-row"':'')+' style="flex:1;display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:13px;'
       +'background:'+bg+';border:1.5px solid '+border+';cursor:'+cursor+';transition:all .15s;opacity:'+op+';" '
       +(un&&!dn?'onmouseenter="this.style.borderColor=\''+(isLast?'#8a5f00':accentCol)+'\'" onmouseleave="this.style.borderColor=\''+border+'\'"':'')+' >'
       +'<div style="width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:'+icoBg+';">'+ico+'</div>'
       +'<div style="flex:1;min-width:0;">'
-      +'<div style="font-size:14px;font-weight:700;color:'+tc+';line-height:1.3;">'+'Lesson '+localNum+': '+l.t+(isLast?' 🏁':'')+'</div>'
+      +'<div style="font-size:14px;font-weight:700;color:'+tc+';line-height:1.3;">'+'Lesson '+localNum+': '+l.t+'</div>'
       +'<div style="font-size:11px;color:'+subc+';margin-top:1px;">'+l.qs.length+' questions'+(isSort&&l.sortTopic?' ('+l.sortTopic+')':'')+'</div>'
       +'</div>'
-      +badge
+      +(isLast?finishFlagHTML():'')
+      +(isLast&&badge?'<div class="ff-badge'+((!un&&!dn)?' ff-lockb':'')+'">'+badge+'</div>':badge)
       +'</div>';
   }
 
@@ -9689,7 +10062,7 @@ function bmRHome(){
     var border=unlocked?'rgba(240,180,41,.3)':'rgba(255,255,255,.05)';
     var bg=unlocked?'rgba(240,180,41,.06)':'rgba(255,255,255,.015)';
     var tc=unlocked?'#f0b429':'#3a5078';
-    var ico=unlocked?'⚡':'🔒';
+    var ico=unlocked?'⚡':'<span class="lk-ic lk-sm">🔒</span>';
     var icoBg=unlocked?'rgba(240,180,41,.18)':'rgba(255,255,255,.04)';
     return '<div style="margin-left:15px;margin-bottom:8px;">'
       +'<div '+oc+' style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;'
@@ -9825,12 +10198,18 @@ function bmRHome(){
     []
   );
 
+  var dtSection=makeModule(
+    'Decision Trees','🌳 Decision Trees','mod-dt',
+    [63,64,65,66,67,68],'#a3e635',
+    []
+  );
+
   var modInfo=BM_MODULES.find(function(m){return m.key===BM_S.curMod;})||BM_MODULES[0];
   document.getElementById('bm-sc-home').innerHTML=
     '<div style="padding-top:10px;padding-bottom:30px;">'
     +'<button onclick="bmGoHub()" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.16);color:#c0cfe8;font-size:13px;font-weight:800;cursor:pointer;padding:9px 15px;border-radius:11px;font-family:inherit;margin-bottom:14px;">☰ All Business Management Modules</button>'
     +'<div style="display:flex;justify-content:flex-end;margin-bottom:14px;"><div class="coin-pill">'+bmCoinPillHTML()+'</div></div>'
-    +({fa:faSection,ra:raSection,eg:egSection,be:beSection,ln:lnSection,om:omSection,io:ioSection,cf:cfSection,hr:hrSection,os:osSection,lm:lmSection,mo:moSection}[BM_S.curMod]||faSection)
+    +({fa:faSection,ra:raSection,eg:egSection,be:beSection,ln:lnSection,om:omSection,io:ioSection,cf:cfSection,hr:hrSection,os:osSection,lm:lmSection,mo:moSection,dt:dtSection}[BM_S.curMod]||faSection)
     +'<div style="text-align:center;margin-top:8px;padding-bottom:10px;">'
     +'<button onclick="bmResetProgress()" style="background:none;border:none;color:#3a5078;font-size:11px;font-family:inherit;cursor:pointer;padding:6px 12px;border-radius:8px;" onmouseenter="this.style.color=\'#7a90b8\'" onmouseleave="this.style.color=\'#3a5078\'">↺ Reset all progress</button>'
     +'</div>'
@@ -9882,7 +10261,7 @@ function bmRGame(){
     }).join('');
     var qLabel='<div style="font-size:18px;font-weight:700;color:#fff;line-height:1.5;margin-bottom:18px;">'+q.q+'</div>';
     qH=wideQ
-      ?'<div class="game-cols"><div class="gpane">'+graph+cb+'</div><div class="qpane">'+qLabel+'<div class="opts">'+opts+'</div></div></div>'
+      ?'<div class="game-cols"><div class="gpane">'+graph+cb+'</div><div class="qpane">'+qLabel+'<div class="opts">'+opts+'</div>'+(live?bmHintHTML(q):'')+'</div></div>'
       :qLabel+cb+opts;
   }
   if(q.tp==='blank'){
@@ -10171,7 +10550,7 @@ function bmRRes(){
 
   /* Next lesson within same module */
   var nx=BM_S.les+1;
-  var hasNx=(mod==='fa'&&nx<=BM_FA_END)||(mod==='ra'&&nx<=BM_RA_END)||(mod==='be'&&nx<=BM_BE_END)||(mod==='ln'&&nx<=BM_LN_END)||(mod==='om'&&nx<=BM_OM_END)||(mod==='io'&&nx<=BM_IO_END)||(mod==='cf'&&nx<=BM_CF_END)||(mod==='hr'&&nx<=BM_HR_END)||(mod==='os'&&nx<=BM_OS_END)||(mod==='lm'&&nx<=BM_LM_END)||(mod==='mo'&&nx<=BM_MO_END)||(mod==='eg'&&nx<=BM_EG_END);
+  var hasNx=(mod==='fa'&&nx<=BM_FA_END)||(mod==='ra'&&nx<=BM_RA_END)||(mod==='be'&&nx<=BM_BE_END)||(mod==='ln'&&nx<=BM_LN_END)||(mod==='om'&&nx<=BM_OM_END)||(mod==='io'&&nx<=BM_IO_END)||(mod==='cf'&&nx<=BM_CF_END)||(mod==='hr'&&nx<=BM_HR_END)||(mod==='os'&&nx<=BM_OS_END)||(mod==='lm'&&nx<=BM_LM_END)||(mod==='mo'&&nx<=BM_MO_END)||(mod==='eg'&&nx<=BM_EG_END)||(mod==='dt'&&nx<=BM_DT_END);
 
   /* Bonus unlock banners */
   var banners='';
@@ -10776,7 +11155,7 @@ function bmTileCells(){
   BM_SHEETS.forEach(function(s){
     var isDone=done.indexOf(s.n)>=0, open=(s.n===1||done.indexOf(s.n-1)>=0);
     var cls='bsr-tile'+(isDone?' bsr-done':(open?'':' bsr-locked'))+((open&&!isDone&&s.n===next)?' bsr-next':'')+((s.n===bmJustUnlocked&&open)?' bsr-new':'');
-    var badge=isDone?'<span class="bsr-badge" aria-hidden="true">✓</span>':(open?'':'<span class="bsr-badge" aria-hidden="true">🔒</span>');
+    var badge=isDone?'<span class="bsr-badge" aria-hidden="true">✓</span>':(open?'':'<span class="bsr-badge bsr-lock" aria-hidden="true">🔒</span>');
     var label='Sheet '+s.n+', '+(open?s.co:'locked')+(isDone?', finished':(open?'':'. Finish the previous sheet to unlock'));
     h+='<button type="button" class="'+cls+'" onclick="BM_BSDD.tapTile('+s.n+')" aria-label="'+label.replace(/"/g,'&quot;')+'"'+(open?'':' aria-disabled="true"')+'>'
       +'<span class="bsr-num" aria-hidden="true">'+s.n+'</span>'+badge
@@ -11043,7 +11422,7 @@ function tileCells(){
   FC.forEach(function(s){
     var isDone=done.indexOf(s.n)>=0, open=(s.n===1||done.indexOf(s.n-1)>=0);
     var cls='bsr-tile'+(isDone?' bsr-done':(open?'':' bsr-locked'))+((open&&!isDone&&s.n===next)?' bsr-next':'')+((s.n===justUnlocked&&open)?' bsr-new':'');
-    var badge=isDone?'<span class="bsr-badge" aria-hidden="true">✓</span>':(open?'':'<span class="bsr-badge" aria-hidden="true">🔒</span>');
+    var badge=isDone?'<span class="bsr-badge" aria-hidden="true">✓</span>':(open?'':'<span class="bsr-badge bsr-lock" aria-hidden="true">🔒</span>');
     var label='Forecast '+s.n+', '+(open?s.long:'locked')+(isDone?', finished':(open?'':'. Finish the previous forecast to unlock'));
     h+='<button type="button" class="'+cls+'" onclick="BM_CFF.tapTile('+s.n+')" aria-label="'+esc(label)+'"'+(open?'':' aria-disabled="true"')+'>'
       +'<span class="bsr-num" aria-hidden="true">'+s.n+'</span>'+badge
