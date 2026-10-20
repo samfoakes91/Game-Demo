@@ -695,6 +695,120 @@ body.hub-light{background:#000;}
   .cff-grid input{min-width:76px}
   .cff-btn{flex:1}
 }
+/* ===== BUILD A DECISION TREE — typed answers (namespaced tf-; the page chrome re-uses the cff- classes above) ===== */
+#tf-app{max-width:1080px;margin:0 auto;background:var(--bg-soft);border-radius:18px;padding:20px 18px 40px;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+/* tile 1: the page title and the scenario in one card; tile 2 (the tree, with its legend) sits directly underneath */
+.tf-brief{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:16px 18px 18px;box-shadow:var(--panel-shadow);margin-bottom:16px}
+.tf-briefHead{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.tf-briefHead h1{margin:0;min-width:0;font-size:21px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+/* the breadcrumb tile, same look as the one on every other lesson screen */
+.tf-crumb{background:#fff;border:1.5px solid #f0b429;border-radius:14px;padding:10px 16px;display:flex;width:fit-content;align-items:center;gap:6px;max-width:100%;box-sizing:border-box;font-size:13px;font-weight:800;color:#182234;overflow:hidden;white-space:nowrap;margin-bottom:14px}
+.tf-crumb .crumb-seg{cursor:pointer;flex-shrink:0}
+.tf-crumb .tf-crumbMod{flex-shrink:1;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.tf-crumb .tf-sep{color:#9aa3ad;flex-shrink:0}
+.tf-crumbEnd{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.tf-briefBody{margin-top:12px;padding-top:12px;border-top:1.5px solid var(--line)}
+/* the scenario: name and intro across the full width, then the bullets in two columns that start level with each other */
+@media(min-width:760px){ .tf-briefBody .cff-facts{column-count:2;column-gap:36px;column-fill:balance} }
+.tf-briefBody .cff-intro{margin-bottom:10px}
+.tf-briefBody .cff-facts{margin:0}
+.tf-briefBody .cff-facts li{break-inside:avoid}
+.tf-briefBody .cff-facts li:last-child{margin-bottom:0}
+.tf-treeWrap .cff-toolbar{padding-bottom:10px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.tf-treeWrap{background:#fff;border:1.5px solid var(--line);border-radius:16px;box-shadow:var(--panel-shadow);padding:16px 14px 14px}
+/* the tree: decision node (square) -> option branches -> chance nodes (circles) -> outcome branches -> pay-offs */
+.tf-swipe{display:none;font-size:11.5px;font-weight:700;color:var(--ink-soft);margin:0 0 6px}
+.tf-treeWrap.tf-scrolls .tf-swipe{display:block}
+.tf-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;padding:2px 0 6px}
+.tf-tree{--ln:#8a97b8;--rowH:70px;--cnW:140px;--pOff:108px;position:relative;padding-left:40px;min-width:710px}
+.tf-root{position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;width:32px}
+.tf-root i{display:block;flex:0 0 auto;width:22px;height:22px;border-radius:4px;background:#5b9bff;border:2px solid #0e1e36;box-sizing:border-box}
+.tf-root span{flex:1;height:2px;background:var(--ln)}
+.tf-opt{position:relative;display:grid;grid-template-columns:minmax(164px,1.1fr) var(--cnW) minmax(0,2fr);margin-bottom:12px}
+.tf-opt:last-child{margin-bottom:0}
+/* the trunk that joins the options */
+.tf-opt::before{content:'';position:absolute;left:-10px;top:-12px;bottom:-12px;width:2px;background:var(--ln)}
+.tf-opt:first-child::before{top:50%}
+.tf-opt:last-child::before{bottom:50%}
+.tf-opt:only-child::before{display:none}
+/* option branch: the label sits on the line, the cost underneath it */
+.tf-obr{position:relative;min-width:0}
+.tf-obr::after{content:'';position:absolute;left:-10px;right:0;top:50%;height:2px;margin-top:-1px;background:var(--ln)}
+.tf-optName{position:absolute;left:4px;right:8px;bottom:calc(50% + 7px);font-size:14px;font-weight:800;color:var(--ink);line-height:1.2;display:flex;align-items:center;gap:8px}
+.tf-optName .tf-letter{flex:0 0 auto;min-width:22px;height:22px;border-radius:6px;background:#0a1628;color:#fff;font-size:11.5px;font-weight:900;display:inline-flex;align-items:center;justify-content:center}
+.tf-costRow{position:absolute;left:4px;top:calc(50% + 9px);display:flex;align-items:center;gap:6px}
+/* chance node */
+.tf-cn{position:relative}
+.tf-circle{position:absolute;left:0;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:#f5a623;border:2px solid #0e1e36;box-sizing:border-box;z-index:1}
+.tf-cn::after{content:'';position:absolute;left:24px;right:0;top:50%;height:2px;margin-top:-1px;background:var(--ln)}
+.tf-stk{position:absolute;left:0;display:flex;flex-direction:column;gap:2px;z-index:1}
+.tf-stk.tf-ev{bottom:calc(50% + 17px)}
+.tf-stk.tf-net{top:calc(50% + 17px)}
+/* outcome branches */
+.tf-outs{min-width:0}
+.tf-out{position:relative;display:flex;align-items:center;height:var(--rowH)}
+.tf-out::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--ln)}
+.tf-out:first-child::before{top:50%}
+.tf-out:last-child::before{bottom:50%}
+.tf-out:only-child::before{display:none}
+.tf-ob{position:relative;flex:1 1 auto;min-width:0;height:100%}
+.tf-ob::after{content:'';position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;background:var(--ln)}
+.tf-outName{position:absolute;left:12px;bottom:calc(50% + 7px);font-size:12.5px;font-weight:800;color:var(--ink);line-height:1.2;white-space:nowrap}
+.tf-pr{position:absolute;left:var(--pOff);top:50%;transform:translateY(-50%);z-index:1}
+.tf-pr .tf-lab{position:absolute;left:0;bottom:100%;margin-bottom:2px}
+.tf-pay{position:relative;flex:0 0 auto;margin-right:2px}
+.tf-pay .tf-lab{position:absolute;left:19px;bottom:100%;margin-bottom:2px}
+.tf-inl{display:flex;align-items:center;gap:5px}
+.tf-lab{font-size:10px;font-weight:800;letter-spacing:.04em;color:var(--ink-soft);text-transform:uppercase;white-space:nowrap;line-height:1.2}
+.tf-unit{font-size:14px;font-weight:800;color:#7a90b8;min-width:14px;text-align:right}
+.tf-opt.tf-leafOpt{grid-template-columns:minmax(0,1fr) auto;align-items:center;min-height:var(--rowH)}
+.tf-leafOpt .tf-obr{align-self:stretch}
+.tf-given{display:inline-flex;align-items:center;justify-content:flex-end;width:100px;height:36px;padding:0 10px;border-radius:8px;background:#f1f4f9;border:1.5px solid #d6deec;color:#5a6b8a;font-size:16px;font-weight:800;box-sizing:border-box}
+/* boxes */
+.tf-c{position:relative;display:block}
+.tf-c input{width:100%;height:36px;text-align:right;font-family:inherit;font-size:16px;font-weight:700;color:var(--ink);background:#fff;border:1.5px solid #c9d3e6;border-radius:8px;padding:0 9px;outline:none;-webkit-appearance:none;appearance:none}
+.tf-c.tf-w-p{width:76px}
+.tf-c.tf-w-m{width:100px}
+.tf-c input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,196,167,.2)}
+.tf-c input[readonly]{cursor:default}
+.tf-c.tf-ok::after,.tf-c.tf-own::after,.tf-c.tf-bad::after{position:absolute;top:4px;left:9px;font-size:9.5px;font-weight:900;pointer-events:none;line-height:1}
+.tf-c.tf-ok::after{content:'\2713';color:#12a150}
+.tf-c.tf-own::after{content:'own';color:#a8650a}
+.tf-c.tf-bad::after{content:'\2717';color:#e03b3b}
+.tf-c.tf-ok input{border-color:#12a150;background:#e9f9ef;color:#0b6b36}
+.tf-c.tf-own input{border-color:#e09a14;background:#fff4dc}
+.tf-c.tf-bad input{border-color:#e03b3b;background:#ffecec}
+.tf-c.tf-empty input{border-style:dashed;border-color:#e03b3b}
+/* the final choice */
+.tf-pick{margin-top:14px;padding-top:14px;border-top:1.5px solid var(--line)}
+.tf-pickQ{font-size:13.5px;font-weight:800;color:var(--ink);margin-bottom:8px;line-height:1.35}
+.tf-picks{display:flex;gap:8px;flex-wrap:wrap}
+.tf-pickBtn{position:relative;flex:1 1 150px;min-height:46px;text-align:left;font-family:inherit;font-weight:800;font-size:13.5px;color:var(--ink);background:#fff;border:1.5px solid #c9d3e6;border-radius:11px;padding:8px 12px 8px 40px;cursor:pointer;-webkit-tap-highlight-color:transparent;line-height:1.25}
+.tf-pickBtn .tf-letter{position:absolute;left:10px;top:50%;transform:translateY(-50%);min-width:22px;height:22px;border-radius:6px;background:#0a1628;color:#fff;font-size:11.5px;font-weight:900;display:inline-flex;align-items:center;justify-content:center}
+.tf-pickBtn[aria-pressed="true"]{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,196,167,.2);background:#f0fbf9}
+.tf-pickBox{position:relative}
+.tf-pickBox.tf-ok::after,.tf-pickBox.tf-own::after,.tf-pickBox.tf-bad::after{position:absolute;top:-21px;right:2px;font-size:10px;font-weight:900;line-height:1;pointer-events:none}
+.tf-pickBox.tf-ok::after{content:'\2713 correct';color:#12a150}
+.tf-pickBox.tf-own::after{content:'own';color:#a8650a}
+.tf-pickBox.tf-bad::after{content:'\2717 check again';color:#e03b3b}
+.tf-pickBox.tf-ok .tf-pickBtn[aria-pressed="true"]{border-color:#12a150;background:#e9f9ef}
+.tf-pickBox.tf-own .tf-pickBtn[aria-pressed="true"]{border-color:#e09a14;background:#fff4dc}
+.tf-pickBox.tf-bad .tf-pickBtn[aria-pressed="true"]{border-color:#e03b3b;background:#ffecec}
+.tf-pickBox.tf-empty .tf-picks{outline:1.5px dashed #e03b3b;outline-offset:3px;border-radius:11px}
+.tf-pickBtn[disabled]{cursor:default}
+.tf-pickBox.tf-ok .tf-pickBtn:not([aria-pressed="true"]){opacity:.55}
+@media(max-width:380px){
+  .tf-crumb{padding:8px 10px;font-size:12px;gap:4px}
+  .tf-crumb>.crumb-seg:first-child{flex-shrink:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+}
+@media(max-width:560px){
+  .tf-briefHead h1{font-size:18px}
+  #tf-app{padding:14px 10px 30px}
+  .tf-treeWrap{padding:12px 8px 10px}
+  .tf-brief{padding:12px 12px 14px}
+  .tf-treeWrap .cff-toolbar{padding:0 4px 10px}
+  .tf-pickBtn{flex-basis:100%}
+}
 .gf-burst{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff3a6,#f0b429 60%,#b8820a);pointer-events:none;opacity:0;animation:gfBurst 1.5s ease-out forwards}
 @keyframes gfBurst{0%{opacity:1;transform:translate(0,0) scale(.4)}70%{opacity:1}100%{opacity:0;transform:translate(var(--bx),var(--by)) scale(1)}}
 #bm-gold-flash.gf-ring .gold-coin-lg{animation:spinBounce .7s ease forwards,gfGlow 1.4s ease-out .4s 1}
@@ -798,6 +912,7 @@ body.hub-light{background:#000;}
   <div id="bm-sc-sres"       class="sc"></div>
   <div id="bm-sc-bsdragdrop" class="sc"></div>
   <div id="bm-sc-cff" class="sc"></div>
+  <div id="bm-sc-tfill" class="sc"></div>
 
   <div id="bm-gold-flash">
     <div class="gold-coin-lg">$</div>
@@ -5648,6 +5763,110 @@ var BM_DT=(function(){
   };
 })();
 
+/* ===================== DESCRIPTIVE STATISTICS CHARTS (Business Management Toolkit) =====================
+   Every chart on the Descriptive Statistics questions is drawn from the small data table below by one routine,
+   so the numbers on the screen are exactly the numbers the answers were worked out from. graphSVG() hands any
+   key that is in this table to BM_ST.svg().
+   Four kinds (all in a 360 x 224 box):
+     twin  - two small bar charts side by side (Mon-Sun), same scale, with a dashed line at the mean
+     bars  - one bar chart with a labelled vertical axis
+     pie   - a pie chart with the percentage written on each slice and a key on the right
+   Nothing in a picture may touch anything else, whatever font the device uses: labels sit in fixed, roomy places
+   (every number sits in its own row or above its own bar, well apart from its neighbours, and never where the mean line runs). */
+var BM_ST=(function(){
+  var CH={"stSpread":{"kind":"twin","ymax":90,"mean":50,"days":["M","T","W","T","F","S","S"],"cap":"Units sold each day for one week. The dashed line is the mean (50 units).","panels":[{"name":"Shop A","vals":[48,52,50,49,51,50,50]},{"name":"Shop B","vals":[30,70,45,55,20,80,50]}]},"stBar1":{"kind":"bars","ymax":70,"step":20,"labels":["Jan","Feb","Mar","Apr","May","Jun"],"vals":[42,38,51,47,63,59],"ytitle":"Sales ($000)","cap":"Monthly sales for six months ($000)"},"stPie1":{"kind":"pie","slices":[{"n":"Brand A","p":40},{"n":"Brand B","p":30},{"n":"Brand C","p":20},{"n":"Brand D","p":10}],"cap":"Share of the business’s total sales by brand"},"stCafe":{"kind":"twin","ymax":90,"mean":60,"days":["M","T","W","T","F","S","S"],"cap":"Customers each day for one week. The dashed line is the mean (60 customers).","panels":[{"name":"Café A","vals":[52,57,60,62,62,63,64]},{"name":"Café B","vals":[30,45,58,62,62,75,88]}]}};
+  var BG='#16243f', INK='#0e1e36', AX='#56688f', GRID='#2b3a5c', TXT='#e8eefc', MUT='#9fb0d0', MEAN='#ffd166';
+  var COLS=['#5b9bff','#f5a623'], PIE=['#5b9bff','#7ee8c8','#f0b429','#ff8f8f','#c7a6ff','#ffb86b'];
+  function r1(n){ return Math.round(n*10)/10; }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  /* generous text width (bold, wide fonts), used only to shrink or shorten a label that could not possibly fit.
+     Wide letters (M W m w) count about a full em, capitals and digits more than small letters, and the total is padded by 6%. */
+  function tw(s,fs){ s=String(s); var w=0,i,ch; for(i=0;i<s.length;i++){ ch=s.charAt(i);
+    if(ch==='M'||ch==='W') w+=1.02; else if(ch==='m'||ch==='w'||ch==='@') w+=0.95; else if(ch>='A'&&ch<='Z') w+=0.84;
+    else if((ch>='0'&&ch<='9')||ch==='%') w+=0.68; else if(' ijlI.,:;\'!|()-/'.indexOf(ch)>=0) w+=0.36; else w+=0.64; }
+    return w*fs*1.06; }
+  function clip(s,fs,maxw){ s=String(s); if(tw(s,fs)<=maxw) return s; while(s.length>1&&tw(s+'…',fs)>maxw) s=s.slice(0,-1).replace(/\s+$/,''); return s+'…'; }
+  /* one font size for a row of labels: the largest (down to a floor) at which every label fits its own slot; at the floor, long ones are clipped */
+  function fitRow(list,fs,minfs,maxw){ var f=fs,i,ok; while(f>minfs){ ok=true; for(i=0;i<list.length;i++){ if(tw(list[i],f)>maxw){ ok=false; break; } } if(ok) break; f=r1(f-0.5); }
+    return {fs:Math.max(f,minfs), txt:list.map(function(t){ return clip(t,Math.max(f,minfs),maxw); })}; }
+
+  function twin(c){
+    var X0=[12,188], W=160, BASE=190, TOP=30, S=(BASE-TOP)/c.ymax, n=c.days.length, pitch=W/n, bw=13;
+    var out='', titles='', bars='', labs='', days='', axes='', lines='', alt=[];
+    var dayRow=fitRow(c.days.map(String),8.5,6.5,pitch-3);
+    c.panels.forEach(function(p,pi){
+      var x0=X0[pi], col=COLS[pi%COLS.length], i;
+      var valRow=fitRow(p.vals.map(String),9,6.5,pitch-3);
+      titles+='<text x="'+r1(x0+W/2)+'" y="17" fill="'+TXT+'" font-size="11.5" font-weight="800" text-anchor="middle">'+esc(clip(p.name,11.5,W-8))+'</text>';
+      axes+='<line x1="'+x0+'" y1="'+BASE+'" x2="'+(x0+W)+'" y2="'+BASE+'" stroke="'+AX+'" stroke-width="1.6"/>';
+      lines+='<line x1="'+x0+'" y1="'+r1(BASE-c.mean*S)+'" x2="'+(x0+W)+'" y2="'+r1(BASE-c.mean*S)+'" stroke="'+MEAN+'" stroke-width="1.4" stroke-dasharray="4 3"/>';
+      for(i=0;i<n;i++){
+        var v=p.vals[i], h=v*S, cx=x0+pitch*i+pitch/2, top=BASE-h;
+        bars+='<rect x="'+r1(cx-bw/2)+'" y="'+r1(top)+'" width="'+bw+'" height="'+r1(h)+'" rx="1.5" fill="'+col+'"/>';
+        /* the day letter, and under it the value: kept clear of the bars so the mean line can never cross a number */
+        days+='<text x="'+r1(cx)+'" y="201" fill="'+MUT+'" font-size="'+dayRow.fs+'" font-weight="700" text-anchor="middle">'+esc(dayRow.txt[i])+'</text>';
+        labs+='<text x="'+r1(cx)+'" y="213" fill="'+TXT+'" font-size="'+valRow.fs+'" font-weight="800" text-anchor="middle">'+esc(valRow.txt[i])+'</text>';
+      }
+      alt.push(p.name+': '+p.vals.join(', '));
+    });
+    return '<title>'+esc('Two bar charts, one for each of the two businesses, with a dashed line at the mean of '+c.mean+'. '+alt.join('. '))+'</title>'
+      +axes+bars+lines+titles+labs+days;
+  }
+
+  function bars(c){
+    var L=52, R=348, BASE=176, TOP=40, S=(BASE-TOP)/c.ymax, n=c.vals.length, pitch=(R-L)/n, bw=Math.min(30,Math.floor(pitch-6)), i, v;
+    var g='', t='', b='', lab='', mon='';
+    var monRow=fitRow(c.labels.map(String),10,6.5,pitch-3), valRow=fitRow(c.vals.map(String),10,6.5,pitch-3);
+    for(v=0;v<=c.ymax;v+=c.step){
+      var y=r1(BASE-v*S);
+      g+='<line x1="'+L+'" y1="'+y+'" x2="'+R+'" y2="'+y+'" stroke="'+(v===0?AX:GRID)+'" stroke-width="'+(v===0?1.6:1)+'"/>';
+      t+='<text x="'+(L-6)+'" y="'+r1(BASE-v*S+3)+'" fill="'+MUT+'" font-size="8.5" font-weight="700" text-anchor="end">'+v+'</text>';
+    }
+    for(i=0;i<n;i++){
+      var cx=L+pitch*i+pitch/2, h=c.vals[i]*S, top=BASE-h;
+      b+='<rect x="'+r1(cx-bw/2)+'" y="'+r1(top)+'" width="'+bw+'" height="'+r1(h)+'" rx="2" fill="'+COLS[0]+'"/>';
+      lab+='<text x="'+r1(cx)+'" y="'+r1(top-4)+'" fill="'+TXT+'" font-size="'+valRow.fs+'" font-weight="800" text-anchor="middle">'+esc(valRow.txt[i])+'</text>';
+      mon+='<text x="'+r1(cx)+'" y="191" fill="'+TXT+'" font-size="'+monRow.fs+'" font-weight="700" text-anchor="middle">'+esc(monRow.txt[i])+'</text>';
+    }
+    var yt='<text x="'+L+'" y="19" fill="'+MUT+'" font-size="9.5" font-weight="800">'+esc(clip(c.ytitle,9.5,R-L))+'</text>';
+    var alt=c.labels.map(function(m,k){ return m+' '+c.vals[k]; }).join(', ');
+    return '<title>'+esc('Bar chart of '+c.ytitle+'. '+alt)+'</title>'+g+b+t+lab+mon+yt;
+  }
+
+  function pie(c){
+    var CX=100, CY=106, R=80, a=-Math.PI/2, sl='', lb='', key='', tot=0, i, N=c.slices.length;
+    var GAP=Math.min(30,Math.floor(168/N)), KFS=Math.min(12.5,GAP-5), KY0=N<=5?60:Math.max(8,Math.round(CY-((N-1)*GAP+14)/2));
+    c.slices.forEach(function(s){ tot+=s.p; });
+    /* does the % label, centred a fraction f of the way out, sit wholly inside its own slice? (all four corners of its box) */
+    function inside(txt,mid,half,f){ var lx=CX+R*f*Math.cos(mid), ly=CY+R*f*Math.sin(mid), hw=tw(txt,12.5)/2+1.5, hh=7.5, k, ok=true;
+      [[-hw,-hh],[hw,-hh],[-hw,hh],[hw,hh]].forEach(function(d){ var px=lx+d[0]-CX, py=ly+d[1]-CY, rr=Math.sqrt(px*px+py*py), an=Math.atan2(py,px), df=an-mid;
+        while(df>Math.PI) df-=2*Math.PI; while(df<-Math.PI) df+=2*Math.PI;
+        if(rr>R-3||Math.abs(df)>half-1.5/Math.max(rr,1)) ok=false; });
+      return ok; }
+    c.slices.forEach(function(s,k){
+      var a2=a+2*Math.PI*s.p/tot, x1=CX+R*Math.cos(a), y1=CY+R*Math.sin(a), x2=CX+R*Math.cos(a2), y2=CY+R*Math.sin(a2), big=(a2-a)>Math.PI?1:0;
+      var col=PIE[k%PIE.length], mid=(a+a2)/2;
+      sl+='<path d="M'+CX+' '+CY+' L'+r1(x1)+' '+r1(y1)+' A'+R+' '+R+' 0 '+big+' 1 '+r1(x2)+' '+r1(y2)+' Z" fill="'+col+'" stroke="'+BG+'" stroke-width="2"/>';
+      var pct=s.p+'%', pf=0, inSlice, j, FS=[0.68,0.78,0.86];
+      for(j=0;j<FS.length&&!pf;j++){ if(inside(pct,mid,(a2-a)/2,FS[j])) pf=FS[j]; }
+      inSlice=pf>0;
+      if(inSlice) lb+='<text x="'+r1(CX+R*pf*Math.cos(mid))+'" y="'+r1(CY+R*pf*Math.sin(mid)+4.2)+'" fill="'+INK+'" font-size="12.5" font-weight="900" text-anchor="middle">'+pct+'</text>';
+      var ky=KY0+k*GAP, ktxt=inSlice?clip(s.n,KFS,120):clip(s.n,KFS,120-tw(' '+pct,KFS))+' '+pct;
+      key+='<rect x="205" y="'+ky+'" width="14" height="14" rx="3" fill="'+col+'"/>'
+        +'<text x="227" y="'+r1(ky+7+KFS*0.36)+'" fill="'+TXT+'" font-size="'+KFS+'" font-weight="800">'+esc(ktxt)+'</text>';
+      a=a2;
+    });
+    var alt=c.slices.map(function(s){ return s.n+' '+s.p+'%'; }).join(', ');
+    return '<title>'+esc('Pie chart of shares of total sales. '+alt)+'</title>'+sl+lb+key;
+  }
+
+  return {
+    has:function(k){ return Object.prototype.hasOwnProperty.call(CH,k); },
+    svg:function(k){ var c=CH[k]; return c.kind==='twin'?twin(c):c.kind==='bars'?bars(c):pie(c); },
+    cap:function(k){ return esc(CH[k].cap); },
+    charts:CH
+  };
+})();
 function graphSVG(key,q){   /* q (optional): the question being drawn, for diagrams that carry its own figures */
   function wrap(inner,cap){
     return '<div class="gwrap" style="background:#16243f;border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 12px 8px;margin-bottom:18px;">'
@@ -5662,6 +5881,7 @@ function graphSVG(key,q){   /* q (optional): the question being drawn, for diagr
     +'<text x="40" y="208" fill="#7a90b8" font-size="7.5" text-anchor="middle">0</text>';
 
   if(typeof BM_DT!=='undefined'&&BM_DT.has(key)) return wrap(BM_DT.svg(key),BM_DT.cap(key));
+  if(typeof BM_ST!=='undefined'&&BM_ST.has(key)) return wrap(BM_ST.svg(key),BM_ST.cap(key));
   if(key==='beChart1'){
     /* Basic break-even chart: FC=$400, SP=$20/unit, VC=$10/unit -> BEQ=40 units.
        Geometry computed directly from these figures (not eyeballed), and the
@@ -8556,12 +8776,79 @@ var BM_D=[
     {tp:'mc',lb:'Choose the correct answer',q:'The managers are very keen on one project and give its successful outcome a probability that is too high. What is the most likely effect?',o:['The cost of that option rises, which reduces its net gain compared with the other options','The decision tree becomes more accurate, because the managers know most about their favourite project','The expected values of the other options all fall, because probabilities are shared across the whole tree','The expected value of that option is overstated, which could lead the business to make a poor decision'],a:3},
     {tp:'mc',lb:'Choose the correct answer',q:'Which of the following would a decision tree NOT usually take into account?',o:['The estimated cost of carrying out each one of the options that are being compared','The effect of the decision on the firm’s reputation and on employee morale','The estimated chance that each of the possible outcomes will actually happen','The estimated financial return from each of the possible outcomes of an option'],a:1}
   ]},
+  {id:'dt-build-a-decision-tree',t:'Build a Decision Tree',ic:'✏️',mod:'dt',fill:'tree',qs:[]},
   {id:'dt-decision-trees-challenge',t:'Decision Trees Challenge',ic:'🏆',mod:'dt',qs:[
     {tp:'calc',lb:'Calculate and choose',q:'What is the expected value of Option A, opening a second café?',g:'dtC',f:[['Option A cost','$50,000']],o:['$112,000','$290,000','$62,000','$108,000'],a:0},
     {tp:'calc',lb:'Calculate and choose',q:'What is the expected value of Option B, refurbishing the café?',g:'dtC',f:[['Option B cost','$20,000']],o:['$120,000','$48,000','$68,000','$60,000'],a:2},
     {tp:'calc',lb:'Calculate and choose',q:'What is the net gain of Option A?',g:'dtC',f:[['Expected value of Option A','$112,000'],['Cost of Option A','$50,000']],o:['$62,000','$162,000','$112,000','$50,000'],a:0},
     {tp:'mc',lb:'Choose the correct answer',q:'Based on net gain alone, which option should the business choose?',g:'dtC',o:['Option B, because its cost of $20,000 is lower than the $50,000 cost of Option A','Option B, because high demand is more likely for it (0.7) than for Option A (0.4)','Neither option, because the lowest pay-off of Option A is less than its own cost','Option A, because its net gain of $62,000 is higher than Option B’s net gain of $48,000'],a:3},
     {tp:'mc',lb:'Choose the correct answer',q:'Why might the managers still choose Option B, even though Option A has the higher net gain?',g:'dtC',o:['Option B has the higher expected value, so it must be the better choice whatever the risks involved in choosing Option A','The probabilities on Option B’s branches are exact, whereas those on Option A’s branches are only rough guesses','Option B’s net gain of $48,000 is higher than Option A’s net gain of $62,000 once the costs of both are taken into account','Option A could make a loss, as its lowest pay-off of $20,000 is below its $50,000 cost; Option B always covers its cost'],a:3}
+  ]},
+  {id:'ds-what-are-descriptive-statistics',t:'What Are Descriptive Statistics?',ic:'📊',mod:'ds',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'What is the main purpose of descriptive statistics in business?',o:['To predict exactly what will happen in the future, so that managers no longer face any uncertainty','To show that a decision was correct, whatever the data actually say about the business’s position','To summarise a set of data so that managers can see its main features and use them in decisions','To record every transaction that a business makes so that its financial accounts are legally complete'],a:2},
+    {tp:'sort',lb:'Drag to sort',q:'Descriptive Statistics — Which Type of Measure?',cols:['Central tendency','Dispersion'],tiles:[
+      ['The sum of all of the values divided by the number of values',0],
+      ['The middle value once all of the values have been put in order',0],
+      ['The difference between the highest value and the lowest value',1],
+      ['A measure of how far the values typically lie from the mean',1]
+    ]},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'The range, the quartiles and the standard deviation all measure how _____ the values in a data set are.',o:['accurate','spread out','up to date','costly'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of these is quantitative data that a business could summarise with descriptive statistics?',o:['The number of units that a business sells each week over a whole year','A customer’s opinion of how friendly and helpful the shop’s staff were','The colour that the business has chosen to use in its logo and packaging','Whether each customer says that they prefer the old product or the new one'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'A manager says: “Our descriptive statistics prove that sales will rise by 10% next year.” What is wrong with this claim?',o:['Descriptive statistics can only be used with data about profit, and cannot be used with data about sales','Descriptive statistics are only reliable when the figures have been worked out by a computer, never by hand','Descriptive statistics summarise data that have already been collected; they do not on their own predict the future','Descriptive statistics cannot be used with percentages, so they cannot be used to describe a rise in sales of 10 per cent'],a:2}
+  ]},
+  {id:'ds-mean-median-mode',t:'Mean, Median and Mode',ic:'🎯',mod:'ds',qs:[
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'The mean is found by adding up all of the values and dividing the total by _____.',o:['the highest value','the number of values','the middle value','the number of modes'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the mean number of units sold per day?',f:[['Units sold, Monday to Sunday','36, 43, 38, 45, 38, 60, 41']],o:['41 units','43 units','38 units','301 units'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the median number of units sold per day?',f:[['Units sold, Monday to Sunday','36, 43, 38, 45, 38, 60, 41']],o:['41 units','43 units','45 units','38 units'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the mode of the number of units sold per day?',f:[['Units sold, Monday to Sunday','36, 43, 38, 45, 38, 60, 41']],o:['41 units','43 units','60 units','38 units'],a:3},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the median number of overtime hours worked per week by these six employees?',f:[['Overtime hours, six employees','4, 9, 6, 15, 7, 10']],o:['8 hours','8.5 hours','7 hours','9 hours'],a:0}
+  ]},
+  {id:'ds-choosing-the-right-average',t:'Choosing the Right Average',ic:'🔎',mod:'ds',qs:[
+    {tp:'calc',lb:'Calculate and choose',q:'What is the mean annual salary of these six employees?',f:[['Annual salaries','$28,000, $30,000, $31,000, $32,000, $34,000, $175,000']],o:['$31,500','$330,000','$55,000','$32,000'],a:2},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the median annual salary of these six employees?',f:[['Annual salaries','$28,000, $30,000, $31,000, $32,000, $34,000, $175,000']],o:['$31,500','$55,000','$31,000','$32,000'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'The managers want to describe the typical salary in this business to a new recruit. Which measure is the most suitable?',o:['The median of $31,500, because the one very high salary does not pull it upwards','The mean of $55,000, because it takes every salary into account, including the highest one','The range of $147,000, because it shows how far apart the highest and lowest salaries are','None of them, because the highest salary is too far from the others to be included'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'When is the mode the most useful average for a manager?',o:['When the manager needs an average that uses every value in the data set, including any extreme ones','When the manager wants to know the most common value, such as the shoe size that customers buy most often','When every value in the data set is different, because the mode then shows the middle of the data','When the manager wants to measure how widely the values are spread around the centre of the data'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'The mean of a data set is much higher than its median. What does this suggest?',o:['A few very low values are pulling the mean upwards, away from the typical value','Every value in the data set is close to the same number, so the data are very consistent','The median has been worked out wrongly, because the median should always be the higher one','A few very high values are pulling the mean upwards, away from the typical value'],a:3}
+  ]},
+  {id:'ds-range-quartiles-iqr',t:'Range, Quartiles and the IQR',ic:'↔️',mod:'ds',qs:[
+    {tp:'calc',lb:'Calculate and choose',q:'What is the range of the delivery times?',f:[['Delivery times (minutes)','24, 31, 18, 27, 35, 22, 29']],o:['53 minutes','27 minutes','17 minutes','35 minutes'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'What does the lower quartile (Q1) of a data set show?',o:['The value below which 25% of the values in the data set lie','The value below which 75% of the values in the data set lie','The lowest value in the data set, once all values are in order','The value that is exactly one quarter of the highest value'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the interquartile range (IQR) of the waiting times?',f:[['Lower quartile (Q1)','4 minutes'],['Upper quartile (Q3)','11 minutes']],o:['7 minutes','15 minutes','11 minutes','7.5 minutes'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Why can the IQR be a better measure of spread than the range?',o:['It uses every value in the data set, so extreme values have a bigger effect on the result','It is always larger than the range, so it gives managers a safer estimate of the spread','It ignores extreme values and shows how spread out the middle 50% of the values are','It is the only measure of spread that can be shown in a chart or graph of the data'],a:2},
+    {tp:'calc',lb:'Calculate and choose',q:'Twelve salespeople are ranked by their sales. How many salespeople are in the top quartile?',f:[['Number of salespeople','12']],o:['4 salespeople','6 salespeople','9 salespeople','3 salespeople'],a:3}
+  ]},
+  {id:'ds-standard-deviation',t:'Standard Deviation',ic:'📏',mod:'ds',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'What does the standard deviation of a data set measure?',o:['The difference between the highest and the lowest value in the set','How far the values are spread out around the mean, on average','The value that occurs most often in the data set, once counted','The middle value once all of the values have been ranked in order'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'Both shops have a mean of 50 units a day. Which shop has the higher standard deviation of daily sales?',g:'stSpread',o:['Shop B, because its daily sales are spread much further either side of the mean','Shop A, because its daily sales are closer to the mean, which gives the larger figure','Neither shop, because both have the same mean, so their standard deviations are equal','Shop A, because it sold more units in total than Shop B over the week of seven days'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which shop’s daily sales would be easier for the manager to plan stock for?',g:'stSpread',o:['Shop B, because its higher standard deviation shows that its daily sales are more reliable','Shop A, because its lower standard deviation means that sales stay close to the mean each day','Shop B, because its best day of 80 units is higher than any single day at Shop A','Neither shop, because the two shops have the same mean, so planning is equally easy'],a:1},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'A standard deviation of zero would mean that every value in the data set is _____.',o:['negative','identical','unique','approximate'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A call centre’s mean waiting time stays at 6 minutes, but the standard deviation falls from 8 minutes to 3 minutes. What has improved?',o:['Waiting times are shorter on average, so every customer is now being served faster than before','The longest wait has been reduced to 3 minutes, so no customer has to wait for longer than that','Waiting times are more consistent, so fewer customers wait far longer or far shorter than 6 minutes','The number of customers who use the call centre has fallen, which has reduced the pressure on staff'],a:2}
+  ]},
+  {id:'ds-charts-and-infographics',t:'Charts and Infographics',ic:'🥧',mod:'ds',qs:[
+    {tp:'calc',lb:'Calculate and choose',q:'What is the mean monthly sales shown in the bar chart?',g:'stBar1',f:[['Number of months','6']],o:['$63,000','$49,000','$300,000','$50,000'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which chart is the most suitable for showing each region’s share of a business’s total sales?',o:['A bar chart, because it is the only chart that can compare more than three regions','A pie chart, because each slice shows one region’s proportion of the total sales','A pie chart, because it shows how each region’s sales have changed month by month','An infographic, because it is the only chart that can include figures such as percentages'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'Brand C made $30,000 of the business’s total sales of $120,000. What angle should its slice have on a pie chart?',f:[['Sales of Brand C','$30,000'],['Total sales','$120,000']],o:['25°','90°','30°','120°'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'Total sales were $250,000. What were the sales of Brand A?',g:'stPie1',f:[['Total sales','$250,000']],o:['$40,000','$75,000','$210,000','$100,000'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'What is an infographic?',o:['A table that lists every single figure in full so that no detail of the data is ever left out','A written report in which the managers explain each of their decisions in long, detailed paragraphs','A calculation that turns a large set of raw data into one single average figure for managers','A visual that combines data, images and short pieces of text to communicate information quickly'],a:3}
+  ]},
+  {id:'ds-strengths-and-limitations',t:'Strengths and Limitations',ic:'🧐',mod:'ds',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of these is an ADVANTAGE of using descriptive statistics?',o:['They condense a large amount of data into a few figures that managers can understand quickly','They guarantee that any decision based on the data will turn out to be the right one','They explain why the figures are as they are, such as why sales fell in one particular month','They remove the need to collect any further data once the first data set has been analysed'],a:0},
+    {tp:'sort',lb:'Drag to sort',q:'Strengths and Limitations — Descriptive Statistics',cols:['Strengths','Limitations'],tiles:[
+      ['Condenses a large amount of data into a few figures that are easy to understand',0],
+      ['Lets managers compare two sets of data, such as the sales of two different shops',0],
+      ['An average on its own can hide how widely the individual values are spread',1],
+      ['Extreme values or a very small sample can give a misleading picture of the business',1]
+    ]},
+    {tp:'mc',lb:'Choose the correct answer',q:'A bar chart’s vertical axis starts at 90 instead of 0, so a rise from 92 to 96 looks enormous. What is the problem with this chart?',o:['The bars are too thin, which makes it very hard to read the correct values from the vertical axis','A rise from 92 to 96 can only be shown accurately on a pie chart and not on a bar chart of this kind','The axis exaggerates the difference between the bars, which could mislead the people who read it','The chart shows the mean of the values when it should have shown the median of the values instead'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'A manager asks six customers about a new product and finds that the mean rating is 9 out of 10. Why should the manager be cautious about this result?',o:['A mean can only be used when the ratings have been collected from at least one thousand different customers','Six customers is a very small sample, so it may not be representative of all of the business’s customers','A rating out of 10 is qualitative data, so it is not possible to calculate a mean or any other average from it','The mean is always lower than the median, so the true rating must be higher than 9 out of 10'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A manager finds that the mean monthly sales fell last month. What can descriptive statistics NOT tell the manager on their own?',o:['The size of the fall compared with the mean monthly sales of the previous month','Whether sales were more spread out last month than they were in other months','Which month had the highest sales and which month had the lowest sales','The reasons why sales fell, such as a new competitor or a change in customer tastes'],a:3}
+  ]},
+  {id:'ds-descriptive-statistics-challenge',t:'Descriptive Statistics Challenge',ic:'🏆',mod:'ds',qs:[
+    {tp:'calc',lb:'Calculate and choose',q:'What is the mean number of customers per day at Café A?',g:'stCafe',f:[['Café A, customers each day','52, 57, 60, 62, 62, 63, 64']],o:['62 customers','420 customers','60 customers','12 customers'],a:2},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the range of the number of customers per day at Café B?',g:'stCafe',f:[['Café B, customers each day','30, 45, 58, 62, 62, 75, 88']],o:['118 customers','62 customers','58 customers','12 customers'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'Both cafés have a mean of 60, a median of 62 and a mode of 62. What do these three averages fail to show?',g:'stCafe',o:['Which café has the larger number of customers in total over the week, as the means are equal','The most common number of customers per day, since the mode is the same for both of the cafés','The middle number of customers per day, since the median is the same for both of the cafés','How spread out the daily numbers of customers are, which is far greater at Café B than at Café A'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'The manager must decide how many staff to roster each day. Which café’s customer numbers are easier to plan staffing around?',g:'stCafe',o:['Café B, because its larger range and standard deviation mean its customer numbers are more reliable','Café B, because its busiest day of 88 customers is higher than the busiest day at Café A','Neither café, because their means, medians and modes are the same, so the planning is equally easy','Café A, because its smaller range and standard deviation mean every day is close to the mean of 60'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'The manager uses this one week of data to set the staff rosters for the whole year. What is the main weakness of doing this?',o:['Seven days is a small data set from the past, so it may not be typical of the weeks to come','The mean and the median of the data are the same, so neither of them can be relied upon at all','Descriptive statistics can only be used with data that cover a period of at least one full year','The standard deviation of each café cannot be compared unless the two means are different'],a:0}
   ]}
 ];
 
@@ -8578,7 +8865,8 @@ var BM_OS_START=40, BM_OS_END=47; /* BM_D[40]–BM_D[47] — Organizational Stru
 var BM_LM_START=48, BM_LM_END=52; /* BM_D[48]–BM_D[52] — Leadership and Management */
 var BM_MO_START=53, BM_MO_END=57; /* BM_D[53]–BM_D[57] — Motivation and Demotivation */
 var BM_EG_START=58, BM_EG_END=62; /* BM_D[58]–BM_D[62] — Efficiency & Gearing Ratios (HL) */
-var BM_DT_START=63, BM_DT_END=68; /* BM_D[63]–BM_D[68] — Decision Trees (Business Management Toolkit) */
+var BM_DT_START=63, BM_DT_END=69; /* BM_D[63]–BM_D[69] — Decision Trees (Business Management Toolkit); BM_D[68] is the typed-answer Build a Decision Tree lesson */
+var BM_DS_START=70, BM_DS_END=77; /* BM_D[70]–BM_D[77] — Descriptive Statistics (Business Management Toolkit, BMT 7) */
 
 /* ===================== SPEED ROUND DATA ===================== */
 var BM_BS_SECTIONS=['Non-current Assets','Current Assets','Current Liabilities','Non-current Liabilities','Equity'];
@@ -9186,12 +9474,68 @@ BM_HINTS[67]=[
     ['If a probability is too high, what happens to probability × pay-off for that outcome?','The expected value gets inflated, so the option can look better than it really is.'],
     ['A decision tree works with numbers and money.','It leaves out qualitative factors such as reputation, morale or ethics, which managers must weigh up separately.']
   ];
-BM_HINTS[68]=[
+BM_HINTS[69]=[
     ['Multiply each probability by its pay-off, then add all three results.','(0.4 × $180,000) + (0.4 × $90,000) + (0.2 × $20,000) = ?'],
     ['Use the same method for Option B, which has two outcomes.','(0.7 × $80,000) + (0.3 × $40,000) = ?'],
     ['Net Gain = Expected Value − the cost of the option.','Start from the expected value of Option A, then subtract its cost of $50,000.'],
     ['Work out both net gains. Option B’s is its expected value less its $20,000 cost.','Option A’s net gain is $62,000. Option B’s is $68,000 − $20,000. Choose the higher one.'],
     ['Think about risk: could either option lose money?','Compare each option’s lowest pay-off with its own cost. Option A: $20,000 against $50,000. Option B: $40,000 against $20,000.']
+  ];
+BM_HINTS[70]=[
+    ['The word “descriptive” is the clue: these statistics describe the data a business already has.','Descriptive statistics summarise a data set (its centre, its spread and its pattern) so that managers can understand it and decide.'],
+    ['Central tendency measures describe the typical or middle value. Dispersion measures describe how spread out the values are.','The mean and the median are averages (central tendency). The range and the standard deviation show the spread (dispersion).'],
+    ['These three measures describe the gaps between the values, not the typical value.','They measure dispersion: how spread out the values are.'],
+    ['Quantitative data are numerical: they can be counted or measured.','Units sold each week are numbers. Opinions, colours and preferences are qualitative or categorical.'],
+    ['Think about what “descriptive” means: it describes the past and present.','They summarise the data the business already has. A forecast needs extra assumptions, so the data alone do not prove what will happen.']
+  ];
+BM_HINTS[71]=[
+    ['The mean is the “share” each value would get if the total were divided equally.','Mean = total of all the values ÷ the number of values.'],
+    ['Add up all seven days, then divide by the number of days.','(36 + 43 + 38 + 45 + 38 + 60 + 41) ÷ 7 = ?'],
+    ['The median is the middle value, but only once the values have been put in order from smallest to largest.','Ordered: 36, 38, 38, 41, 43, 45, 60. The middle (4th) of the seven values is the median.'],
+    ['The mode is the value that appears most often.','Look for the number that is repeated in the list of seven days.'],
+    ['With an even number of values there are two middle values. Put the values in order first.','Ordered: 4, 6, 7, 9, 10, 15. The median is halfway between the 3rd and 4th values: (7 + 9) ÷ 2 = ?']
+  ];
+BM_HINTS[72]=[
+    ['Add up all six salaries, then divide by six.','($28,000 + $30,000 + $31,000 + $32,000 + $34,000 + $175,000) ÷ 6 = ?'],
+    ['The salaries are already in order. With six values, the median lies halfway between the 3rd and 4th.','($31,000 + $32,000) ÷ 2 = ?'],
+    ['Compare the mean and the median: one of them has been pulled by the $175,000 salary.','The mean ($55,000) is higher than five of the six salaries. The median ($31,500) is much closer to what most employees earn.'],
+    ['The mode answers the question “which value is the most common?”','Stocking the most popular size or choosing the most common order size are uses of the mode.'],
+    ['Which average is affected more by extreme values: the mean or the median?','Extreme high values drag the mean up but hardly move the median, so mean > median points to a few very high values.']
+  ];
+BM_HINTS[73]=[
+    ['Range = highest value − lowest value.','Find the longest and the shortest delivery time, then subtract.'],
+    ['Quartiles split the ordered data into four equal parts.','Q1 has a quarter (25%) of the values below it. Q2 is the median. Q3 has three quarters (75%) of the values below it.'],
+    ['IQR = upper quartile (Q3) − lower quartile (Q1).','11 − 4 = ?'],
+    ['The range uses only the two most extreme values.','The IQR covers the middle half of the data, so one unusually high or low value cannot distort it.'],
+    ['The top quartile is the highest 25% (one quarter) of the values.','12 ÷ 4 = ?']
+  ];
+BM_HINTS[74]=[
+    ['Standard deviation is a measure of dispersion, not of the centre.','It shows how far the values typically lie from the mean: a small figure means close to the mean, a large figure means widely spread.'],
+    ['Look at how far the bars are from the dashed mean line.','Shop B’s days range from 20 to 80 units; Shop A’s stay between 48 and 52. The more spread out the data, the larger the standard deviation.'],
+    ['Planning is easier when the daily figures are predictable.','A low standard deviation means each day is close to the mean, so the manager can predict demand with more confidence.'],
+    ['If there is no spread at all, what must be true of the values?','Zero spread means that no value differs from the mean: all of the values are the same.'],
+    ['The mean has not changed, so the average wait is the same. What did change?','A smaller standard deviation means the waiting times are closer to the mean: more consistent and more predictable.']
+  ];
+BM_HINTS[75]=[
+    ['Add up the six bars, then divide by the number of months. The bars are in thousands of dollars.','(42 + 38 + 51 + 47 + 63 + 59) ÷ 6 = ?  Then convert from $000 to dollars.'],
+    ['Think about which chart splits a whole into parts.','A pie chart divides a whole (the total sales) into slices, so each slice is a share of the total.'],
+    ['A full pie chart is 360°. Find Brand C’s share of the total, then take that share of 360°.','($30,000 ÷ $120,000) × 360° = ?'],
+    ['Read Brand A’s percentage from its slice, then take that percentage of the total.','40% of $250,000 = 0.40 × $250,000 = ?'],
+    ['“Info” plus “graphic”: it is a picture-based way of presenting information.','It uses images, charts and brief text together so that the message is easy to take in at a glance.']
+  ];
+BM_HINTS[76]=[
+    ['Think about what summarising a lot of numbers into a few figures does for a busy manager.','They make large data sets easy to understand and compare, but they cannot guarantee results or explain causes.'],
+    ['Strengths are what the tools do well. Limitations are what they can hide or miss.','Summarising and comparing data are strengths. Averages hiding the spread, and outliers or small samples misleading, are limitations.'],
+    ['Check where the vertical axis starts.','A truncated axis (one that does not start at zero) makes small differences look large, so the chart can mislead.'],
+    ['How many customers were asked, compared with how many the business has?','A very small sample may not reflect the views of all customers, so the statistic could be misleading.'],
+    ['Descriptive statistics describe WHAT the data show.','They can measure the size and spread of a change, but explaining WHY it happened needs other information, such as market research.']
+  ];
+BM_HINTS[77]=[
+    ['Add up the seven days, then divide by seven.','(52 + 57 + 60 + 62 + 62 + 63 + 64) ÷ 7 = ?'],
+    ['Range = highest value − lowest value.','Café B’s busiest day minus its quietest day: 88 − 30 = ?'],
+    ['If the averages are identical, what kind of measure could still tell the two cafés apart?','Averages describe the centre. Only a measure of dispersion (range, IQR or standard deviation) shows how spread out the days are.'],
+    ['Rostering is easier when the daily numbers are predictable.','Café A’s days all lie close to 60, so a roster built on 60 customers will usually work. Café B’s days vary from 30 to 88.'],
+    ['Think about how much data there are, and how far into the future the manager is using them.','A small, short sample of past data may not be representative, and descriptive statistics do not forecast the future on their own.']
   ];
 
 /* ===================== STATE ===================== */
@@ -9227,7 +9571,8 @@ var BM_MODULES=[
   {key:'os',unit:'Human Resources',syl:'2.2',title:'Organizational Structure',emoji:'🏢',tag:'🏢 Organizational Structure','cls':'mod-os',col:'#c9a876',idx:[40,41,42,43,44,45,46,47],level:'SL'},
   {key:'lm',unit:'Human Resources',syl:'2.3',title:'Leadership and Management',emoji:'🧭',tag:'🧭 Leadership and Management','cls':'mod-lm',col:'#5ec8f0',idx:[48,49,50,51,52],level:'SL'},
   {key:'mo',unit:'Human Resources',syl:'2.4',title:'Motivation and Demotivation',emoji:'💪',tag:'💪 Motivation and Demotivation','cls':'mod-mo',col:'#ffb86b',idx:[53,54,55,56,57],level:'SL'},
-  {key:'dt',unit:'Business Management Toolkit (BMT)',title:'Decision Trees',emoji:'🌳',tag:'🌳 Decision Trees','cls':'mod-dt',col:'#a3e635',idx:[63,64,65,66,67,68],level:'SL'}
+  {key:'dt',unit:'Business Management Toolkit (BMT)',title:'Decision Trees',emoji:'🌳',tag:'🌳 Decision Trees','cls':'mod-dt',col:'#a3e635',idx:[63,64,65,66,67,68,69],level:'SL'},
+  {key:'ds',unit:'Business Management Toolkit (BMT)',title:'Descriptive Statistics',emoji:'📊',tag:'📊 Descriptive Statistics','cls':'mod-ds',col:'#e879f9',idx:[70,71,72,73,74,75,76,77],level:'SL'}
 ];
 
 /* Unlock logic — each module independent */
@@ -9240,7 +9585,7 @@ function bmLmSpeedUnlocked(){ return bmPerf('lm-situational-leadership')&&bmPerf
 
 /* Within-module unlock: lesson i is unlocked if it's the module's first lesson, or prev is done */
 function bmLesUnlocked(i){
-  if(i===BM_FA_START||i===BM_RA_START||i===BM_BE_START||i===BM_LN_START||i===BM_OM_START||i===BM_IO_START||i===BM_CF_START||i===BM_HR_START||i===BM_OS_START||i===BM_LM_START||i===BM_MO_START||i===BM_EG_START||i===BM_DT_START) return true;
+  if(i===BM_FA_START||i===BM_RA_START||i===BM_BE_START||i===BM_LN_START||i===BM_OM_START||i===BM_IO_START||i===BM_CF_START||i===BM_HR_START||i===BM_OS_START||i===BM_LM_START||i===BM_MO_START||i===BM_EG_START||i===BM_DT_START||i===BM_DS_START) return true;
   /* Must be same module and previous lesson complete */
   if(i>BM_FA_START && i<=BM_FA_END) return BM_S.dn.has(i-1);
   if(i>BM_RA_START && i<=BM_RA_END) return BM_S.dn.has(i-1);
@@ -9254,7 +9599,8 @@ function bmLesUnlocked(i){
   if(i>BM_LM_START && i<=BM_LM_END) return BM_S.dn.has(i-1);
   if(i>BM_MO_START && i<=BM_MO_END) return BM_S.dn.has(i-1);
   if(i>BM_EG_START && i<=BM_EG_END) return BM_S.dn.has(i-1);
-  if(i>BM_DT_START && i<=BM_DT_END) return BM_S.dn.has(i-1);
+  if(i>BM_DT_START && i<=BM_DT_END) return BM_S.dn.has(i-1)||(i===BM_DT_END&&BM_S.dn.has(i));   /* an already-finished final challenge stays open */
+  if(i>BM_DS_START && i<=BM_DS_END) return BM_S.dn.has(i-1);
   return false;
 }
 
@@ -9462,7 +9808,7 @@ if(window.speechSynthesis){
 }
 
 /* ===================== HELPERS ===================== */
-function bmSw(s){['hub','home','game','res','celebrate','speed','sres','bsdragdrop','cff'].forEach(function(id){document.getElementById('bm-sc-'+id).classList.remove('on');});document.getElementById('bm-sc-'+s).classList.add('on');document.getElementById('app').classList.toggle('wide-mode', s==='bsdragdrop'||s==='cff');document.body.classList.toggle('hub-light', s==='hub');}
+function bmSw(s){['hub','home','game','res','celebrate','speed','sres','bsdragdrop','cff','tfill'].forEach(function(id){document.getElementById('bm-sc-'+id).classList.remove('on');});document.getElementById('bm-sc-'+s).classList.add('on');document.getElementById('app').classList.toggle('wide-mode', s==='bsdragdrop'||s==='cff'||s==='tfill');document.body.classList.toggle('hub-light', s==='hub');}
 function bmShuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 function bmSubSilver(n){
   BM_S.silver=Math.max(0,BM_S.silver-n);
@@ -9933,7 +10279,7 @@ function bmSyncFromDisk(){
   }catch(e){}
 }
 /* Called by the top-level subject picker when the BM tile is chosen */
-function bmEnterSubject(){ bmSyncFromDisk(); bmSw('hub'); bmRHub(); bmCloudSyncCoinsOnEntry(); }
+function bmEnterSubject(){ bmSyncFromDisk(); bmSw('hub'); bmRHub(); bmCloudSyncCoinsOnEntry(); bmCloudSyncLessonsOnEntry(); try{ BM_TFILL.refreshStatus(); }catch(e){} }
 
 /* BM has only ever persisted gold/silver to localStorage (see bmSyncFromDisk/
    bmSaveProgress above) — this is the one place that reconciles it with the
@@ -9974,6 +10320,47 @@ function bmCloudSyncCoinsOnEntry(){
     },function(e){ console.warn('BM cloud coin sync failed:',e&&e.message); });
 }
 
+/* ===================== BM LESSON TICKS: BACK FROM THE ACCOUNT =====================
+   Business Management lesson ticks (done / perfect) have always been saved in the BROWSER only (ib_bm_progress_v1),
+   while the coins live on the server. So a browser that does not hold this site's saved data (another browser or
+   device, a private window, cleared site data) showed the coins but empty lesson ticks.
+   The server already records every lesson a student has answered (stage 5), and stage 9 SQL adds a read-only
+   function, get_my_lesson_progress(), that returns the signed-in student's OWN completed lessons. Here, on entering
+   BM, those are ticked again. Rules:
+     - signed-in students only (guests have no account to ask);
+     - union only: it can add a tick or a star, it can never take one away, and it never touches coins;
+     - if the stage 9 SQL has not been run, or the network is down, it does nothing and says nothing;
+     - what it restores is kept in this browser as well (bmSaveProgress), so it is there next time even offline. */
+function bmCloudSyncLessonsOnEntry(){
+  if(!sb||!CLOUD.user) return;
+  var who=CLOUD.user.id;
+  var req;
+  try{ req=sb.rpc('get_my_lesson_progress',{p_subject:'bm'}); }catch(e0){ return; }
+  if(!req||typeof req.then!=='function') return;
+  req.then(function(r){
+    if(!CLOUD.user||CLOUD.user.id!==who) return;           /* signed out / switched account while waiting */
+    if(!r||r.error||!Array.isArray(r.data)) return;
+    var dn=new Set(), perf=new Set();
+    r.data.forEach(function(row){
+      var id=row&&bmCleanId(row.lesson_id);
+      if(!id||dn.size>=1000) return;
+      dn.add(id);
+      if(row.perfect===true) perf.add(id);
+    });
+    if(!dn.size) return;
+    var d0=BM_S.dn.size+BM_UNK_DN.size, p0=BM_S.perfect.size+BM_UNK_PERFECT.size;
+    bmAdoptIds({dn:dn,perfect:perf,last:null});
+    var d1=BM_S.dn.size+BM_UNK_DN.size, p1=BM_S.perfect.size+BM_UNK_PERFECT.size;
+    if(d1===d0&&p1===p0) return;                            /* this browser already knew all of it */
+    bmSaveProgress();
+    function on(id){ var el=document.getElementById(id); return !!(el&&el.classList.contains('on')); }
+    if(on('bm-sc-hub')) bmRHub();
+    else if(on('bm-sc-home')) bmRHome();
+    var n=d1-d0;
+    if(n>0) practiceToast('✅ Restored '+n+' completed lesson'+(n===1?'':'s')+' from your account');
+  },function(e){ console.warn('BM lesson restore failed:',e&&e.message); });
+}
+
 /* ===================== HOME ===================== */
 function bmRHome(){
   var isUn=bmIsSpeedUnlocked(), bsUn=bmBsSpeedUnlocked();
@@ -9990,8 +10377,8 @@ function bmRHome(){
   function makeRow(di, accentCol){
     var l=BM_D[di];
     var dn=BM_S.dn.has(di), un=bmLesUnlocked(di), perf=BM_S.perfect.has(di);
-    var isLast=(di===BM_FA_END||di===BM_RA_END||di===BM_BE_END||di===BM_LN_END||di===BM_OM_END||di===BM_IO_END||di===BM_CF_END||di===BM_HR_END||di===BM_OS_END||di===BM_LM_END||di===BM_MO_END||di===BM_EG_END||di===BM_DT_END);
-    var localNum=(di-(di<=BM_FA_END?BM_FA_START:di<=BM_RA_END?BM_RA_START:di<=BM_BE_END?BM_BE_START:di<=BM_LN_END?BM_LN_START:di<=BM_OM_END?BM_OM_START:di<=BM_IO_END?BM_IO_START:di<=BM_CF_END?BM_CF_START:di<=BM_HR_END?BM_HR_START:di<=BM_OS_END?BM_OS_START:di<=BM_LM_END?BM_LM_START:di<=BM_MO_END?BM_MO_START:di<=BM_EG_END?BM_EG_START:BM_DT_START))+1;
+    var isLast=(di===BM_FA_END||di===BM_RA_END||di===BM_BE_END||di===BM_LN_END||di===BM_OM_END||di===BM_IO_END||di===BM_CF_END||di===BM_HR_END||di===BM_OS_END||di===BM_LM_END||di===BM_MO_END||di===BM_EG_END||di===BM_DT_END||di===BM_DS_END);
+    var localNum=(di-(di<=BM_FA_END?BM_FA_START:di<=BM_RA_END?BM_RA_START:di<=BM_BE_END?BM_BE_START:di<=BM_LN_END?BM_LN_START:di<=BM_OM_END?BM_OM_START:di<=BM_IO_END?BM_IO_START:di<=BM_CF_END?BM_CF_START:di<=BM_HR_END?BM_HR_START:di<=BM_OS_END?BM_OS_START:di<=BM_LM_END?BM_LM_START:di<=BM_MO_END?BM_MO_START:di<=BM_EG_END?BM_EG_START:di<=BM_DT_END?BM_DT_START:BM_DS_START))+1;
     var isSort=l.qs.length>0&&l.qs[0].tp==='sort';
 
     var ico=dn?(perf?'🌟':'✅'):un?l.ic:'<span class="lk-ic">🔒</span>';
@@ -10031,7 +10418,7 @@ function bmRHome(){
       +'<div style="width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:'+icoBg+';">'+ico+'</div>'
       +'<div style="flex:1;min-width:0;">'
       +'<div style="font-size:14px;font-weight:700;color:'+tc+';line-height:1.3;">'+'Lesson '+localNum+': '+l.t+'</div>'
-      +'<div style="font-size:11px;color:'+subc+';margin-top:1px;">'+l.qs.length+' questions'+(isSort&&l.sortTopic?' ('+l.sortTopic+')':'')+'</div>'
+      +'<div style="font-size:11px;color:'+subc+';margin-top:1px;">'+(l.fill?'Type &amp; calculate · fill in the tree':l.qs.length+' questions'+(isSort&&l.sortTopic?' ('+l.sortTopic+')':''))+'</div>'
       +'</div>'
       +(isLast?finishFlagHTML():'')
       +(isLast&&badge?'<div class="ff-badge'+((!un&&!dn)?' ff-lockb':'')+'">'+badge+'</div>':badge)
@@ -10200,7 +10587,13 @@ function bmRHome(){
 
   var dtSection=makeModule(
     'Decision Trees','🌳 Decision Trees','mod-dt',
-    [63,64,65,66,67,68],'#a3e635',
+    [63,64,65,66,67,68,69],'#a3e635',
+    []
+  );
+
+  var dsSection=makeModule(
+    'Descriptive Statistics','📊 Descriptive Statistics','mod-ds',
+    [70,71,72,73,74,75,76,77],'#e879f9',
     []
   );
 
@@ -10209,7 +10602,7 @@ function bmRHome(){
     '<div style="padding-top:10px;padding-bottom:30px;">'
     +'<button onclick="bmGoHub()" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.16);color:#c0cfe8;font-size:13px;font-weight:800;cursor:pointer;padding:9px 15px;border-radius:11px;font-family:inherit;margin-bottom:14px;">☰ All Business Management Modules</button>'
     +'<div style="display:flex;justify-content:flex-end;margin-bottom:14px;"><div class="coin-pill">'+bmCoinPillHTML()+'</div></div>'
-    +({fa:faSection,ra:raSection,eg:egSection,be:beSection,ln:lnSection,om:omSection,io:ioSection,cf:cfSection,hr:hrSection,os:osSection,lm:lmSection,mo:moSection,dt:dtSection}[BM_S.curMod]||faSection)
+    +({fa:faSection,ra:raSection,eg:egSection,be:beSection,ln:lnSection,om:omSection,io:ioSection,cf:cfSection,hr:hrSection,os:osSection,lm:lmSection,mo:moSection,dt:dtSection,ds:dsSection}[BM_S.curMod]||faSection)
     +'<div style="text-align:center;margin-top:8px;padding-bottom:10px;">'
     +'<button onclick="bmResetProgress()" style="background:none;border:none;color:#3a5078;font-size:11px;font-family:inherit;cursor:pointer;padding:6px 12px;border-radius:8px;" onmouseenter="this.style.color=\'#7a90b8\'" onmouseleave="this.style.color=\'#3a5078\'">↺ Reset all progress</button>'
     +'</div>'
@@ -10217,10 +10610,12 @@ function bmRHome(){
   /* the five Balance Sheet tiles also ask the server (once per sign-in) which sheets this student has already finished */
   try{ BM_BSDD.refreshStatus(); }catch(e){}
   try{ BM_CFF.refreshStatus(); }catch(e){}
+  try{ BM_TFILL.refreshStatus(); }catch(e){}
 }
 
 /* ===================== LESSON ===================== */
 function bmSL(i){
+  if(BM_D[i]&&BM_D[i].fill==='tree'){ BM_TFILL.open(); return; }   /* typed-answer lesson: its own screen */
   BM_S.les=i;BM_S.qi=0;BM_S.sel=null;BM_S.sub=false;BM_S.cor=null;BM_S.sc=0;BM_S.lessilver=0;BM_S.mistake=false;BM_S.hintLevel=0;
   BM_S.redo=BM_S.dn.has(i);   /* already completed → this whole attempt earns half silver (bmLessonReward) */
   BM_S.attempt=practiceNewId();BM_S.mLog=[];BM_S.srtLog=[];   /* a new attempt: its answers are reported to the server under this id */
@@ -10240,6 +10635,7 @@ function bmResumeLastLesson(){
 
 function bmRGame(){
   var les=BM_D[BM_S.les],tot=les.qs.length;
+  if(les.fill) return;   /* typed-answer lessons never use the question screen */
   if(BM_S.view==null||BM_S.view>BM_S.qi) BM_S.view=BM_S.qi;
   var vi=BM_S.view, live=(vi===BM_S.qi);
   var q=les.qs[vi];
@@ -10550,7 +10946,7 @@ function bmRRes(){
 
   /* Next lesson within same module */
   var nx=BM_S.les+1;
-  var hasNx=(mod==='fa'&&nx<=BM_FA_END)||(mod==='ra'&&nx<=BM_RA_END)||(mod==='be'&&nx<=BM_BE_END)||(mod==='ln'&&nx<=BM_LN_END)||(mod==='om'&&nx<=BM_OM_END)||(mod==='io'&&nx<=BM_IO_END)||(mod==='cf'&&nx<=BM_CF_END)||(mod==='hr'&&nx<=BM_HR_END)||(mod==='os'&&nx<=BM_OS_END)||(mod==='lm'&&nx<=BM_LM_END)||(mod==='mo'&&nx<=BM_MO_END)||(mod==='eg'&&nx<=BM_EG_END)||(mod==='dt'&&nx<=BM_DT_END);
+  var hasNx=(mod==='fa'&&nx<=BM_FA_END)||(mod==='ra'&&nx<=BM_RA_END)||(mod==='be'&&nx<=BM_BE_END)||(mod==='ln'&&nx<=BM_LN_END)||(mod==='om'&&nx<=BM_OM_END)||(mod==='io'&&nx<=BM_IO_END)||(mod==='cf'&&nx<=BM_CF_END)||(mod==='hr'&&nx<=BM_HR_END)||(mod==='os'&&nx<=BM_OS_END)||(mod==='lm'&&nx<=BM_LM_END)||(mod==='mo'&&nx<=BM_MO_END)||(mod==='eg'&&nx<=BM_EG_END)||(mod==='dt'&&nx<=BM_DT_END)||(mod==='ds'&&nx<=BM_DS_END);
 
   /* Bonus unlock banners */
   var banners='';
@@ -11805,6 +12201,533 @@ function open(n){
 }
 
 return { open:open, tilesHTML:tilesHTML, tapTile:tapTile, refreshStatus:refreshStatus, data:FC, parse:parse };
+})();
+
+/* ===================== BUILD A DECISION TREE (typed answers) =====================
+   Lesson 6 of the Decision Trees module, placed just before the final challenge. Like the Cash Flow Forecast sheets, the student
+   TYPES the figures into a nearly empty tree: the cost of each option, the probability and pay-off on every branch, the expected
+   value of each chance node, each net gain, and finally which option to choose. The options and the outcome names are already there.
+   "Check my answers" marks every typed box: green = correct (and locked), amber "own" = right from the student's own earlier figure
+   (the IB "own figure" rule), red = check again. Checking can be done as often as the student likes, part way through too.
+   Finishing (every box correct) ticks the lesson, which opens the final challenge. Signed in: the server checks every figure against
+   its own key and pays the gold coin (claim_tree_fill_gold in stage10_decision_tree_gold.sql); signed out: a device-only coin, once. */
+var BM_TFILL = (function(){
+
+var TF = {"id":"dt-build-a-decision-tree","title":"Build a Decision Tree","icon":"🚲","co":"Velo Bikes","intro":"Velo Bikes is a bicycle shop. The owner is deciding how to grow the business and has asked you to build a decision tree to compare the options.","facts":["Velo Bikes can choose one of three options: open a second shop, start a delivery service, or do nothing.","Option A, open a second shop, costs $80,000. Sales could be strong (30% chance), which gives a pay-off of $300,000, or average (50% chance), which gives $150,000. Otherwise sales are weak, and the shop makes a loss of $20,000.","Option B, start a delivery service, costs $45,000. It could be popular (50% chance), which gives a pay-off of $70,000. Otherwise it is unpopular, and the service makes a loss of $10,000.","Option C, do nothing, costs nothing and has a pay-off of $0. This is already filled in.","Net gain = expected value − cost of the option. The owner will choose the option with the highest net gain."],"options":[{"id":"A","name":"Open a second shop","cost":80000,"outs":[{"n":"Strong sales","p":0.3,"v":300000},{"n":"Average sales","p":0.5,"v":150000},{"n":"Weak sales","p":0.2,"v":-20000}],"ev":161000,"net":81000},{"id":"B","name":"Start a delivery service","cost":45000,"outs":[{"n":"Popular","p":0.5,"v":70000},{"n":"Unpopular","p":0.5,"v":-10000}],"ev":30000,"net":-15000},{"id":"C","name":"Do nothing","leaf":0}],"dec":"A"};
+var LESSON_ID = TF.id;
+var optById = {}, cells = {}, order = [], inputs = {}, stat = {}, groups = [];
+var decVal = null, decBox = null;
+var attempt = practiceNewId();
+var claiming = false, complete = false, lastInput = null, clearTimer = null;
+var draftMem = {}, statusState = {}, coinMem = null, newDiamond = null;
+
+/* ---------- small helpers ---------- */
+function signedIn(){ return !!(sb&&CLOUD&&CLOUD.user&&CLOUD.user.id); }
+function uidNow(){ return signedIn()?CLOUD.user.id:'local'; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmt(n){ var s=String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g,','); return (n<0?'−':'')+s; }
+function money(n){ return (n<0?'−':'')+'$'+String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+function r6(n){ return Math.round(n*1e6)/1e6; }
+
+/* Money: the same reader the Cash Flow sheets use (12500, 12,500, $12,500, -450, −450, (450) ...). */
+function parseMoney(raw){ return BM_CFF.parse(raw); }
+/* Probability: 0.3, .3, 0,3, 0.30, 30%, 3/10. Returns {empty:true}, {bad:true} or {n:number}. */
+function parseProb(raw){
+  var s=String(raw==null?'':raw).trim(), v, m, pct=false;
+  if(!s) return {empty:true};
+  s=s.replace(/[\s ]/g,'');
+  if(/%$/.test(s)){ pct=true; s=s.slice(0,-1); }
+  m=/^(\d{1,4})\/(\d{1,4})$/.exec(s);
+  if(m&&!pct){ if(+m[2]===0) return {bad:true}; return {n:r6(+m[1]/+m[2])}; }
+  s=s.replace(',','.');
+  if(!/^(\d+\.?\d*|\.\d+)$/.test(s)) return {bad:true};
+  v=parseFloat(s);
+  if(!isFinite(v)||v>1000) return {bad:true};
+  if(pct) v=v/100;
+  return {n:r6(v)};
+}
+function parseCell(c,raw){ return c.kind==='p'?parseProb(raw):parseMoney(raw); }
+function sameKey(c,n){ return Math.abs(n-c.key)<(c.kind==='p'?0.0005:0.005); }
+
+/* ---------- the cells: built from the data, in the order they appear on the screen ---------- */
+var TIPS = {
+  cost:'Find the cost of this option in the information. It is paid whichever outcome happens.',
+  p:'Probabilities go on the branches. Change a percentage into a decimal (30% = 0.3). The probabilities at one chance node add up to 1, so the last one is whatever is left.',
+  v:'Use the pay-off for each outcome from the information. A loss is a negative pay-off: click the box, then tap ± Negative.',
+  ev:'Expected value = (probability × pay-off) for every outcome, added together.',
+  net:'Net gain = expected value − cost of the option. It can be negative.',
+  dec:'Choose the option with the highest net gain. Doing nothing has a net gain of $0, so an option with a negative net gain is worse than doing nothing.'
+};
+var GROUP_NAME = {cost:'cost',p:'probabilities',v:'pay-offs',ev:'expected value',net:'net gain'};
+function buildCells(){
+  optById={}; cells={}; order=[]; groups=[];
+  function add(c){ cells[c.id]=c; order.push(c.id); return c; }
+  function group(g, c){
+    var f=groups.filter(function(x){ return x.id===g; })[0];
+    if(!f){ f={id:g,label:c.kind==='dec'?'Your choice of option':('Option '+c.opt+': '+GROUP_NAME[c.kind]),kind:c.kind,ids:[]}; groups.push(f); }
+    f.ids.push(c.id); c.grp=g;
+  }
+  TF.options.forEach(function(o){
+    optById[o.id]=o;
+    if(o.leaf!=null) return;
+    var c=add({id:o.id+'.cost',kind:'cost',opt:o.id,key:o.cost,aria:'Option '+o.id+', '+o.name+', cost'}); group(o.id+'.cost',c);
+    o.outs.forEach(function(u,j){
+      var p=add({id:o.id+'.p'+j,kind:'p',opt:o.id,j:j,key:u.p,last:(j===o.outs.length-1),aria:'Option '+o.id+', '+u.n+', probability'}); group(o.id+'.p',p);
+      var v=add({id:o.id+'.v'+j,kind:'v',opt:o.id,j:j,key:u.v,aria:'Option '+o.id+', '+u.n+', pay-off'}); group(o.id+'.v',v);
+    });
+    var e=add({id:o.id+'.ev',kind:'ev',opt:o.id,key:o.ev,aria:'Option '+o.id+', expected value'}); group(o.id+'.ev',e);
+    var n=add({id:o.id+'.net',kind:'net',opt:o.id,key:o.net,aria:'Option '+o.id+', net gain'}); group(o.id+'.net',n);
+  });
+  var d=add({id:'dec',kind:'dec',key:TF.dec}); group('dec',d);
+}
+
+/* ---------- building the screen ---------- */
+function boxHTML(id){
+  var c=cells[id], isP=c.kind==='p';
+  return '<span class="tf-c tf-w-'+(isP?'p':'m')+'" data-c="'+id+'"><input type="text" inputmode="'+(isP?'decimal':'numeric')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="'+(isP?9:14)+'" data-c="'+id+'" aria-label="'+esc(c.aria)+'"></span>';
+}
+function stack(label,id,cls){
+  return '<div class="tf-stk '+cls+'"><span class="tf-lab">'+label+'</span><span class="tf-inl"><span class="tf-unit">$</span>'+boxHTML(id)+'</span></div>';
+}
+function payHTML(id){
+  return '<div class="tf-pay"><span class="tf-lab">Pay-off</span><span class="tf-inl"><span class="tf-unit">$</span>'+boxHTML(id)+'</span></div>';
+}
+function nameHTML(o){ return '<div class="tf-optName"><span class="tf-letter">'+o.id+'</span><span>'+esc(o.name)+'</span></div>'; }
+/* one option = a branch from the decision node, a chance node (circle) and one branch per outcome */
+function optionHTML(o){
+  if(o.leaf!=null){
+    return '<div class="tf-opt tf-leafOpt"><div class="tf-obr">'+nameHTML(o)+'</div>'
+      +'<div class="tf-pay"><span class="tf-lab">Pay-off</span><span class="tf-inl"><span class="tf-unit"></span><span class="tf-given" aria-label="Pay-off, already filled in: '+esc(money(o.leaf))+'">'+esc(money(o.leaf))+'</span></span></div></div>';
+  }
+  var h='<div class="tf-opt"><div class="tf-obr">'+nameHTML(o)
+    +'<div class="tf-costRow"><span class="tf-lab">Cost</span><span class="tf-inl"><span class="tf-unit">$</span>'+boxHTML(o.id+'.cost')+'</span></div></div>'
+    +'<div class="tf-cn"><span class="tf-circle" title="Chance node"></span>'+stack('Expected value',o.id+'.ev','tf-ev')+stack('Net gain',o.id+'.net','tf-net')+'</div>'
+    +'<div class="tf-outs">';
+  o.outs.forEach(function(u,j){
+    h+='<div class="tf-out"><div class="tf-ob"><span class="tf-outName">'+esc(u.n)+'</span>'
+      +'<span class="tf-pr"><span class="tf-lab">Probability</span>'+boxHTML(o.id+'.p'+j)+'</span></div>'
+      +payHTML(o.id+'.v'+j)+'</div>';
+  });
+  return h+'</div></div>';
+}
+function pickHTML(){
+  var h='<div class="tf-pick"><div class="tf-pickQ">Which option should '+esc(TF.co)+' choose?</div><div class="tf-pickBox" id="tf-pickBox" data-c="dec"><div class="tf-picks">';
+  TF.options.forEach(function(o){
+    h+='<button type="button" class="tf-pickBtn" data-pick="'+o.id+'" aria-pressed="false"><span class="tf-letter">'+o.id+'</span>'+esc(o.name)+'</button>';
+  });
+  return h+'</div></div></div>';
+}
+function build(){
+  var el=document.getElementById('bm-sc-tfill');
+  var facts=TF.facts.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('');
+  el.innerHTML='<div id="tf-app">'
+    +'<div class="tf-crumb"><span class="crumb-seg" onclick="bmGoHub()">Business Management</span><span class="tf-sep">\u203a</span>'
+    +'<span class="crumb-seg tf-crumbMod" onclick="bmOpenModule(\'dt\')" title="Decision Trees">Decision Trees</span><span class="tf-sep">\u203a</span>'
+    +'<span class="tf-crumbEnd" title="'+esc(TF.title)+'">'+esc(TF.title)+'</span></div>'
+    +'<div class="tf-brief">'
+    +'<div class="tf-briefHead">'
+    +'<h1>Build the Decision Tree</h1>'
+    +'<div class="cff-counterChip"><div class="n" id="tf-n">0/'+order.length+'</div><div class="l">Correct</div></div></div>'
+    +'<div class="tf-briefBody"><div class="cff-co">'+TF.icon+' '+esc(TF.co)+'</div><p class="cff-intro">'+esc(TF.intro)+'</p>'
+    +'<ul class="cff-facts">'+facts+'</ul></div>'
+    +'</div>'
+    +'<div class="tf-treeWrap" id="tf-treeWrap">'
+    +'<div class="cff-toolbar"><span class="cff-legend"><b class="cff-lg ok">✓</b> correct <b class="cff-lg own">own</b> right from your own figure <b class="cff-lg bad">✗</b> check again</span>'
+    +'<button type="button" class="cff-sign" id="tf-sign" title="Make the figure in the selected box negative or positive">± Negative</button></div>'
+    +'<div class="tf-swipe">Swipe sideways to see the whole tree</div>'
+    +'<div class="tf-scroll"><div class="tf-tree" id="tf-tree"><div class="tf-root" title="Decision node"><i></i><span></span></div>'
+    +'<div class="tf-branches">'+TF.options.map(optionHTML).join('')+'</div></div></div>'+pickHTML()+'</div>'
+    +'<div class="cff-fb" id="tf-fb" aria-live="polite"></div>'
+    +'<div class="cff-actions" id="tf-actions"><span class="cff-fill" id="tf-fill"></span>'
+    +'<button type="button" class="cff-btn cff-ghost" id="tf-clear">Start again</button>'
+    +'<button type="button" class="cff-btn cff-primary" id="tf-check">Check my answers</button></div>'
+    +'<div class="cff-complete" id="tf-complete"><h2>🌟 Tree Complete!</h2><p id="tf-bannerP"></p>'
+    +'<button class="cff-claim" id="tf-claimBtn" type="button">Claim Your Gold Coin</button></div>'
+    +'</div>';
+  inputs={};
+  el.querySelectorAll('input[data-c]').forEach(function(inp){ inputs[inp.getAttribute('data-c')]=inp; });
+  decBox=document.getElementById('tf-pickBox');
+  wire(el);
+  centreRoot();
+  if(treeRO){ try{ treeRO.disconnect(); }catch(e){} treeRO=null; }
+  if(window.ResizeObserver){ treeRO=new ResizeObserver(centreRoot); treeRO.observe(document.getElementById('tf-tree')); }
+}
+var treeRO=null;
+/* the square sits half-way along the trunk (between the first and the last option branch) */
+function centreRoot(){
+  var tree=document.getElementById('tf-tree'); if(!tree) return;
+  var sc=document.getElementById('tf-treeWrap'), box=tree.parentNode;
+  if(sc&&box&&box.clientWidth) sc.classList.toggle('tf-scrolls',box.scrollWidth>box.clientWidth+2);
+  var os=tree.querySelectorAll('.tf-opt'), r=tree.querySelector('.tf-root');
+  if(!r||os.length<2||!os[0].offsetHeight) return;
+  var a=os[0], z=os[os.length-1];
+  r.style.top=Math.round(((a.offsetTop+a.offsetHeight/2)+(z.offsetTop+z.offsetHeight/2))/2)+'px';
+}
+
+function cellOf(inp){ var id=inp&&inp.getAttribute&&inp.getAttribute('data-c'); return id&&cells[id]?cells[id]:null; }
+function wire(el){
+  var wrap=document.getElementById('tf-treeWrap');
+  wrap.addEventListener('input',function(e){
+    var c=cellOf(e.target); if(!c) return;
+    var inp=e.target, v=inp.value, k=(c.kind==='p')?v.replace(/[^0-9.,%\/\s]/g,''):v.replace(/[^0-9.,\-−–—()\s$€£]/g,'');
+    if(k!==v) inp.value=k;
+    if(stat[c.id]&&stat[c.id]!=='ok') setStat(c.id,'');
+    updateFill(); saveDraft();
+  });
+  wrap.addEventListener('focusin',function(e){ if(cellOf(e.target)) lastInput=e.target; });
+  wrap.addEventListener('focusout',function(e){
+    var c=cellOf(e.target); if(!c||e.target.readOnly) return;
+    var p=parseCell(c,e.target.value);
+    if(p.n!=null&&/\d/.test(e.target.value)) e.target.value=(c.kind==='p')?String(p.n):fmt(p.n);
+  });
+  wrap.addEventListener('keydown',function(e){
+    if(e.key!=='Enter') return;
+    var c=cellOf(e.target); if(!c) return;
+    e.preventDefault();
+    var at=order.indexOf(c.id), k, nxt=null;
+    for(k=at+1;k<order.length;k++){ if(inputs[order[k]]&&!inputs[order[k]].readOnly){ nxt=order[k]; break; } }
+    if(nxt) inputs[nxt].focus(); else e.target.blur();
+  });
+  wrap.addEventListener('click',function(e){
+    var b=e.target&&e.target.closest?e.target.closest('.tf-pickBtn'):null;
+    if(!b||b.disabled||complete) return;
+    decVal=b.getAttribute('data-pick');
+    paintPick();
+    if(stat.dec&&stat.dec!=='ok') setStat('dec','');
+    updateFill(); saveDraft();
+  });
+  var sign=document.getElementById('tf-sign');
+  sign.addEventListener('pointerdown',function(e){ e.preventDefault(); });
+  sign.addEventListener('mousedown',function(e){ e.preventDefault(); });
+  sign.addEventListener('click',function(){
+    var inp=lastInput;
+    if(!inp||!document.body.contains(inp)||inp.readOnly){ practiceToast('Tap a box first, then tap ± to make it negative.'); return; }
+    var c=cellOf(inp);
+    if(c&&c.kind==='p'){ practiceToast("A probability can't be negative."); return; }
+    var v=inp.value.trim();
+    if(/^[-−–]/.test(v)) v=v.replace(/^[-−–]\s*/,''); else v='−'+v;
+    inp.value=v;
+    if(c&&stat[c.id]&&stat[c.id]!=='ok') setStat(c.id,'');
+    updateFill(); saveDraft(); inp.focus();
+  });
+  document.getElementById('tf-check').addEventListener('click',check);
+  document.getElementById('tf-clear').addEventListener('click',startAgain);
+  document.getElementById('tf-claimBtn').addEventListener('click',claim);
+}
+function paintPick(){
+  if(!decBox) return;
+  decBox.querySelectorAll('.tf-pickBtn').forEach(function(b){ b.setAttribute('aria-pressed',b.getAttribute('data-pick')===decVal?'true':'false'); });
+}
+
+/* ---------- marking ---------- */
+function valOf(id){
+  var c=cells[id]; if(!c) return null;
+  var inp=inputs[id]; if(!inp) return null;
+  var p=parseCell(c,inp.value);
+  return p.n!=null?p.n:null;
+}
+/* What this box should hold if the student's OWN earlier figures are used (the IB "own figure" rule). null = nothing to compare with. */
+function ownExpect(c){
+  var o=optById[c.opt], j, t, a, b;
+  if(c.kind==='ev'){
+    t=0;
+    for(j=0;j<o.outs.length;j++){ a=valOf(o.id+'.p'+j); b=valOf(o.id+'.v'+j); if(a==null||b==null) return null; t+=a*b; }
+    return Math.round(t*100)/100;
+  }
+  if(c.kind==='net'){ a=valOf(o.id+'.ev'); b=valOf(o.id+'.cost'); return (a==null||b==null)?null:a-b; }
+  if(c.kind==='p'&&c.last){
+    t=0;
+    for(j=0;j<o.outs.length-1;j++){ a=valOf(o.id+'.p'+j); if(a==null) return null; t+=a; }
+    return r6(1-t);
+  }
+  return null;
+}
+/* The option with the highest net gain on the student's own figures (null if a net gain is missing or there is a tie). */
+function ownBest(){
+  var best=null, bestV=null, tie=false;
+  for(var i=0;i<TF.options.length;i++){
+    var o=TF.options[i], v=(o.leaf!=null)?o.leaf:valOf(o.id+'.net');
+    if(v==null) return null;
+    if(bestV==null||v>bestV+0.005){ best=o.id; bestV=v; tie=false; }
+    else if(Math.abs(v-bestV)<=0.005) tie=true;
+  }
+  return tie?null:best;
+}
+function setStat(id,s){
+  stat[id]=s;
+  var box=(id==='dec')?decBox:document.querySelector('#tf-treeWrap .tf-c[data-c="'+id+'"]');
+  if(box){ box.classList.remove('tf-ok','tf-own','tf-bad','tf-empty'); if(s) box.classList.add('tf-'+s); }
+  if(id==='dec'){
+    if(decBox) decBox.querySelectorAll('.tf-pickBtn').forEach(function(b){ b.disabled=(s==='ok'); });
+    return;
+  }
+  var inp=inputs[id];
+  if(inp){ if(s==='ok'){ inp.readOnly=true; inp.setAttribute('aria-readonly','true'); } else { inp.readOnly=false; inp.removeAttribute('aria-readonly'); } }
+}
+function filledCount(){
+  var n=0; order.forEach(function(id){ if(id==='dec'){ if(decVal) n++; } else if(inputs[id]&&inputs[id].value.trim()) n++; });
+  return n;
+}
+function updateFill(){
+  var el=document.getElementById('tf-fill'); if(el) el.textContent=filledCount()+' of '+order.length+' boxes filled in';
+}
+function check(){
+  if(!TF||complete) return;
+  if(!filledCount()){ practiceToast('Type some figures into the tree first.'); return; }
+  var res={ok:0,own:0,bad:0,empty:0}, byGrp={};
+  order.forEach(function(id){
+    var c=cells[id], st;
+    if(stat[id]==='ok'){ res.ok++; return; }
+    if(id==='dec'){
+      if(!decVal) st='empty';
+      else if(decVal===c.key) st='ok';
+      else st=(ownBest()===decVal)?'own':'bad';
+    } else {
+      var inp=inputs[id], p=parseCell(c,inp.value);
+      if(p.n!=null&&/\d/.test(inp.value)) inp.value=(c.kind==='p')?String(p.n):fmt(p.n);
+      if(p.empty) st='empty';
+      else if(p.n==null) st='bad';
+      else if(sameKey(c,p.n)) st='ok';
+      else { var e=ownExpect(c); st=(e!=null&&Math.abs(p.n-e)<(c.kind==='p'?0.0005:0.5))?'own':'bad'; }
+    }
+    res[st]++;
+    setStat(id,st);
+    if(st!=='ok'){ (byGrp[c.grp]=byGrp[c.grp]||{own:0,bad:0,empty:0})[st]++; }
+  });
+  document.getElementById('tf-n').textContent=res.ok+'/'+order.length;
+  if(res.ok===order.length){ finish(); return; }
+  feedback(res,byGrp);
+}
+function feedback(res,byGrp){
+  var fb=document.getElementById('tf-fb'), h='<div class="cff-fbTop"><b>'+res.ok+' of '+order.length+' correct.</b>';
+  if(res.own) h+=' <span class="cff-fbOwn">'+res.own+' marked <b>own</b>: the method is right, but a figure it uses is wrong.</span>';
+  if(res.empty) h+=' '+res.empty+' still empty.';
+  h+='</div>';
+  var items=[], empties=[];
+  groups.forEach(function(g){
+    var b=byGrp[g.id]; if(!b) return;
+    if(b.bad) items.push('<li><b>'+esc(g.label)+':</b> '+esc(TIPS[g.kind])+'</li>');
+    else if(b.own) items.push('<li><b>'+esc(g.label)+':</b> Your method is right here, but it uses one of your earlier figures and that figure is wrong. Fix the red box first, then check again.</li>');
+    else empties.push(g.label);
+  });
+  if(items.length){
+    h+='<div class="cff-fbHead">Look again at</div><ul>'+items.slice(0,4).join('')+'</ul>';
+    if(items.length>4) h+='<div class="cff-fbMore">+ '+(items.length-4)+' more part'+(items.length-4===1?'':'s')+' to check</div>';
+  }
+  if(empties.length){
+    h+='<div class="cff-fbHead">Not filled in yet</div><div class="cff-fbEmpty">'+empties.slice(0,6).map(esc).join(', ')+(empties.length>6?' and '+(empties.length-6)+' more':'')+'</div>';
+  }
+  fb.innerHTML=h; fb.classList.add('cff-show');
+}
+function startAgain(){
+  if(!TF||complete) return;
+  var btn=document.getElementById('tf-clear');
+  if(!btn.dataset.arm){
+    btn.dataset.arm='1'; btn.textContent='Tap again to clear all';
+    clearTimer=setTimeout(function(){ if(btn){ btn.dataset.arm=''; btn.textContent='Start again'; } },3000);
+    return;
+  }
+  clearTimeout(clearTimer); btn.dataset.arm=''; btn.textContent='Start again';
+  order.forEach(function(id){ if(id!=='dec'&&inputs[id]) inputs[id].value=''; setStat(id,''); });
+  decVal=null; paintPick();
+  document.getElementById('tf-n').textContent='0/'+order.length;
+  var fb=document.getElementById('tf-fb'); fb.innerHTML=''; fb.classList.remove('cff-show');
+  attempt=practiceNewId();
+  updateFill(); dropDraft();
+}
+
+/* ---------- unfinished work is kept (this visit, and on this device) ---------- */
+function draftKey(){ return 'ibdp_bm_tfdraft_'+uidNow(); }
+function readDraft(){
+  var o={};
+  try{ o=JSON.parse(localStorage.getItem(draftKey())||'{}')||{}; }catch(e){ o={}; }
+  var m=draftMem[uidNow()]; if(m){ Object.keys(m).forEach(function(k){ o[k]=m[k]; }); }
+  return o;
+}
+function saveDraft(){
+  if(!TF||complete) return;
+  var mine={};
+  order.forEach(function(id){ if(id==='dec'){ if(decVal) mine.dec=decVal; } else { var v=inputs[id]&&inputs[id].value; if(v) mine[id]=String(v).slice(0,16); } });
+  draftMem[uidNow()]=mine;
+  try{ if(Object.keys(mine).length) localStorage.setItem(draftKey(),JSON.stringify(mine)); else localStorage.removeItem(draftKey()); }catch(e){}
+}
+function dropDraft(){
+  draftMem[uidNow()]={};
+  try{ localStorage.removeItem(draftKey()); }catch(e){}
+}
+
+/* ---------- finishing: the lesson is ticked, then the gold coin ---------- */
+function bannerText(){
+  var best=optById[TF.dec], s='Option '+best.id+' ('+best.name+') has the highest net gain, '+money(best.net)+', so '+TF.co+' should choose it.';
+  TF.options.forEach(function(o){
+    if(o.leaf==null&&o.net<0) s+=' Option '+o.id+" has a negative net gain ("+money(o.net)+'): on average it would earn less than it costs, so doing nothing would be better than choosing it.';
+  });
+  var pos=bmPos(LESSON_ID), nx=BM_D[pos+1];
+  s+=nx?' The final challenge is now unlocked.':'';
+  return s;
+}
+function markLessonDone(){
+  var pos=bmPos(LESSON_ID); if(pos<0) return;
+  BM_S.lastLes=pos;
+  if(BM_S.dn.has(pos)){ bmSaveProgress(); return; }
+  var mod=BM_D[pos].mod, was=bmModuleComplete(mod);
+  BM_S.dn.add(pos); bmSaveProgress();
+  newDiamond=(!was&&bmModuleComplete(mod))?mod:null;
+}
+function finish(){
+  complete=true;
+  order.forEach(function(id){ if(id!=='dec'&&inputs[id]) inputs[id].readOnly=true; });
+  if(decBox) decBox.querySelectorAll('.tf-pickBtn').forEach(function(b){ b.disabled=true; });
+  var fb=document.getElementById('tf-fb'); fb.innerHTML=''; fb.classList.remove('cff-show');
+  var bar=document.getElementById('tf-actions'); if(bar) bar.style.display='none';
+  markLessonDone();
+  var b=document.getElementById('tf-complete');
+  document.getElementById('tf-bannerP').textContent=bannerText();
+  b.classList.add('cff-show');
+  updateBanner();
+  dropDraft();
+  try{ b.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){}
+}
+var LOCAL_KEY='ibdp_bm_tfgold_local';
+function localClaimed(){
+  var v=false; try{ v=localStorage.getItem(LOCAL_KEY)==='1'; }catch(e){}
+  return v||coinMem===true;
+}
+function localMark(){ coinMem=true; try{ localStorage.setItem(LOCAL_KEY,'1'); }catch(e){} }
+function updateBanner(){
+  var btn=document.getElementById('tf-claimBtn'), p=document.getElementById('tf-bannerP');
+  if(!btn||!p) return;
+  if(!signedIn()&&localClaimed()){
+    btn.textContent='Back to Lessons'; btn.dataset.mode='back'; btn.disabled=false;
+    p.textContent=bannerText()+" You've already earned this lesson's gold coin on this device.";
+  } else if(!claiming){
+    btn.textContent='Claim Your Gold Coin'; btn.dataset.mode=''; btn.disabled=false;
+    p.textContent=bannerText();
+  }
+}
+function stillHere(){
+  var el=document.getElementById('tf-complete');
+  return !!(el&&document.body.contains(el)&&document.getElementById('bm-sc-tfill').classList.contains('on'));
+}
+function goLessons(){
+  if(!stillHere()) return;
+  bmSw('home'); bmRHome();
+  if(newDiamond){
+    var m=BM_MODULES.filter(function(x){ return x.key===newDiamond; })[0], t=m?m.title:'Module';
+    newDiamond=null;
+    setTimeout(function(){ bmShowDiamondFlash(t); },900);
+  }
+}
+function celebrateAndLeave(sub){
+  bmShowGoldFlash(sub||'Decision tree complete — 1 gold coin added!');
+  setTimeout(goLessons,2700);
+}
+function claim(){
+  var btn=document.getElementById('tf-claimBtn');
+  if(!btn||claiming||!complete) return;
+  if(btn.dataset.mode==='back'){ goLessons(); return; }
+  /* every box was checked above; the server compares every figure with its own key */
+  var answers={}, bad=false;
+  order.forEach(function(id){
+    var c=cells[id];
+    if(id==='dec'){ answers.dec=decVal; if(decVal!==c.key) bad=true; return; }
+    var p=parseCell(c,inputs[id].value);
+    if(p.n==null||!sameKey(c,p.n)) bad=true;
+    answers[id]=c.key;   /* a box that passed the check holds the key's value (it may have been typed as 30%, 0.30 or $80,000.00) */
+  });
+  if(bad) return;
+  markLessonDone();
+  claiming=true; btn.disabled=true; btn.textContent='Claiming…';
+  function fail(msg){ claiming=false; btn.disabled=false; btn.textContent='Claim Your Gold Coin'; practiceToast(msg); }
+  if(!signedIn()){
+    if(!localClaimed()){
+      BM_S.gold+=1; localMark(); bmSaveProgress(); _bmRefreshCoinPills();
+      claiming=false; celebrateAndLeave();
+    } else { claiming=false; updateBanner(); goLessons(); }
+    return;
+  }
+  var u=CLOUD.user.id, att=attempt, call;
+  try{ call=sb.rpc('claim_tree_fill_gold',{p_attempt:att,p_answers:answers,p_tree:1}); }catch(e){ call=Promise.reject(e); }
+  Promise.resolve(call).then(function(r){
+    claiming=false;
+    if(!CLOUD.user||CLOUD.user.id!==u) return;
+    if(r&&!r.error&&r.data){
+      var d=r.data;
+      if(d.status==='ok'){
+        if(_bmPsQueue.length===0) practiceAdopt('bm',d);
+        else { BM_S.gold+=1; bmSaveProgress(); _bmRefreshCoinPills(); }
+        if(stillHere()) celebrateAndLeave();
+        else practiceToast('Decision tree complete — 1 gold coin added!');
+      } else if(d.status==='already'){
+        practiceAdopt('bm',d);
+        practiceToast("You've already earned this lesson's gold coin. Replays are just for practice.");
+        if(stillHere()) goLessons();
+      } else if(d.status==='nocoin'){
+        practiceAdopt('bm',d);
+        practiceToast('Decision tree complete! This lesson does not pay a coin.');
+        if(stillHere()) goLessons();
+      } else {
+        fail("The server couldn't confirm this tree. Leave it and open it again to retry.");
+      }
+      return;
+    }
+    var err=r&&r.error, m=(err&&err.message)||'';
+    if(err&&(err.code==='PGRST202'||/could not find the function/i.test(m))) fail("The Decision Tree gold coin isn't switched on yet. Ask your teacher.");
+    else if(/too fast/i.test(m)) fail('Please wait a few seconds, then tap Claim again.');
+    else fail('Could not reach the server. Check your connection, then tap Claim again.');
+  },function(){
+    claiming=false;
+    if(!CLOUD.user||CLOUD.user.id!==u) return;
+    fail('Could not reach the server. Check your connection, then tap Claim again.');
+  });
+}
+
+/* ---------- opening the lesson ---------- */
+function open(){
+  buildCells();
+  stat={}; decVal=null; complete=false; claiming=false; lastInput=null; newDiamond=null;
+  attempt=practiceNewId();
+  var pos=bmPos(LESSON_ID);
+  if(pos>=0){ BM_S.les=pos; BM_S.lastLes=pos; bmSaveProgress(); }
+  bmSw('tfill');
+  build();
+  var d=readDraft();
+  order.forEach(function(id){
+    if(id==='dec'){ if(typeof d.dec==='string'&&optById[d.dec]){ decVal=d.dec; } }
+    else if(inputs[id]&&typeof d[id]==='string') inputs[id].value=d[id];
+  });
+  paintPick(); updateFill();
+  try{ window.scrollTo(0,0); }catch(e){}
+}
+
+/* Ask the server (once per sign-in) whether this student has already finished the tree, so the lesson is ticked and the final
+   challenge opens on any device. Quietly does nothing if the stage 10 SQL is not installed or the network is down. */
+function refreshStatus(){
+  if(!signedIn()) return;
+  var u=CLOUD.user.id;
+  if(statusState[u]) return;
+  statusState[u]='pending';
+  var call;
+  try{ call=sb.rpc('tree_fill_status'); }catch(e){ statusState[u]=''; return; }
+  Promise.resolve(call).then(function(r){
+    if(r&&!r.error&&r.data&&Array.isArray(r.data.done)){
+      statusState[u]='done';
+      if(!signedIn()||CLOUD.user.id!==u) return;
+      if(r.data.done.indexOf(1)<0) return;
+      var pos=bmPos(LESSON_ID);
+      if(pos<0||BM_S.dn.has(pos)) return;
+      bmAdoptIds({dn:new Set([LESSON_ID]),perfect:new Set(),last:null});
+      bmSaveProgress();
+      function on(id){ var el=document.getElementById(id); return !!(el&&el.classList.contains('on')); }
+      if(on('bm-sc-hub')) bmRHub(); else if(on('bm-sc-home')) bmRHome();
+      return;
+    }
+    var err=r&&r.error, m=(err&&err.message)||'';
+    statusState[u]=(err&&(err.code==='PGRST202'||/could not find the function/i.test(m)))?'missing':'';
+  },function(){ statusState[u]=''; });
+}
+
+return { open:open, refreshStatus:refreshStatus, data:TF, parseProb:parseProb, parseMoney:parseMoney, lessonId:LESSON_ID };
 })();
 
 
