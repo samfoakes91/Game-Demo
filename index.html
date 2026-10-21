@@ -720,7 +720,7 @@ body.hub-light{background:#000;}
 .tf-swipe{display:none;font-size:11.5px;font-weight:700;color:var(--ink-soft);margin:0 0 6px}
 .tf-treeWrap.tf-scrolls .tf-swipe{display:block}
 .tf-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;padding:2px 0 6px}
-.tf-tree{--ln:#8a97b8;--rowH:70px;--cnW:140px;--pOff:108px;position:relative;padding-left:40px;min-width:710px}
+.tf-tree{--ln:#8a97b8;--rowH:70px;--cnW:140px;--pOff:120px;position:relative;padding-left:40px;min-width:710px}
 .tf-root{position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;width:32px}
 .tf-root i{display:block;flex:0 0 auto;width:22px;height:22px;border-radius:4px;background:#5b9bff;border:2px solid #0e1e36;box-sizing:border-box}
 .tf-root span{flex:1;height:2px;background:var(--ln)}
@@ -809,6 +809,50 @@ body.hub-light{background:#000;}
   .tf-treeWrap .cff-toolbar{padding:0 4px 10px}
   .tf-pickBtn{flex-basis:100%}
 }
+/* ===== the three Build-a-Decision-Tree lessons (6A, 6B, 6C) on the lesson map: ONE row of three white tiles ===== */
+.tf-tiles{flex:1;min-width:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tf-tile{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;box-sizing:border-box;margin:0;padding:10px 11px 11px;border-radius:13px;background:#fff;border:1.5px solid rgba(0,0,0,.15);color:#10131a;font-family:inherit;text-align:left;transition:border-color .15s}
+button.tf-tile{cursor:pointer;-webkit-appearance:none;appearance:none;-webkit-tap-highlight-color:transparent}
+.tf-tile.tf-tOpen:not(.tf-tDone):hover{border-color:var(--tfAccent,#a3e635)}
+.tf-tile:focus-visible{outline:3px solid #5b9bff;outline-offset:2px}
+.tf-tile.tf-tDone{border-color:#00a389}
+.tf-tile.tf-tLock{cursor:default}
+/* a locked tile stays white; its contents fade instead */
+.tf-tLock .tf-tTop,.tf-tLock .tf-tLes,.tf-tLock .tf-tName,.tf-tLock .tf-tCo,.tf-tLock .tf-tLvl{opacity:.42}
+.tf-tTop{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 6px;width:100%;margin-bottom:5px}
+.tf-tIco{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1;background:rgba(0,0,0,.05);flex-shrink:0}
+.tf-tIco .lk-ic{font-size:18px}
+.tf-tDone .tf-tIco{background:rgba(0,196,167,.18)}
+.tf-tBadge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:99px;background:rgba(0,163,137,.14);color:#006b59;white-space:nowrap;line-height:1.2}
+.tf-tLes{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#5a6b85;line-height:1.2}
+.tf-tName{font-size:14px;font-weight:700;line-height:1.25;color:#10131a;overflow-wrap:anywhere}
+.tf-tCo{font-size:11.5px;font-weight:600;color:#5a6b85;line-height:1.25;margin-top:1px;overflow-wrap:anywhere}
+.tf-tLvl{display:flex;align-items:center;gap:3px;margin-top:5px;font-size:10.5px;font-weight:800;color:#3d4b66;line-height:1}
+.tf-tLvl i{display:block;width:7px;height:7px;border-radius:50%;background:#d3dbe8;flex-shrink:0}
+.tf-tLvl i.on{background:#0e1e36}
+.tf-tLvl b{font-weight:800;margin-left:3px}
+@media(max-width:420px){
+  .tf-tiles{gap:5px}
+  .tf-tile{padding:8px 7px 9px;border-radius:11px}
+  .tf-tIco{width:28px;height:28px;font-size:15px;border-radius:8px}
+  .tf-tIco .lk-ic{font-size:15px}
+  .tf-tName{font-size:12px}
+  .tf-tCo{font-size:10.5px}
+  .tf-tLes{font-size:10px;letter-spacing:.03em}
+  .tf-tLvl{font-size:9.5px}
+  .tf-tBadge{font-size:9.5px;padding:2px 6px}
+}
+@media(max-width:360px){
+  .tf-tiles{gap:4px}
+  .tf-tile{padding:7px 6px 8px}
+  .tf-tLes{font-size:9px;letter-spacing:0}
+  .tf-tName{font-size:11.5px}
+  .tf-tCo{font-size:10px}
+  .tf-tLvl{flex-wrap:wrap;gap:2px 3px;font-size:9px}
+  .tf-tLvl i{width:6px;height:6px}
+  .tf-tLvl b{margin-left:1px}
+}
+.tf-tLvl{flex-wrap:wrap}
 .gf-burst{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff3a6,#f0b429 60%,#b8820a);pointer-events:none;opacity:0;animation:gfBurst 1.5s ease-out forwards}
 @keyframes gfBurst{0%{opacity:1;transform:translate(0,0) scale(.4)}70%{opacity:1}100%{opacity:0;transform:translate(var(--bx),var(--by)) scale(1)}}
 #bm-gold-flash.gf-ring .gold-coin-lg{animation:spinBounce .7s ease forwards,gfGlow 1.4s ease-out .4s 1}
@@ -8776,7 +8820,9 @@ var BM_D=[
     {tp:'mc',lb:'Choose the correct answer',q:'The managers are very keen on one project and give its successful outcome a probability that is too high. What is the most likely effect?',o:['The cost of that option rises, which reduces its net gain compared with the other options','The decision tree becomes more accurate, because the managers know most about their favourite project','The expected values of the other options all fall, because probabilities are shared across the whole tree','The expected value of that option is overstated, which could lead the business to make a poor decision'],a:3},
     {tp:'mc',lb:'Choose the correct answer',q:'Which of the following would a decision tree NOT usually take into account?',o:['The estimated cost of carrying out each one of the options that are being compared','The effect of the decision on the firm’s reputation and on employee morale','The estimated chance that each of the possible outcomes will actually happen','The estimated financial return from each of the possible outcomes of an option'],a:1}
   ]},
-  {id:'dt-build-a-decision-tree',t:'Build a Decision Tree',ic:'✏️',mod:'dt',fill:'tree',qs:[]},
+  {id:'dt-build-a-decision-tree',t:'Build a Decision Tree',ic:'✏️',mod:'dt',fill:'tree',tree:1,qs:[]},
+  {id:'dt-build-a-decision-tree-2',t:'Build a Decision Tree',ic:'✏️',mod:'dt',fill:'tree',tree:2,qs:[]},
+  {id:'dt-build-a-decision-tree-3',t:'Build a Decision Tree',ic:'✏️',mod:'dt',fill:'tree',tree:3,qs:[]},
   {id:'dt-decision-trees-challenge',t:'Decision Trees Challenge',ic:'🏆',mod:'dt',qs:[
     {tp:'calc',lb:'Calculate and choose',q:'What is the expected value of Option A, opening a second café?',g:'dtC',f:[['Option A cost','$50,000']],o:['$112,000','$290,000','$62,000','$108,000'],a:0},
     {tp:'calc',lb:'Calculate and choose',q:'What is the expected value of Option B, refurbishing the café?',g:'dtC',f:[['Option B cost','$20,000']],o:['$120,000','$48,000','$68,000','$60,000'],a:2},
@@ -8865,8 +8911,8 @@ var BM_OS_START=40, BM_OS_END=47; /* BM_D[40]–BM_D[47] — Organizational Stru
 var BM_LM_START=48, BM_LM_END=52; /* BM_D[48]–BM_D[52] — Leadership and Management */
 var BM_MO_START=53, BM_MO_END=57; /* BM_D[53]–BM_D[57] — Motivation and Demotivation */
 var BM_EG_START=58, BM_EG_END=62; /* BM_D[58]–BM_D[62] — Efficiency & Gearing Ratios (HL) */
-var BM_DT_START=63, BM_DT_END=69; /* BM_D[63]–BM_D[69] — Decision Trees (Business Management Toolkit); BM_D[68] is the typed-answer Build a Decision Tree lesson */
-var BM_DS_START=70, BM_DS_END=77; /* BM_D[70]–BM_D[77] — Descriptive Statistics (Business Management Toolkit, BMT 7) */
+var BM_DT_START=63, BM_DT_END=71; /* BM_D[63]–BM_D[71] — Decision Trees (Business Management Toolkit); BM_D[68]–BM_D[70] are the typed-answer Build a Decision Tree lessons 6A, 6B and 6C */
+var BM_DS_START=72, BM_DS_END=79; /* BM_D[72]–BM_D[79] — Descriptive Statistics (Business Management Toolkit, BMT 7) */
 
 /* ===================== SPEED ROUND DATA ===================== */
 var BM_BS_SECTIONS=['Non-current Assets','Current Assets','Current Liabilities','Non-current Liabilities','Equity'];
@@ -9474,63 +9520,63 @@ BM_HINTS[67]=[
     ['If a probability is too high, what happens to probability × pay-off for that outcome?','The expected value gets inflated, so the option can look better than it really is.'],
     ['A decision tree works with numbers and money.','It leaves out qualitative factors such as reputation, morale or ethics, which managers must weigh up separately.']
   ];
-BM_HINTS[69]=[
+BM_HINTS[71]=[
     ['Multiply each probability by its pay-off, then add all three results.','(0.4 × $180,000) + (0.4 × $90,000) + (0.2 × $20,000) = ?'],
     ['Use the same method for Option B, which has two outcomes.','(0.7 × $80,000) + (0.3 × $40,000) = ?'],
     ['Net Gain = Expected Value − the cost of the option.','Start from the expected value of Option A, then subtract its cost of $50,000.'],
     ['Work out both net gains. Option B’s is its expected value less its $20,000 cost.','Option A’s net gain is $62,000. Option B’s is $68,000 − $20,000. Choose the higher one.'],
     ['Think about risk: could either option lose money?','Compare each option’s lowest pay-off with its own cost. Option A: $20,000 against $50,000. Option B: $40,000 against $20,000.']
   ];
-BM_HINTS[70]=[
+BM_HINTS[72]=[
     ['The word “descriptive” is the clue: these statistics describe the data a business already has.','Descriptive statistics summarise a data set (its centre, its spread and its pattern) so that managers can understand it and decide.'],
     ['Central tendency measures describe the typical or middle value. Dispersion measures describe how spread out the values are.','The mean and the median are averages (central tendency). The range and the standard deviation show the spread (dispersion).'],
     ['These three measures describe the gaps between the values, not the typical value.','They measure dispersion: how spread out the values are.'],
     ['Quantitative data are numerical: they can be counted or measured.','Units sold each week are numbers. Opinions, colours and preferences are qualitative or categorical.'],
     ['Think about what “descriptive” means: it describes the past and present.','They summarise the data the business already has. A forecast needs extra assumptions, so the data alone do not prove what will happen.']
   ];
-BM_HINTS[71]=[
+BM_HINTS[73]=[
     ['The mean is the “share” each value would get if the total were divided equally.','Mean = total of all the values ÷ the number of values.'],
     ['Add up all seven days, then divide by the number of days.','(36 + 43 + 38 + 45 + 38 + 60 + 41) ÷ 7 = ?'],
     ['The median is the middle value, but only once the values have been put in order from smallest to largest.','Ordered: 36, 38, 38, 41, 43, 45, 60. The middle (4th) of the seven values is the median.'],
     ['The mode is the value that appears most often.','Look for the number that is repeated in the list of seven days.'],
     ['With an even number of values there are two middle values. Put the values in order first.','Ordered: 4, 6, 7, 9, 10, 15. The median is halfway between the 3rd and 4th values: (7 + 9) ÷ 2 = ?']
   ];
-BM_HINTS[72]=[
+BM_HINTS[74]=[
     ['Add up all six salaries, then divide by six.','($28,000 + $30,000 + $31,000 + $32,000 + $34,000 + $175,000) ÷ 6 = ?'],
     ['The salaries are already in order. With six values, the median lies halfway between the 3rd and 4th.','($31,000 + $32,000) ÷ 2 = ?'],
     ['Compare the mean and the median: one of them has been pulled by the $175,000 salary.','The mean ($55,000) is higher than five of the six salaries. The median ($31,500) is much closer to what most employees earn.'],
     ['The mode answers the question “which value is the most common?”','Stocking the most popular size or choosing the most common order size are uses of the mode.'],
     ['Which average is affected more by extreme values: the mean or the median?','Extreme high values drag the mean up but hardly move the median, so mean > median points to a few very high values.']
   ];
-BM_HINTS[73]=[
+BM_HINTS[75]=[
     ['Range = highest value − lowest value.','Find the longest and the shortest delivery time, then subtract.'],
     ['Quartiles split the ordered data into four equal parts.','Q1 has a quarter (25%) of the values below it. Q2 is the median. Q3 has three quarters (75%) of the values below it.'],
     ['IQR = upper quartile (Q3) − lower quartile (Q1).','11 − 4 = ?'],
     ['The range uses only the two most extreme values.','The IQR covers the middle half of the data, so one unusually high or low value cannot distort it.'],
     ['The top quartile is the highest 25% (one quarter) of the values.','12 ÷ 4 = ?']
   ];
-BM_HINTS[74]=[
+BM_HINTS[76]=[
     ['Standard deviation is a measure of dispersion, not of the centre.','It shows how far the values typically lie from the mean: a small figure means close to the mean, a large figure means widely spread.'],
     ['Look at how far the bars are from the dashed mean line.','Shop B’s days range from 20 to 80 units; Shop A’s stay between 48 and 52. The more spread out the data, the larger the standard deviation.'],
     ['Planning is easier when the daily figures are predictable.','A low standard deviation means each day is close to the mean, so the manager can predict demand with more confidence.'],
     ['If there is no spread at all, what must be true of the values?','Zero spread means that no value differs from the mean: all of the values are the same.'],
     ['The mean has not changed, so the average wait is the same. What did change?','A smaller standard deviation means the waiting times are closer to the mean: more consistent and more predictable.']
   ];
-BM_HINTS[75]=[
+BM_HINTS[77]=[
     ['Add up the six bars, then divide by the number of months. The bars are in thousands of dollars.','(42 + 38 + 51 + 47 + 63 + 59) ÷ 6 = ?  Then convert from $000 to dollars.'],
     ['Think about which chart splits a whole into parts.','A pie chart divides a whole (the total sales) into slices, so each slice is a share of the total.'],
     ['A full pie chart is 360°. Find Brand C’s share of the total, then take that share of 360°.','($30,000 ÷ $120,000) × 360° = ?'],
     ['Read Brand A’s percentage from its slice, then take that percentage of the total.','40% of $250,000 = 0.40 × $250,000 = ?'],
     ['“Info” plus “graphic”: it is a picture-based way of presenting information.','It uses images, charts and brief text together so that the message is easy to take in at a glance.']
   ];
-BM_HINTS[76]=[
+BM_HINTS[78]=[
     ['Think about what summarising a lot of numbers into a few figures does for a busy manager.','They make large data sets easy to understand and compare, but they cannot guarantee results or explain causes.'],
     ['Strengths are what the tools do well. Limitations are what they can hide or miss.','Summarising and comparing data are strengths. Averages hiding the spread, and outliers or small samples misleading, are limitations.'],
     ['Check where the vertical axis starts.','A truncated axis (one that does not start at zero) makes small differences look large, so the chart can mislead.'],
     ['How many customers were asked, compared with how many the business has?','A very small sample may not reflect the views of all customers, so the statistic could be misleading.'],
     ['Descriptive statistics describe WHAT the data show.','They can measure the size and spread of a change, but explaining WHY it happened needs other information, such as market research.']
   ];
-BM_HINTS[77]=[
+BM_HINTS[79]=[
     ['Add up the seven days, then divide by seven.','(52 + 57 + 60 + 62 + 62 + 63 + 64) ÷ 7 = ?'],
     ['Range = highest value − lowest value.','Café B’s busiest day minus its quietest day: 88 − 30 = ?'],
     ['If the averages are identical, what kind of measure could still tell the two cafés apart?','Averages describe the centre. Only a measure of dispersion (range, IQR or standard deviation) shows how spread out the days are.'],
@@ -9571,8 +9617,8 @@ var BM_MODULES=[
   {key:'os',unit:'Human Resources',syl:'2.2',title:'Organizational Structure',emoji:'🏢',tag:'🏢 Organizational Structure','cls':'mod-os',col:'#c9a876',idx:[40,41,42,43,44,45,46,47],level:'SL'},
   {key:'lm',unit:'Human Resources',syl:'2.3',title:'Leadership and Management',emoji:'🧭',tag:'🧭 Leadership and Management','cls':'mod-lm',col:'#5ec8f0',idx:[48,49,50,51,52],level:'SL'},
   {key:'mo',unit:'Human Resources',syl:'2.4',title:'Motivation and Demotivation',emoji:'💪',tag:'💪 Motivation and Demotivation','cls':'mod-mo',col:'#ffb86b',idx:[53,54,55,56,57],level:'SL'},
-  {key:'dt',unit:'Business Management Toolkit (BMT)',title:'Decision Trees',emoji:'🌳',tag:'🌳 Decision Trees','cls':'mod-dt',col:'#a3e635',idx:[63,64,65,66,67,68,69],level:'SL'},
-  {key:'ds',unit:'Business Management Toolkit (BMT)',title:'Descriptive Statistics',emoji:'📊',tag:'📊 Descriptive Statistics','cls':'mod-ds',col:'#e879f9',idx:[70,71,72,73,74,75,76,77],level:'SL'}
+  {key:'dt',unit:'Business Management Toolkit (BMT)',title:'Decision Trees',emoji:'🌳',tag:'🌳 Decision Trees','cls':'mod-dt',col:'#a3e635',idx:[63,64,65,66,67,68,69,70,71],level:'SL'},
+  {key:'ds',unit:'Business Management Toolkit (BMT)',title:'Descriptive Statistics',emoji:'📊',tag:'📊 Descriptive Statistics','cls':'mod-ds',col:'#e879f9',idx:[72,73,74,75,76,77,78,79],level:'SL'}
 ];
 
 /* Unlock logic — each module independent */
@@ -10379,6 +10425,7 @@ function bmRHome(){
     var dn=BM_S.dn.has(di), un=bmLesUnlocked(di), perf=BM_S.perfect.has(di);
     var isLast=(di===BM_FA_END||di===BM_RA_END||di===BM_BE_END||di===BM_LN_END||di===BM_OM_END||di===BM_IO_END||di===BM_CF_END||di===BM_HR_END||di===BM_OS_END||di===BM_LM_END||di===BM_MO_END||di===BM_EG_END||di===BM_DT_END||di===BM_DS_END);
     var localNum=(di-(di<=BM_FA_END?BM_FA_START:di<=BM_RA_END?BM_RA_START:di<=BM_BE_END?BM_BE_START:di<=BM_LN_END?BM_LN_START:di<=BM_OM_END?BM_OM_START:di<=BM_IO_END?BM_IO_START:di<=BM_CF_END?BM_CF_START:di<=BM_HR_END?BM_HR_START:di<=BM_OS_END?BM_OS_START:di<=BM_LM_END?BM_LM_START:di<=BM_MO_END?BM_MO_START:di<=BM_EG_END?BM_EG_START:di<=BM_DT_END?BM_DT_START:BM_DS_START))+1;
+    if(di>BM_DT_START&&di<=BM_DT_END){ for(var q=BM_DT_START;q<di;q++){ if(BM_D[q].tree>1) localNum--; } }   /* 6A, 6B and 6C are one lesson number (6) with three parts */
     var isSort=l.qs.length>0&&l.qs[0].tp==='sort';
 
     var ico=dn?(perf?'🌟':'✅'):un?l.ic:'<span class="lk-ic">🔒</span>';
@@ -10462,15 +10509,54 @@ function bmRHome(){
       +'</div></div></div>';
   }
 
+  /* ── Build a Decision Tree 6A, 6B, 6C: ONE row of three white tiles ── */
+  function makeTreeRow(grp, accentCol){
+    var T=(typeof BM_TFILL!=='undefined'&&BM_TFILL.data)||[];
+    var num=grp[0]-(BM_D[grp[0]].tree-1)-BM_DT_START+1;
+    var anyDn=false, anyOpen=false;
+    var tiles=grp.map(function(di){
+      var l=BM_D[di], t=T[l.tree-1]||{}, dn=BM_S.dn.has(di), un=bmLesUnlocked(di);
+      if(dn) anyDn=true;
+      if(un) anyOpen=true;
+      var label=num+String.fromCharCode(64+l.tree), lvl=t.lvl||l.tree, lvlName=t.lvlName||'';
+      var prev=l.tree>1?(num+String.fromCharCode(63+l.tree)):String(num-1);
+      var ico=dn?'✅':un?(t.icon||l.ic):'<span class="lk-ic">🔒</span>';
+      var dots=''; for(var k=1;k<=3;k++) dots+='<i'+(k<=lvl?' class="on"':'')+'></i>';
+      var body='<span class="tf-tTop"><span class="tf-tIco">'+ico+'</span>'+(dn?'<span class="tf-tBadge">✓ Done</span>':'')+'</span>'
+        +'<span class="tf-tLes">Lesson '+label+'</span>'
+        +'<span class="tf-tName">'+l.t+'</span>'
+        +'<span class="tf-tCo">'+(t.co||'')+'</span>'
+        +'<span class="tf-tLvl">'+dots+'<b>'+lvlName+'</b></span>';
+      var aria='Lesson '+label+': '+l.t+', '+(t.co||'')+', difficulty '+lvl+' of 3 ('+lvlName+')'+(dn?', done':un?'':', locked. Finish Lesson '+prev+' first');
+      var cls='tf-tile'+(dn?' tf-tDone':'')+(un?' tf-tOpen':' tf-tLock');
+      return un
+        ?'<button type="button" class="'+cls+'" style="--tfAccent:'+accentCol+';" onclick="bmSL('+di+')" aria-label="'+aria+'">'+body+'</button>'
+        :'<div class="'+cls+'" role="group" aria-disabled="true" aria-label="'+aria+'">'+body+'</div>';
+    }).join('');
+    var dot=(anyOpen||anyDn)
+      ?'<div style="width:3px;align-self:stretch;border-radius:99px;background:'+accentCol+';opacity:'+(anyDn?.7:.35)+';flex-shrink:0;"></div>'
+      :'<div style="width:3px;flex-shrink:0;"></div>';
+    return '<div style="display:flex;align-items:stretch;gap:10px;margin-bottom:8px;">'+dot+'<div class="tf-tiles">'+tiles+'</div></div>';
+  }
+
   /* ── Module section ── */
   function makeModule(title, tag, tagCls, indices, accentCol, bonuses, alwaysOpenItems){
     alwaysOpenItems=alwaysOpenItems||[];
     var modDone=indices.filter(function(i){return BM_S.dn.has(i);}).length;
     var rows='';
+    var tfSkip=0;
     indices.forEach(function(di, idx){
-      rows+='<div style="display:flex;align-items:stretch;gap:10px;margin-bottom:8px;">'
-        +makeRow(di, accentCol)
-        +'</div>';
+      if(tfSkip>0){ tfSkip--; return; }   /* 6B and 6C are drawn in 6A's row */
+      if(BM_D[di].fill==='tree'&&BM_D[di].tree===1){
+        var grp=[di];
+        while(BM_D[grp[grp.length-1]+1]&&BM_D[grp[grp.length-1]+1].fill==='tree'&&indices.indexOf(grp[grp.length-1]+1)>=0) grp.push(grp[grp.length-1]+1);
+        tfSkip=grp.length-1;
+        rows+=makeTreeRow(grp, accentCol);
+      } else {
+        rows+='<div style="display:flex;align-items:stretch;gap:10px;margin-bottom:8px;">'
+          +makeRow(di, accentCol)
+          +'</div>';
+      }
       /* Insert bonus after specific lessons */
       bonuses.forEach(function(b){
         if(b.after===idx) rows+=makeBonus(b.type,b.unlocked,b.label,b.sub);
@@ -10587,13 +10673,13 @@ function bmRHome(){
 
   var dtSection=makeModule(
     'Decision Trees','🌳 Decision Trees','mod-dt',
-    [63,64,65,66,67,68,69],'#a3e635',
+    [63,64,65,66,67,68,69,70,71],'#a3e635',
     []
   );
 
   var dsSection=makeModule(
     'Descriptive Statistics','📊 Descriptive Statistics','mod-ds',
-    [70,71,72,73,74,75,76,77],'#e879f9',
+    [72,73,74,75,76,77,78,79],'#e879f9',
     []
   );
 
@@ -10615,7 +10701,7 @@ function bmRHome(){
 
 /* ===================== LESSON ===================== */
 function bmSL(i){
-  if(BM_D[i]&&BM_D[i].fill==='tree'){ BM_TFILL.open(); return; }   /* typed-answer lesson: its own screen */
+  if(BM_D[i]&&BM_D[i].fill==='tree'){ BM_TFILL.open(BM_D[i].tree); return; }   /* typed-answer lesson (6A, 6B, 6C): its own screen */
   BM_S.les=i;BM_S.qi=0;BM_S.sel=null;BM_S.sub=false;BM_S.cor=null;BM_S.sc=0;BM_S.lessilver=0;BM_S.mistake=false;BM_S.hintLevel=0;
   BM_S.redo=BM_S.dn.has(i);   /* already completed → this whole attempt earns half silver (bmLessonReward) */
   BM_S.attempt=practiceNewId();BM_S.mLog=[];BM_S.srtLog=[];   /* a new attempt: its answers are reported to the server under this id */
@@ -12204,22 +12290,25 @@ return { open:open, tilesHTML:tilesHTML, tapTile:tapTile, refreshStatus:refreshS
 })();
 
 /* ===================== BUILD A DECISION TREE (typed answers) =====================
-   Lesson 6 of the Decision Trees module, placed just before the final challenge. Like the Cash Flow Forecast sheets, the student
+   Lessons 6A, 6B and 6C of the Decision Trees module, placed just before the final challenge (three trees, each harder than the last,
+   unlocked one after another). Like the Cash Flow Forecast sheets, the student
    TYPES the figures into a nearly empty tree: the cost of each option, the probability and pay-off on every branch, the expected
    value of each chance node, each net gain, and finally which option to choose. The options and the outcome names are already there.
    "Check my answers" marks every typed box: green = correct (and locked), amber "own" = right from the student's own earlier figure
    (the IB "own figure" rule), red = check again. Checking can be done as often as the student likes, part way through too.
-   Finishing (every box correct) ticks the lesson, which opens the final challenge. Signed in: the server checks every figure against
-   its own key and pays the gold coin (claim_tree_fill_gold in stage10_decision_tree_gold.sql); signed out: a device-only coin, once. */
+   Finishing (every box correct) ticks the lesson, which opens the next one (after 6C, the final challenge). Signed in: the server checks
+   every figure against its own key and pays the gold coin (claim_tree_fill_gold in stage10_decision_tree_gold.sql, one claim per tree);
+   signed out: a device-only coin, once per tree. */
 var BM_TFILL = (function(){
 
-var TF = {"id":"dt-build-a-decision-tree","title":"Build a Decision Tree","icon":"🚲","co":"Velo Bikes","intro":"Velo Bikes is a bicycle shop. The owner is deciding how to grow the business and has asked you to build a decision tree to compare the options.","facts":["Velo Bikes can choose one of three options: open a second shop, start a delivery service, or do nothing.","Option A, open a second shop, costs $80,000. Sales could be strong (30% chance), which gives a pay-off of $300,000, or average (50% chance), which gives $150,000. Otherwise sales are weak, and the shop makes a loss of $20,000.","Option B, start a delivery service, costs $45,000. It could be popular (50% chance), which gives a pay-off of $70,000. Otherwise it is unpopular, and the service makes a loss of $10,000.","Option C, do nothing, costs nothing and has a pay-off of $0. This is already filled in.","Net gain = expected value − cost of the option. The owner will choose the option with the highest net gain."],"options":[{"id":"A","name":"Open a second shop","cost":80000,"outs":[{"n":"Strong sales","p":0.3,"v":300000},{"n":"Average sales","p":0.5,"v":150000},{"n":"Weak sales","p":0.2,"v":-20000}],"ev":161000,"net":81000},{"id":"B","name":"Start a delivery service","cost":45000,"outs":[{"n":"Popular","p":0.5,"v":70000},{"n":"Unpopular","p":0.5,"v":-10000}],"ev":30000,"net":-15000},{"id":"C","name":"Do nothing","leaf":0}],"dec":"A"};
+var ALL = [{"n":1,"letter":"A","id":"dt-build-a-decision-tree","title":"Build a Decision Tree","icon":"🚲","co":"Velo Bikes","lvl":1,"lvlName":"Starter","intro":"Velo Bikes is a bicycle shop. The owner is deciding how to grow the business and has asked you to build a decision tree to compare the options.","facts":["Velo Bikes can choose one of three options: open a second shop, start a delivery service, or do nothing.","Option A, open a second shop, costs $80,000. Sales could be strong (30% chance), which gives a pay-off of $300,000, or average (50% chance), which gives $150,000. Otherwise sales are weak, and the shop makes a loss of $20,000.","Option B, start a delivery service, costs $45,000. It could be popular (50% chance), which gives a pay-off of $70,000. Otherwise it is unpopular, and the service makes a loss of $10,000.","Option C, do nothing, costs nothing and has a pay-off of $0. This is already filled in.","Net gain = expected value − cost of the option. The owner will choose the option with the highest net gain."],"options":[{"id":"A","name":"Open a second shop","cost":80000,"outs":[{"n":"Strong sales","p":0.3,"v":300000},{"n":"Average sales","p":0.5,"v":150000},{"n":"Weak sales","p":0.2,"v":-20000}],"ev":161000,"net":81000},{"id":"B","name":"Start a delivery service","cost":45000,"outs":[{"n":"Popular","p":0.5,"v":70000},{"n":"Unpopular","p":0.5,"v":-10000}],"ev":30000,"net":-15000},{"id":"C","name":"Do nothing","leaf":0}],"dec":"A","decTip":"Choose the option with the highest net gain. Doing nothing has a net gain of $0, so an option with a negative net gain is worse than doing nothing."},{"n":2,"letter":"B","id":"dt-build-a-decision-tree-2","title":"Build a Decision Tree","icon":"☕","co":"Brightside Coffee","lvl":2,"lvlName":"Medium","intro":"Brightside Coffee is a small chain of cafés. The owner is deciding how to grow the business and has asked you to build a decision tree to compare the options.","facts":["Brightside Coffee can choose one of three options: open a second café, buy a roasting machine, or start a loyalty scheme.","Option A, open a second café, costs $60,000. It could be busy (40% chance), which gives a pay-off of $140,000. Otherwise it is quiet, and the pay-off is $30,000.","Option B, buy a roasting machine, costs $35,000. Demand could be strong (30% chance), which gives a pay-off of $160,000, or steady (50% chance), which gives $70,000. Otherwise demand is weak, and the machine makes a loss of $12,000.","Option C, start a loyalty scheme, costs $10,000. It could be popular (60% chance), which gives a pay-off of $40,000. Otherwise it is not popular, and the pay-off is $5,000.","Net gain = expected value − cost of the option. The owner will choose the option with the highest net gain."],"options":[{"id":"A","name":"Open a second café","cost":60000,"outs":[{"n":"Busy","p":0.4,"v":140000},{"n":"Quiet","p":0.6,"v":30000}],"ev":74000,"net":14000},{"id":"B","name":"Buy a roasting machine","cost":35000,"outs":[{"n":"Strong demand","p":0.3,"v":160000},{"n":"Steady demand","p":0.5,"v":70000},{"n":"Weak demand","p":0.2,"v":-12000}],"ev":80600,"net":45600},{"id":"C","name":"Start a loyalty scheme","cost":10000,"outs":[{"n":"Popular","p":0.6,"v":40000},{"n":"Not popular","p":0.4,"v":5000}],"ev":26000,"net":16000}],"dec":"B","decTip":"Choose the option with the highest net gain. Compare the net gains, not the expected values."},{"n":3,"letter":"C","id":"dt-build-a-decision-tree-3","title":"Build a Decision Tree","icon":"👟","co":"Nova Sports","lvl":3,"lvlName":"Hard","intro":"Nova Sports is a sportswear company. The owner is choosing between four ways to grow the business and has asked you to build a decision tree to compare the options.","facts":["Nova Sports can choose one of four options: launch a new product line, expand overseas, sign a sponsorship deal, or sell its spare factory.","Option A, launch a new product line, costs $120,000. It could be a hit (35% chance), which gives a pay-off of $450,000, or do moderately well (45% chance), which gives $200,000. Otherwise it is a flop, and the line makes a loss of $60,000.","Option B, expand overseas, costs $280,000. Sales could be strong (40% chance), which gives a pay-off of $650,000, or average (40% chance), which gives $300,000. Otherwise sales are weak, and the expansion makes a loss of $50,000.","Option C, sign a sponsorship deal, costs $75,000. It could succeed (55% chance), which gives a pay-off of $190,000. Otherwise it fails, and the pay-off is $30,000.","Option D, sell the spare factory, costs nothing and brings in a certain pay-off of $85,000. This is already filled in.","Net gain = expected value − cost of the option. The owner will choose the option with the highest net gain."],"options":[{"id":"A","name":"Launch a new product line","cost":120000,"outs":[{"n":"Hit","p":0.35,"v":450000},{"n":"Moderate","p":0.45,"v":200000},{"n":"Flop","p":0.2,"v":-60000}],"ev":235500,"net":115500},{"id":"B","name":"Expand overseas","cost":280000,"outs":[{"n":"Strong sales","p":0.4,"v":650000},{"n":"Average sales","p":0.4,"v":300000},{"n":"Weak sales","p":0.2,"v":-50000}],"ev":370000,"net":90000},{"id":"C","name":"Sign a sponsorship deal","cost":75000,"outs":[{"n":"Success","p":0.55,"v":190000},{"n":"Failure","p":0.45,"v":30000}],"ev":118000,"net":43000},{"id":"D","name":"Sell the spare factory","leaf":85000}],"dec":"A","decTip":"Choose the option with the highest net gain. Compare the net gains, not the expected values. Option D costs nothing, so its net gain is its pay-off, $85,000."}];            /* the three trees (6A, 6B, 6C) */
+var TF = ALL[0];                  /* the tree on screen */
 var LESSON_ID = TF.id;
 var optById = {}, cells = {}, order = [], inputs = {}, stat = {}, groups = [];
 var decVal = null, decBox = null;
 var attempt = practiceNewId();
 var claiming = false, complete = false, lastInput = null, clearTimer = null;
-var draftMem = {}, statusState = {}, coinMem = null, newDiamond = null;
+var draftMem = {}, statusState = {}, coinMem = {}, newDiamond = null;
 
 /* ---------- small helpers ---------- */
 function signedIn(){ return !!(sb&&CLOUD&&CLOUD.user&&CLOUD.user.id); }
@@ -12228,6 +12317,9 @@ function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 function fmt(n){ var s=String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g,','); return (n<0?'−':'')+s; }
 function money(n){ return (n<0?'−':'')+'$'+String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
 function r6(n){ return Math.round(n*1e6)/1e6; }
+/* the lesson's number on the map (6) and its label (6A, 6B, 6C): taken from where the first tree sits in the module */
+function lesNo(){ var p=bmPos(ALL[0].id); return p<0?6:(p-BM_DT_START+1); }
+function lesLabel(t){ t=t||TF; return lesNo()+t.letter; }
 
 /* Money: the same reader the Cash Flow sheets use (12500, 12,500, $12,500, -450, −450, (450) ...). */
 function parseMoney(raw){ return BM_CFF.parse(raw); }
@@ -12255,8 +12347,7 @@ var TIPS = {
   p:'Probabilities go on the branches. Change a percentage into a decimal (30% = 0.3). The probabilities at one chance node add up to 1, so the last one is whatever is left.',
   v:'Use the pay-off for each outcome from the information. A loss is a negative pay-off: click the box, then tap ± Negative.',
   ev:'Expected value = (probability × pay-off) for every outcome, added together.',
-  net:'Net gain = expected value − cost of the option. It can be negative.',
-  dec:'Choose the option with the highest net gain. Doing nothing has a net gain of $0, so an option with a negative net gain is worse than doing nothing.'
+  net:'Net gain = expected value − cost of the option. It can be negative.'
 };
 var GROUP_NAME = {cost:'cost',p:'probabilities',v:'pay-offs',ev:'expected value',net:'net gain'};
 function buildCells(){
@@ -12323,7 +12414,7 @@ function build(){
   el.innerHTML='<div id="tf-app">'
     +'<div class="tf-crumb"><span class="crumb-seg" onclick="bmGoHub()">Business Management</span><span class="tf-sep">\u203a</span>'
     +'<span class="crumb-seg tf-crumbMod" onclick="bmOpenModule(\'dt\')" title="Decision Trees">Decision Trees</span><span class="tf-sep">\u203a</span>'
-    +'<span class="tf-crumbEnd" title="'+esc(TF.title)+'">'+esc(TF.title)+'</span></div>'
+    +'<span class="tf-crumbEnd" title="'+esc(lesLabel()+': '+TF.title)+'">'+esc(lesLabel()+': '+TF.title)+'</span></div>'
     +'<div class="tf-brief">'
     +'<div class="tf-briefHead">'
     +'<h1>Build the Decision Tree</h1>'
@@ -12506,7 +12597,7 @@ function feedback(res,byGrp){
   var items=[], empties=[];
   groups.forEach(function(g){
     var b=byGrp[g.id]; if(!b) return;
-    if(b.bad) items.push('<li><b>'+esc(g.label)+':</b> '+esc(TIPS[g.kind])+'</li>');
+    if(b.bad) items.push('<li><b>'+esc(g.label)+':</b> '+esc(g.kind==='dec'?TF.decTip:TIPS[g.kind])+'</li>');
     else if(b.own) items.push('<li><b>'+esc(g.label)+':</b> Your method is right here, but it uses one of your earlier figures and that figure is wrong. Fix the red box first, then check again.</li>');
     else empties.push(g.label);
   });
@@ -12537,34 +12628,44 @@ function startAgain(){
 }
 
 /* ---------- unfinished work is kept (this visit, and on this device) ---------- */
-function draftKey(){ return 'ibdp_bm_tfdraft_'+uidNow(); }
+function draftKey(){ return 'ibdp_bm_tfdraft_'+uidNow()+(TF.n>1?'_'+TF.n:''); }
+function memKey(){ return uidNow()+'|'+TF.n; }
 function readDraft(){
   var o={};
   try{ o=JSON.parse(localStorage.getItem(draftKey())||'{}')||{}; }catch(e){ o={}; }
-  var m=draftMem[uidNow()]; if(m){ Object.keys(m).forEach(function(k){ o[k]=m[k]; }); }
+  var m=draftMem[memKey()]; if(m){ Object.keys(m).forEach(function(k){ o[k]=m[k]; }); }
   return o;
 }
 function saveDraft(){
   if(!TF||complete) return;
   var mine={};
   order.forEach(function(id){ if(id==='dec'){ if(decVal) mine.dec=decVal; } else { var v=inputs[id]&&inputs[id].value; if(v) mine[id]=String(v).slice(0,16); } });
-  draftMem[uidNow()]=mine;
+  draftMem[memKey()]=mine;
   try{ if(Object.keys(mine).length) localStorage.setItem(draftKey(),JSON.stringify(mine)); else localStorage.removeItem(draftKey()); }catch(e){}
 }
 function dropDraft(){
-  draftMem[uidNow()]={};
+  draftMem[memKey()]={};
   try{ localStorage.removeItem(draftKey()); }catch(e){}
 }
 
 /* ---------- finishing: the lesson is ticked, then the gold coin ---------- */
-function bannerText(){
-  var best=optById[TF.dec], s='Option '+best.id+' ('+best.name+') has the highest net gain, '+money(best.net)+', so '+TF.co+' should choose it.';
-  TF.options.forEach(function(o){
-    if(o.leaf==null&&o.net<0) s+=' Option '+o.id+" has a negative net gain ("+money(o.net)+'): on average it would earn less than it costs, so doing nothing would be better than choosing it.';
-  });
+/* what comes next: the next tree, or (after the last one) the final challenge */
+function nextText(){
   var pos=bmPos(LESSON_ID), nx=BM_D[pos+1];
-  s+=nx?' The final challenge is now unlocked.':'';
-  return s;
+  if(!nx) return '';
+  if(nx.fill==='tree'&&ALL[nx.tree-1]) return ' Lesson '+lesLabel(ALL[nx.tree-1])+' is now unlocked.';
+  return ' The final challenge is now unlocked.';
+}
+function bannerText(){
+  var best=optById[TF.dec], bn=(best.leaf!=null)?best.leaf:best.net;
+  var s='Option '+best.id+' ('+best.name+') has the highest net gain, '+money(bn)+', so '+TF.co+' should choose it.';
+  var zeroLeaf=TF.options.some(function(o){ return o.leaf===0; }), topEv=null;
+  TF.options.forEach(function(o){ if(o.leaf==null&&(!topEv||o.ev>topEv.ev)) topEv=o; });
+  if(topEv&&topEv.id!==best.id) s+=' Option '+topEv.id+' has the highest expected value ('+money(topEv.ev)+'), but after its cost of '+money(topEv.cost)+' its net gain is only '+money(topEv.net)+'. The owner compares net gains, not expected values.';
+  TF.options.forEach(function(o){
+    if(o.leaf==null&&o.net<0) s+=' Option '+o.id+" has a negative net gain ("+money(o.net)+'): on average it would earn less than it costs'+(zeroLeaf?', so doing nothing would be better than choosing it.':'.');
+  });
+  return s+nextText();
 }
 function markLessonDone(){
   var pos=bmPos(LESSON_ID); if(pos<0) return;
@@ -12588,12 +12689,12 @@ function finish(){
   dropDraft();
   try{ b.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){}
 }
-var LOCAL_KEY='ibdp_bm_tfgold_local';
+function localKey(){ return 'ibdp_bm_tfgold_local'+(TF.n>1?'_'+TF.n:''); }   /* tree 1 keeps its original key */
 function localClaimed(){
-  var v=false; try{ v=localStorage.getItem(LOCAL_KEY)==='1'; }catch(e){}
-  return v||coinMem===true;
+  var v=false; try{ v=localStorage.getItem(localKey())==='1'; }catch(e){}
+  return v||coinMem[TF.n]===true;
 }
-function localMark(){ coinMem=true; try{ localStorage.setItem(LOCAL_KEY,'1'); }catch(e){} }
+function localMark(){ coinMem[TF.n]=true; try{ localStorage.setItem(localKey(),'1'); }catch(e){} }
 function updateBanner(){
   var btn=document.getElementById('tf-claimBtn'), p=document.getElementById('tf-bannerP');
   if(!btn||!p) return;
@@ -12646,8 +12747,9 @@ function claim(){
     } else { claiming=false; updateBanner(); goLessons(); }
     return;
   }
-  var u=CLOUD.user.id, att=attempt, call;
-  try{ call=sb.rpc('claim_tree_fill_gold',{p_attempt:att,p_answers:answers,p_tree:1}); }catch(e){ call=Promise.reject(e); }
+  var u=CLOUD.user.id, att=attempt, tn=TF.n, call;
+  function here(){ return TF.n===tn&&stillHere(); }
+  try{ call=sb.rpc('claim_tree_fill_gold',{p_attempt:att,p_answers:answers,p_tree:tn}); }catch(e){ call=Promise.reject(e); }
   Promise.resolve(call).then(function(r){
     claiming=false;
     if(!CLOUD.user||CLOUD.user.id!==u) return;
@@ -12656,16 +12758,16 @@ function claim(){
       if(d.status==='ok'){
         if(_bmPsQueue.length===0) practiceAdopt('bm',d);
         else { BM_S.gold+=1; bmSaveProgress(); _bmRefreshCoinPills(); }
-        if(stillHere()) celebrateAndLeave();
+        if(here()) celebrateAndLeave();
         else practiceToast('Decision tree complete — 1 gold coin added!');
       } else if(d.status==='already'){
         practiceAdopt('bm',d);
         practiceToast("You've already earned this lesson's gold coin. Replays are just for practice.");
-        if(stillHere()) goLessons();
+        if(here()) goLessons();
       } else if(d.status==='nocoin'){
         practiceAdopt('bm',d);
         practiceToast('Decision tree complete! This lesson does not pay a coin.');
-        if(stillHere()) goLessons();
+        if(here()) goLessons();
       } else {
         fail("The server couldn't confirm this tree. Leave it and open it again to retry.");
       }
@@ -12683,7 +12785,9 @@ function claim(){
 }
 
 /* ---------- opening the lesson ---------- */
-function open(){
+function open(n){
+  n=Math.floor(+n)||1; if(n<1||n>ALL.length) n=1;
+  TF=ALL[n-1]; LESSON_ID=TF.id;
   buildCells();
   stat={}; decVal=null; complete=false; claiming=false; lastInput=null; newDiamond=null;
   attempt=practiceNewId();
@@ -12700,8 +12804,8 @@ function open(){
   try{ window.scrollTo(0,0); }catch(e){}
 }
 
-/* Ask the server (once per sign-in) whether this student has already finished the tree, so the lesson is ticked and the final
-   challenge opens on any device. Quietly does nothing if the stage 10 SQL is not installed or the network is down. */
+/* Ask the server (once per sign-in) which trees this student has already finished, so those lessons are ticked and the next one opens
+   on any device. Quietly does nothing if the stage 10 SQL is not installed or the network is down. */
 function refreshStatus(){
   if(!signedIn()) return;
   var u=CLOUD.user.id;
@@ -12713,10 +12817,14 @@ function refreshStatus(){
     if(r&&!r.error&&r.data&&Array.isArray(r.data.done)){
       statusState[u]='done';
       if(!signedIn()||CLOUD.user.id!==u) return;
-      if(r.data.done.indexOf(1)<0) return;
-      var pos=bmPos(LESSON_ID);
-      if(pos<0||BM_S.dn.has(pos)) return;
-      bmAdoptIds({dn:new Set([LESSON_ID]),perfect:new Set(),last:null});
+      var add=new Set();
+      ALL.forEach(function(t){
+        if(r.data.done.indexOf(t.n)<0) return;
+        var pp=bmPos(t.id);
+        if(pp>=0&&!BM_S.dn.has(pp)) add.add(t.id);
+      });
+      if(!add.size) return;
+      bmAdoptIds({dn:add,perfect:new Set(),last:null});
       bmSaveProgress();
       function on(id){ var el=document.getElementById(id); return !!(el&&el.classList.contains('on')); }
       if(on('bm-sc-hub')) bmRHub(); else if(on('bm-sc-home')) bmRHome();
@@ -12727,7 +12835,7 @@ function refreshStatus(){
   },function(){ statusState[u]=''; });
 }
 
-return { open:open, refreshStatus:refreshStatus, data:TF, parseProb:parseProb, parseMoney:parseMoney, lessonId:LESSON_ID };
+return { open:open, refreshStatus:refreshStatus, data:ALL, current:function(){ return TF; }, parseProb:parseProb, parseMoney:parseMoney, lessonId:ALL[0].id, lessonIds:ALL.map(function(t){ return t.id; }) };
 })();
 
 
