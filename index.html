@@ -853,6 +853,140 @@ button.tf-tile{cursor:pointer;-webkit-appearance:none;appearance:none;-webkit-ta
   .tf-tLvl b{margin-left:1px}
 }
 .tf-tLvl{flex-wrap:wrap}
+/* ===================== BUILD THE BUDGET (Budgeting module) ===================== */
+/* ===== BUILD THE BUDGET — typed answers (namespaced bud-) ===== */
+#bud-app{max-width:1080px;margin:0 auto;background:var(--bg-soft);border-radius:18px;padding:20px 18px 40px;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+@media(min-width:1000px){ #bud-app{max-width:none} }
+.bud-back{background:rgba(10,22,40,.06);border:1.5px solid rgba(10,22,40,.15);color:#5a6b8a;font-size:13px;font-weight:800;cursor:pointer;padding:10px 16px;border-radius:11px;font-family:inherit;white-space:nowrap;letter-spacing:.01em;margin-bottom:14px;display:inline-flex;align-items:center;gap:6px}
+.bud-headerBar{background:var(--bg);color:var(--ink);border-radius:16px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px;border:1.5px solid var(--line);box-shadow:var(--panel-shadow)}
+.bud-tag{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:5px}
+.bud-headerLeft h1{font-size:21px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.bud-headerLeft p{font-size:12.5px;color:var(--ink-soft);margin-top:3px;max-width:520px;line-height:1.45;font-weight:500}
+.bud-counterChip{background:var(--gold);color:var(--ink);border-radius:12px;padding:9px 14px;text-align:center;flex-shrink:0;border-bottom:3px solid var(--gold-deep)}
+.bud-counterChip .n{font-size:19px;font-weight:800;line-height:1}
+.bud-counterChip .l{font-size:8.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:.75;margin-top:2px}
+.bud-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+/* the page is zoomed on wide screens (body{zoom:1.3} from 1100px, 1.45 from 1600px), so two columns only start where the table still has room */
+@media(min-width:1400px){ .bud-layout{grid-template-columns:320px minmax(0,1fr)} .bud-info{position:sticky;top:12px} }
+.bud-info,.bud-main{min-width:0}
+.bud-info{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--panel-shadow)}
+.bud-co{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:6px}
+.bud-intro{font-size:13px;line-height:1.5;color:var(--ink);margin-bottom:12px;font-weight:500}
+.bud-infoHead{font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:6px}
+.bud-facts{margin:0 0 12px;padding-left:18px;font-size:13px;line-height:1.5;color:var(--ink)}
+.bud-facts li{margin-bottom:5px}
+.bud-infoTblWrap{overflow-x:auto;border:1.5px solid var(--line);border-radius:10px}
+.bud-infoTbl{border-collapse:collapse;width:100%;font-size:13px}
+.bud-infoTbl th{background:#0a1628;color:#fff;text-align:left;padding:7px 10px;font-size:11px;letter-spacing:.04em}
+.bud-infoTbl th:last-child,.bud-infoTbl td:last-child{text-align:right}
+.bud-infoTbl td{padding:6px 10px;border-top:1px solid var(--line);font-weight:600}
+.bud-infoTbl tr.bud-pre td{color:#7a90b8;background:#f7f9fc;font-weight:500}
+.bud-preNote{font-size:11.5px;color:var(--ink-soft);margin-top:8px;line-height:1.45}
+.bud-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.bud-legend{font-size:11.5px;color:var(--ink-soft);font-weight:600;line-height:1.7}
+.bud-lg{display:inline-block;min-width:18px;padding:0 5px;margin-left:6px;border-radius:6px;font-size:10px;font-weight:900;text-align:center;line-height:17px;color:#fff;vertical-align:1px}
+.bud-lg:first-child{margin-left:0}
+.bud-lg.ok{background:#12a150}.bud-lg.own{background:#d98a0b}.bud-lg.bad{background:#e03b3b}
+.bud-sign{background:#fff;border:1.5px solid #c5cee0;color:var(--ink);font-weight:800;font-size:13px;padding:8px 14px;border-radius:10px;cursor:pointer;font-family:inherit;min-height:38px;-webkit-tap-highlight-color:transparent}
+.bud-sign:active{background:#eef2f9}
+.bud-gridWrap{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border:1.5px solid var(--line);border-radius:12px;box-shadow:var(--panel-shadow)}
+.bud-grid{border-collapse:separate;border-spacing:0;width:100%;min-width:calc(172px + var(--cols)*98px);font-size:13px}
+.bud-grid th,.bud-grid td{padding:5px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+.bud-grid thead th{background:#0a1628;color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.03em;text-align:right;padding:9px 10px}
+.bud-grid thead th.bud-corner{text-align:left;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase}
+.bud-rowH{position:sticky;left:0;z-index:2;background:#fff;text-align:left;font-weight:700;font-size:13px;color:var(--ink);padding:5px 10px;min-width:172px;max-width:172px;border-right:1.5px solid var(--line)}
+.bud-grid thead th.bud-rowH{background:#0a1628;color:#fff}
+.bud-grid td{text-align:right;min-width:98px}
+.bud-grid td.bud-g{background:#f1f4f9;color:#5a6b8a;font-weight:700;padding-right:14px}
+.bud-grid tr.bud-head th,.bud-grid tr.bud-head td{background:#f4f6fa}
+.bud-grid tr.bud-head th{color:var(--gold-deep);font-size:10.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;padding:7px 10px}
+.bud-grid tr.bud-k-sum th,.bud-grid tr.bud-k-sum td,.bud-grid tr.bud-k-net th,.bud-grid tr.bud-k-net td{border-top:2px solid #b9c6dd}
+.bud-grid tr.bud-k-sum th{font-weight:800}
+.bud-grid tr.bud-k-close th,.bud-grid tr.bud-k-close td{background:#fffaf0;border-bottom:0}
+.bud-grid tr.bud-k-close th{color:var(--gold-deep);font-weight:900}
+.bud-grid tr.bud-k-open th{color:var(--ink)}
+.bud-grid input{width:100%;min-width:80px;height:36px;text-align:right;font-family:inherit;font-size:16px;font-weight:700;color:var(--ink);background:#fff;border:1.5px solid #c9d3e6;border-radius:8px;padding:0 9px;outline:none;-webkit-appearance:none;appearance:none}
+.bud-grid input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,196,167,.2)}
+.bud-grid input[readonly]{cursor:default}
+.bud-grid td.bud-c{position:relative}
+.bud-grid td.bud-ok::after,.bud-grid td.bud-own::after,.bud-grid td.bud-bad::after{position:absolute;top:4px;left:10px;font-size:9.5px;font-weight:900;pointer-events:none;line-height:1}
+.bud-grid td.bud-ok::after{content:'\2713';color:#12a150}
+.bud-grid td.bud-own::after{content:'own';color:#a8650a}
+.bud-grid td.bud-bad::after{content:'\2717';color:#e03b3b}
+.bud-grid td.bud-ok input{border-color:#12a150;background:#e9f9ef;color:#0b6b36}
+.bud-grid td.bud-own input{border-color:#e09a14;background:#fff4dc}
+.bud-grid td.bud-bad input{border-color:#e03b3b;background:#ffecec}
+.bud-grid td.bud-empty input{border-style:dashed;border-color:#e03b3b}
+.bud-fb{display:none;margin-top:12px;background:#fff8e6;border:1.5px solid #f3d58a;border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.5;color:var(--ink)}
+.bud-fb.bud-show{display:block}
+.bud-fbTop{font-size:13.5px}
+.bud-fbOwn{color:#8a5a06}
+.bud-fbHead{margin-top:8px;font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep)}
+.bud-fb ul{margin:4px 0 0;padding-left:18px}
+.bud-fb li{margin-bottom:4px}
+.bud-fbEmpty{font-size:12.5px;color:var(--ink);margin-top:2px}
+.bud-fbMore{margin-top:4px;color:var(--ink-soft);font-weight:700;font-size:12px}
+.bud-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.bud-fill{flex:1;min-width:140px;font-size:12px;font-weight:700;color:var(--ink-soft)}
+.bud-btn{font-family:inherit;font-weight:800;font-size:14px;border-radius:11px;cursor:pointer;padding:12px 20px;min-height:46px;border:1.5px solid transparent;-webkit-tap-highlight-color:transparent}
+.bud-ghost{background:#fff;border-color:#c5cee0;color:#5a6b8a}
+.bud-primary{background:var(--teal);color:#fff;border-bottom:3px solid var(--teal-deep)}
+.bud-primary:active{transform:translateY(2px);border-bottom-width:1px}
+.bud-complete{display:none;margin-top:16px;background:var(--teal);color:#fff;border-radius:16px;padding:20px;text-align:center;border-bottom:4px solid var(--teal-deep)}
+.bud-complete.bud-show{display:block;animation:dropIn .35s cubic-bezier(.2,.8,.3,1)}
+.bud-complete h2{font-size:18px;font-weight:800;margin-bottom:4px}
+.bud-complete p{font-size:12.5px;opacity:.95;font-weight:500;line-height:1.5;max-width:640px;margin:0 auto}
+.bud-claim{margin-top:14px;font-family:inherit;font-weight:800;font-size:14px;padding:12px 28px;border-radius:11px;border:none;cursor:pointer;background:linear-gradient(180deg,#ffe97a,#f0b429);color:#6b4700;box-shadow:0 3px 0 #b8820a}
+.bud-claim:hover{background:linear-gradient(180deg,#fff0a0,#f5bd3c)}
+.bud-claim:active{transform:translateY(2px);box-shadow:0 1px 0 #b8820a}
+.bud-claim[disabled]{opacity:.7;cursor:default}
+@media(max-width:560px){
+  #bud-app{padding:14px 10px 30px}
+  .bud-headerBar{padding:12px 12px}
+  .bud-headerLeft h1{font-size:18px}
+  .bud-grid{min-width:calc(112px + var(--cols)*88px)}
+  .bud-rowH{min-width:112px;max-width:112px;font-size:12px;padding:5px 7px}
+  .bud-grid td{min-width:88px}
+  .bud-grid input{min-width:76px}
+  .bud-btn{flex:1}
+}
+
+/* breadcrumb tile, the same look as the one on every other lesson screen */
+.bud-crumb{background:#fff;border:1.5px solid #f0b429;border-radius:14px;padding:10px 16px;display:flex;width:fit-content;align-items:center;gap:6px;max-width:100%;box-sizing:border-box;font-size:13px;font-weight:800;color:#182234;overflow:hidden;white-space:nowrap;margin-bottom:14px}
+.bud-crumb .crumb-seg{cursor:pointer;flex-shrink:0}
+.bud-crumb .bud-crumbMod{flex-shrink:1;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.bud-crumb .bud-sep{color:#9aa3ad;flex-shrink:0}
+.bud-crumbEnd{overflow:hidden;text-overflow:ellipsis;min-width:0}
+/* total rows and profit rows */
+.bud-grid tr.bud-s-sum th,.bud-grid tr.bud-s-sum td,.bud-grid tr.bud-s-net th,.bud-grid tr.bud-s-net td{border-top:2px solid #b9c6dd}
+.bud-grid tr.bud-s-sum th{font-weight:800}
+.bud-grid tr.bud-s-net th,.bud-grid tr.bud-s-net td{background:#fffaf0}
+.bud-grid tr.bud-s-net th{color:var(--gold-deep);font-weight:900}
+.bud-grid tr.bud-s-net td.bud-g{background:#f6efe0}
+/* variance tasks: four columns, the last one is the F / A choice */
+.bud-grid.bud-variance{min-width:calc(172px + 3*98px + 112px)}
+.bud-grid thead th.bud-thFa{text-align:center}
+.bud-grid td.bud-cfa{text-align:center;min-width:112px}
+.bud-fa{display:inline-flex;gap:6px;justify-content:center}
+.bud-faBtn{width:42px;height:36px;border-radius:8px;border:1.5px solid #c9d3e6;background:#fff;color:#5a6b8a;font-family:inherit;font-weight:900;font-size:15px;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent}
+.bud-faBtn[aria-pressed="true"]{background:#0a1628;border-color:#0a1628;color:#fff}
+.bud-faBtn:focus-visible{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,196,167,.25)}
+.bud-faBtn:disabled{cursor:default}
+.bud-grid td.bud-ok .bud-faBtn[aria-pressed="true"]{background:#12a150;border-color:#12a150;color:#fff}
+.bud-grid td.bud-ok .bud-faBtn[aria-pressed="false"]{opacity:.35}
+.bud-grid td.bud-own .bud-faBtn[aria-pressed="true"]{background:#d98a0b;border-color:#d98a0b;color:#fff}
+.bud-grid td.bud-bad .bud-faBtn[aria-pressed="true"]{background:#e03b3b;border-color:#e03b3b;color:#fff}
+.bud-grid td.bud-empty .bud-faBtn{border-style:dashed;border-color:#e03b3b}
+.bud-infoTbl th:first-child,.bud-infoTbl td:first-child{text-align:left}
+.bud-infoTbl th,.bud-infoTbl td{text-align:right}
+@media(max-width:560px){
+  .bud-crumb{padding:8px 10px;font-size:12px;gap:4px}
+  .bud-crumb>.crumb-seg:first-child{flex-shrink:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .bud-grid.bud-variance{min-width:calc(112px + 3*88px + 104px)}
+  .bud-grid td.bud-cfa{min-width:104px}
+  .bud-faBtn{width:38px}
+}
+@media (min-width:900px){.hub-grid.hub-n2>.hub-tile.hub-full{grid-column:span 2 !important;justify-content:center !important}}
 .gf-burst{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff3a6,#f0b429 60%,#b8820a);pointer-events:none;opacity:0;animation:gfBurst 1.5s ease-out forwards}
 @keyframes gfBurst{0%{opacity:1;transform:translate(0,0) scale(.4)}70%{opacity:1}100%{opacity:0;transform:translate(var(--bx),var(--by)) scale(1)}}
 #bm-gold-flash.gf-ring .gold-coin-lg{animation:spinBounce .7s ease forwards,gfGlow 1.4s ease-out .4s 1}
@@ -957,6 +1091,7 @@ button.tf-tile{cursor:pointer;-webkit-appearance:none;appearance:none;-webkit-ta
   <div id="bm-sc-bsdragdrop" class="sc"></div>
   <div id="bm-sc-cff" class="sc"></div>
   <div id="bm-sc-tfill" class="sc"></div>
+  <div id="bm-sc-bud" class="sc"></div>
 
   <div id="bm-gold-flash">
     <div class="gold-coin-lg">$</div>
@@ -4351,7 +4486,7 @@ function practiceKeyRows(){
 function practiceManifestLocal(){
   var out={econ:{},bm:{}};
   [['econ',D],['bm',BM_D]].forEach(function(p){
-    p[1].forEach(function(l,li){ out[p[0]][practiceLessonId(p[0],li)]=l.qs.map(practiceSig).join('|'); });
+    p[1].forEach(function(l,li){ if(!l.qs.length) return; out[p[0]][practiceLessonId(p[0],li)]=l.qs.map(practiceSig).join('|'); });   /* typed-answer lessons have no practice questions and no server key */
   });
   return out;
 }
@@ -8895,6 +9030,45 @@ var BM_D=[
     {tp:'mc',lb:'Choose the correct answer',q:'Both cafés have a mean of 60, a median of 62 and a mode of 62. What do these three averages fail to show?',g:'stCafe',o:['Which café has the larger number of customers in total over the week, as the means are equal','The most common number of customers per day, since the mode is the same for both of the cafés','The middle number of customers per day, since the median is the same for both of the cafés','How spread out the daily numbers of customers are, which is far greater at Café B than at Café A'],a:3},
     {tp:'mc',lb:'Choose the correct answer',q:'The manager must decide how many staff to roster each day. Which café’s customer numbers are easier to plan staffing around?',g:'stCafe',o:['Café B, because its larger range and standard deviation mean its customer numbers are more reliable','Café B, because its busiest day of 88 customers is higher than the busiest day at Café A','Neither café, because their means, medians and modes are the same, so the planning is equally easy','Café A, because its smaller range and standard deviation mean every day is close to the mean of 60'],a:3},
     {tp:'mc',lb:'Choose the correct answer',q:'The manager uses this one week of data to set the staff rosters for the whole year. What is the main weakness of doing this?',o:['Seven days is a small data set from the past, so it may not be typical of the weeks to come','The mean and the median of the data are the same, so neither of them can be relied upon at all','Descriptive statistics can only be used with data that cover a period of at least one full year','The standard deviation of each café cannot be compared unless the two means are different'],a:0}
+  ]},
+  {id:'bu-introduction-to-budgets',t:'Introduction to Budgets',ic:'💰',mod:'bu',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'What is a budget?',o:['A financial plan that sets income and spending targets for a business in a future period','A record of the income received and the costs paid by a business during the last financial year','A statement of the assets, liabilities and equity of a business on a particular date','A legal limit on how much a business may spend, which the government sets for every business each year'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is a purpose of setting budgets?',o:['To record every transaction so that the tax authority can check it','To guarantee that the business will make a profit in the next period','To set financial targets and decide how much each department can spend','To show shareholders what the business is worth at the year end'],a:2},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the formula:',s:'Profit budget = income budget − _____',o:['Forecast sales revenue','Expenditure budget','Closing balance','Variance'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of these figures would appear in an EXPENDITURE budget?',o:['The forecast sales revenue expected from customers next month','The profit that the owner hopes to make in the next month','The difference between the budgeted and actual costs of last month','The forecast cost of wages and rent for next month'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'How can budgets help managers to control a business?',o:['They fix the prices that suppliers will charge the business for the whole of the next year','Actual results can be compared with the plan to show where performance has differed','They remove the need to forecast sales and costs in advance','They make sure that every department spends exactly the same amount'],a:1}
+  ]},
+  {id:'bu-cost-and-profit-centres',t:'Cost Centres and Profit Centres',ic:'🏬',mod:'bu',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'What is a cost centre?',o:['A part of a business that earns revenue, so that its own profit can be calculated','A fixed cost, such as rent, that stays the same whatever the level of output','The place where a business keeps the records of all the costs that it has paid','A part of a business, such as IT, that has costs but earns no revenue itself'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'What is a profit centre?',o:['A part of a business, such as a branch, whose revenue and costs are recorded so its profit can be found','A part of a business that records only its costs, such as the human resources or IT department','Any part of the business that made a profit last year, whether or not its figures are recorded separately','The department that prepares the final accounts and the budgets for the whole business each year'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is most likely to be a PROFIT centre?',o:['The human resources department of a factory','The IT help desk of a large hotel','One store in a national chain of supermarkets','The accounts department of a school'],a:2},
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the sentence:',s:'The manager of a cost centre is mainly responsible for keeping _____ within the budget.',o:['costs','revenue','profit','prices'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Why might a business divide itself into profit centres?',o:['It guarantees that every part of the business will make a profit in every single year that it trades','Each manager is accountable for the profit of their own part, so performance can be compared','It means that the business no longer needs a budget for the organisation as a whole each year','It allows head office costs to be ignored when decisions are made'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'What is one benefit of using cost centres?',o:['It shows the profit that each department makes, so the most profitable ones can be rewarded','It means that departments no longer need a spending budget','It makes sure that costs can never rise above the amount budgeted','Managers can see where money is being spent and hold someone responsible for those costs'],a:3}
+  ]},
+  {id:'bu-constructing-a-budget',t:'Constructing a Budget',ic:'🏗️',mod:'bu',qs:[
+    {tp:'blank',lb:'Fill in the blank',q:'Complete the formula:',s:'Budgeted sales revenue = forecast units sold × _____',o:['Variable cost per unit','Total fixed costs','Price per unit','Profit per unit'],a:2},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the budgeted income for March and April together?',f:[['March forecast sales','2,000 loaves'],['April forecast sales','2,500 loaves'],['Price per loaf','$3']],o:['$6,000','$13,500','$7,500','$4,500'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the total budgeted expenditure for the month?',f:[['Forecast units made','3,000'],['Variable cost per unit','$4'],['Fixed costs for the month','$15,000']],o:['$12,000','$15,000','$19,000','$27,000'],a:3},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the budgeted profit?',f:[['Income budget','$60,000'],['Expenditure budget','$52,500']],o:['$7,500','$112,500','−$7,500','$52,500'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which information is needed to construct an income budget for next quarter?',o:['The actual number of units that the business will really sell during the next quarter','The variances shown on the costs budget for the last quarter of the previous year','The forecast number of units to be sold and the price each will be sold for','The total value of the business’s assets at the end of the quarter'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'Why is a budget for a brand-new product usually harder to construct than one for an established product?',o:['New products always have fixed costs of zero, so the expenditure budget cannot be built','There are no past sales figures to use, so the forecasts rely more on market research and estimates','The law requires a budget for a new product to be approved by the government first','Established products do not need a budget because their sales never change'],a:1}
+  ]},
+  {id:'bu-variance-analysis',t:'Variance Analysis',ic:'📉',mod:'bu',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'What is a budget variance?',o:['The amount by which the budget for next year has been increased compared with this year','The cost of all of the managers’ time that is spent on preparing the budget each year','The difference between a budgeted figure and the actual figure for the same item','The share of the budget that each manager may spend without approval'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which statement describes a FAVOURABLE variance?',o:['A difference that reduces profit compared with the budget, for example higher costs or lower revenue','A case where the actual figure is exactly the same as the budgeted figure','A difference that is caused by something outside the manager’s control','A difference that increases profit compared with the budget, for example lower costs'],a:3},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the variance on sales revenue?',f:[['Budgeted sales revenue','$50,000'],['Actual sales revenue','$56,000']],o:['$6,000 favourable','$6,000 adverse','$106,000 favourable','$106,000 adverse'],a:0},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the variance on labour costs?',f:[['Budgeted labour costs','$30,000'],['Actual labour costs','$34,500']],o:['$4,500 favourable','$64,500 adverse','$4,500 adverse','$34,500 adverse'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following variances would be ADVERSE?',o:['Sales revenue that is higher than the budget','Raw material costs that are higher than the budget','Wage costs that are lower than the budget','Profit that is higher than the budget'],a:1},
+    {tp:'calc',lb:'Calculate and choose',q:'What is the variance on profit?',f:[['Budgeted revenue','$90,000'],['Actual revenue','$85,000'],['Budgeted costs','$70,000'],['Actual costs','$68,500']],o:['$5,000 adverse','$1,500 favourable','$3,500 favourable','$3,500 adverse'],a:3}
+  ]},
+  {id:'bu-budgets-and-decision-making',t:'Budgets and Decision-Making',ic:'⚖️',mod:'bu',qs:[
+    {tp:'mc',lb:'Choose the correct answer',q:'A manager finds a large adverse variance on materials costs. What is the most sensible first step?',o:['Cut the budgets of every other department in the business by the same amount straight away','Ignore the variance, because budgets are only forecasts and are never exact','Find out why the costs were higher than planned before deciding what to do','Replace the manager who is responsible for the materials budget immediately'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is a benefit of using budgets?',o:['Managers have clear targets, and limited resources can be shared out between departments','The forecasts that a budget is built on will always turn out to be completely accurate in practice','Managers no longer need to monitor the actual results of their own department each month','A business cannot spend more than it earns in any period of time'],a:0},
+    {tp:'mc',lb:'Choose the correct answer',q:'Which of the following is a limitation of budgets?',o:['They cannot be used to compare planned and actual performance','They make it impossible for managers to know what their targets are','They can only be prepared by external accountants who do not work for the business itself','They are based on forecasts, which may be wrong if market conditions change'],a:3},
+    {tp:'mc',lb:'Choose the correct answer',q:'Why might budgets that senior managers set without asking their staff reduce motivation?',o:['Staff are automatically paid less in any year in which senior managers set the budget without them','Staff may see the targets as unrealistic and imposed on them, so they feel less responsible for meeting them','Budgets that are set from above always have to be lower than those of the previous year','Staff are not allowed to see a budget until the shareholders have formally approved it'],a:1},
+    {tp:'mc',lb:'Choose the correct answer',q:'A restaurant has an adverse variance on food costs because its supplier raised prices. What does this show about variance analysis?',o:['It proves that the restaurant manager did not control the food budget well enough this year','It shows that the budget was set too high by the managers, so no action is needed at all','It shows what differs from the plan, but managers must still find out why','It shows that profit will rise again in the next period without any action being taken'],a:2},
+    {tp:'mc',lb:'Choose the correct answer',q:'Why is a favourable variance not always good news for a business?',o:['The saving may come from cutting something important, such as maintenance, which could harm the business later','A favourable variance always means that the budget was set much higher than it ever needed to be, which wastes resources','A favourable variance means that actual profit is exactly the same as budgeted profit in every part of the business','Managers cannot explain a favourable variance, so it is normally ignored when decisions are made'],a:0}
   ]}
 ];
 
@@ -8913,6 +9087,7 @@ var BM_MO_START=53, BM_MO_END=57; /* BM_D[53]–BM_D[57] — Motivation and Demo
 var BM_EG_START=58, BM_EG_END=62; /* BM_D[58]–BM_D[62] — Efficiency & Gearing Ratios (HL) */
 var BM_DT_START=63, BM_DT_END=71; /* BM_D[63]–BM_D[71] — Decision Trees (Business Management Toolkit); BM_D[68]–BM_D[70] are the typed-answer Build a Decision Tree lessons 6A, 6B and 6C */
 var BM_DS_START=72, BM_DS_END=79; /* BM_D[72]–BM_D[79] — Descriptive Statistics (Business Management Toolkit, BMT 7) */
+var BM_BU_START=80, BM_BU_END=84; /* BM_D[80]–BM_D[84] — Budgeting (HL, syllabus 3.9); the tasks are the typed Build the Budget tiles (BM_BUD) */
 
 /* ===================== SPEED ROUND DATA ===================== */
 var BM_BS_SECTIONS=['Non-current Assets','Current Assets','Current Liabilities','Non-current Liabilities','Equity'];
@@ -9583,6 +9758,45 @@ BM_HINTS[79]=[
     ['Rostering is easier when the daily numbers are predictable.','Café A’s days all lie close to 60, so a roster built on 60 customers will usually work. Café B’s days vary from 30 to 88.'],
     ['Think about how much data there are, and how far into the future the manager is using them.','A small, short sample of past data may not be representative, and descriptive statistics do not forecast the future on their own.']
   ];
+BM_HINTS[80]=[
+    ['Think about time: is a budget about the past, or about the future?','A budget is a plan with financial targets. It is written before the money is received or spent.'],
+    ['Think about what managers need in order to plan ahead and to keep control.','Budgets give departments targets and spending limits. They cannot guarantee a profit.'],
+    ['A profit budget is the planned profit. Profit = what comes in − what goes out.','The income budget shows the planned revenue. Which budget shows the planned spending?'],
+    ['Expenditure means spending, so look for the option about costs.','Revenue belongs in the income budget, profit in the profit budget, and last month’s differences are variances.'],
+    ['Control means checking progress against a plan.','If actual spending or sales differ from the budget, managers can see it straight away and take action.']
+  ];
+BM_HINTS[81]=[
+    ['Think about what a cost centre has: costs, revenue, or both?','A cost centre only has costs that can be identified. Examples are IT, human resources and maintenance.'],
+    ['The word “profit” is the clue: profit needs both revenue and costs.','A profit centre has its own revenue and its own costs recorded, such as one shop in a chain.'],
+    ['A profit centre earns revenue from customers as well as having costs.','A store sells to customers, so its revenue and costs can both be recorded. The other three only support the business.'],
+    ['A cost centre has no revenue, so what can its manager control?','The manager is held responsible for spending, so costs must stay within the budget.'],
+    ['Think about accountability: who is responsible for the results of each part?','Profit centres show which parts earn the most and which fall short, so managers can be compared fairly.'],
+    ['A cost centre records costs, so the benefit must be about costs.','Knowing where the spending happens lets managers control it. It cannot stop costs from rising, and it does not show profit.']
+  ];
+BM_HINTS[82]=[
+    ['Revenue is the money customers pay: how many are sold, times what?','Each unit sells for its selling price, so units × price = revenue.'],
+    ['Add the loaves for both months first, or find each month’s income and add the two together.','(2,000 + 2,500) × $3 = ?'],
+    ['Variable costs depend on output: units × cost per unit. Fixed costs are added on top.','(3,000 × $4) + $15,000 = ?'],
+    ['Profit budget = income budget − expenditure budget.','$60,000 − $52,500 = ?'],
+    ['An income budget is a forecast of revenue.','Revenue = units × price, so managers need a forecast of both before the quarter begins.'],
+    ['Think about the information that managers can use to forecast.','An established product has a sales history. A new one has none, so more of the forecast is an estimate based on research.']
+  ];
+BM_HINTS[83]=[
+    ['Variance means difference. Which two figures are compared?','Managers compare what was planned (the budget) with what actually happened.'],
+    ['Favourable is good news for profit.','Revenue higher than the budget, or costs lower than the budget, both push profit up, so both are favourable.'],
+    ['Find the gap between $56,000 and $50,000, then decide whether it helps or hurts profit.','Revenue above the budget is favourable, because it adds to profit.'],
+    ['Find the gap: $34,500 − $30,000. Then think about what extra spending does to profit.','Costs above the budget reduce profit, so the variance is adverse.'],
+    ['Adverse means worse for profit.','Higher costs reduce profit. The other three options all increase profit.'],
+    ['Work out the budgeted profit and the actual profit first.','Budgeted profit = $90,000 − $70,000. Actual profit = $85,000 − $68,500. Then compare the two profits.']
+  ];
+BM_HINTS[84]=[
+    ['A variance tells managers WHAT is different, not WHY.','Finding the cause (a price rise, waste, a poor forecast) comes before any decision to act.'],
+    ['Think about how budgets help with planning and with sharing out money.','Budgets set targets and limits for each department. They cannot make forecasts accurate or stop overspending by themselves.'],
+    ['A limitation is a weakness. Which option describes something that can go wrong?','Budgets look ahead, so unexpected changes in costs, demand or competitors can make them out of date.'],
+    ['Motivation is higher when people feel that the targets are fair and are partly their own.','A target that is imposed and seems impossible can lead staff to give up, or to blame others for missing it.'],
+    ['The cause here is outside the manager’s control.','The variance shows the difference only. Managers must find the cause and choose a response, such as a new supplier or higher menu prices.'],
+    ['A favourable variance means profit is higher than planned. Ask how that was achieved.','Spending less on training or maintenance, or cutting quality, saves money now but can cost the business more later.']
+  ];
 
 /* ===================== STATE ===================== */
 var BM_S={
@@ -9609,6 +9823,7 @@ var BM_MODULES=[
   {key:'ra',unit:'Finance & Accounts',syl:'3.5, 3.6',title:'Ratio Analysis',emoji:'📐',tag:'📐 Ratio Analysis','cls':'mod-ra',col:'#ce82ff',idx:[6,7,8,9,10,11],level:'SL'},
   {key:'eg',unit:'Finance & Accounts',syl:'3.6',title:'Efficiency & Gearing Ratios',emoji:'🧮',tag:'🧮 Efficiency & Gearing Ratios','cls':'mod-eg',col:'#3dd9eb',idx:[58,59,60,61,62],level:'HL'},
   {key:'cf',unit:'Finance & Accounts',syl:'3.7',title:'Cash Flow Forecasting',emoji:'💵',tag:'💵 Cash Flow Forecasting','cls':'mod-cf',col:'#ff6b6b',idx:[30,31,32,33,34],level:'SL'},
+  {key:'bu',unit:'Finance & Accounts',syl:'3.9',title:'Budgeting',emoji:'💰',tag:'💰 Budgeting','cls':'mod-bu',col:'#7aa2ff',idx:[80,81,82,83,84],level:'HL'},
   {key:'io',unit:'Operations',syl:'5.1',title:'Introduction to Operations',emoji:'🎛️',tag:'🎛️ Introduction to Operations','cls':'mod-io',col:'#6fcf97',idx:[28,29],level:'SL'},
   {key:'om',unit:'Operations',syl:'5.2',title:'Operations Methods',emoji:'⚙️',tag:'⚙️ Operations Methods','cls':'mod-om',col:'#4fb0e0',idx:[23,24,25,26,27],level:'SL'},
   {key:'ln',unit:'Operations',syl:'5.3',title:'Lean Production',emoji:'🏭',tag:'🏭 Lean Production','cls':'mod-ln',col:'#8b7ff0',idx:[17,18,19,20,21,22],level:'HL'},
@@ -9631,7 +9846,7 @@ function bmLmSpeedUnlocked(){ return bmPerf('lm-situational-leadership')&&bmPerf
 
 /* Within-module unlock: lesson i is unlocked if it's the module's first lesson, or prev is done */
 function bmLesUnlocked(i){
-  if(i===BM_FA_START||i===BM_RA_START||i===BM_BE_START||i===BM_LN_START||i===BM_OM_START||i===BM_IO_START||i===BM_CF_START||i===BM_HR_START||i===BM_OS_START||i===BM_LM_START||i===BM_MO_START||i===BM_EG_START||i===BM_DT_START||i===BM_DS_START) return true;
+  if(i===BM_FA_START||i===BM_RA_START||i===BM_BE_START||i===BM_LN_START||i===BM_OM_START||i===BM_IO_START||i===BM_CF_START||i===BM_HR_START||i===BM_OS_START||i===BM_LM_START||i===BM_MO_START||i===BM_EG_START||i===BM_DT_START||i===BM_DS_START||i===BM_BU_START) return true;
   /* Must be same module and previous lesson complete */
   if(i>BM_FA_START && i<=BM_FA_END) return BM_S.dn.has(i-1);
   if(i>BM_RA_START && i<=BM_RA_END) return BM_S.dn.has(i-1);
@@ -9647,6 +9862,7 @@ function bmLesUnlocked(i){
   if(i>BM_EG_START && i<=BM_EG_END) return BM_S.dn.has(i-1);
   if(i>BM_DT_START && i<=BM_DT_END) return BM_S.dn.has(i-1)||(i===BM_DT_END&&BM_S.dn.has(i));   /* an already-finished final challenge stays open */
   if(i>BM_DS_START && i<=BM_DS_END) return BM_S.dn.has(i-1);
+  if(i>BM_BU_START && i<=BM_BU_END) return BM_S.dn.has(i-1);
   return false;
 }
 
@@ -9854,7 +10070,7 @@ if(window.speechSynthesis){
 }
 
 /* ===================== HELPERS ===================== */
-function bmSw(s){['hub','home','game','res','celebrate','speed','sres','bsdragdrop','cff','tfill'].forEach(function(id){document.getElementById('bm-sc-'+id).classList.remove('on');});document.getElementById('bm-sc-'+s).classList.add('on');document.getElementById('app').classList.toggle('wide-mode', s==='bsdragdrop'||s==='cff'||s==='tfill');document.body.classList.toggle('hub-light', s==='hub');}
+function bmSw(s){['hub','home','game','res','celebrate','speed','sres','bsdragdrop','cff','tfill','bud'].forEach(function(id){document.getElementById('bm-sc-'+id).classList.remove('on');});document.getElementById('bm-sc-'+s).classList.add('on');document.getElementById('app').classList.toggle('wide-mode', s==='bsdragdrop'||s==='cff'||s==='tfill'||s==='bud');document.body.classList.toggle('hub-light', s==='hub');}
 function bmShuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 function bmSubSilver(n){
   BM_S.silver=Math.max(0,BM_S.silver-n);
@@ -10111,7 +10327,7 @@ function bmRHub(){
     if(full){
       var chipBg2=(m.level==='HL')?'rgba(180,83,9,.10)':'rgba(15,118,110,.10)';
       var gemBadgeFull=complete?'<div class="tile-gem-badge" style="width:44px;height:44px;top:-12px;right:-12px;">'+gemSVG(44)+'</div>':'';
-      return '<button class="hub-tile '+(m.level==='HL'?'hl':'sl')+'" onclick="bmOpenModule(\''+m.key+'\')" style="position:relative;grid-column:1 / -1;display:flex;flex-direction:column;text-align:left;cursor:pointer;font-family:inherit;background:#fff;border:2.5px solid #f0b429;border-radius:20px;padding:22px 26px;">'
+      return '<button class="hub-tile hub-full '+(m.level==='HL'?'hl':'sl')+'" onclick="bmOpenModule(\''+m.key+'\')" style="position:relative;grid-column:1 / -1;display:flex;flex-direction:column;text-align:left;cursor:pointer;font-family:inherit;background:#fff;border:2.5px solid #f0b429;border-radius:20px;padding:22px 26px;">'
         +gemBadgeFull
         +'<div style="font-size:16px;font-style:italic;font-weight:600;color:'+MUT+';margin-bottom:14px;">Unit: '+(m.unit||'Finance & Accounts')+(m.syl?' \u00b7 '+m.syl:'')+'</div>'
         +'<div class="hf-row" style="display:flex;align-items:center;gap:22px;">'
@@ -10150,7 +10366,7 @@ function bmRHub(){
     for(i=0;i+1<list.length;i+=2){ inner+=tile(list[i],false)+tile(list[i+1],false); }
     if(i<list.length){ inner+=tile(list[i],true); }
     tiles+='<div style="font-size:22px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#fff;margin:'+(ui?'34px':'0')+' 0 18px;">'+u+'</div>'
-      +'<div class="hub-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">'+inner+'</div>';
+      +'<div class="hub-grid'+(list.length%3===2?' hub-n2':'')+'" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">'+inner+'</div>';
   });
 
   var resumeTileHTML='';
@@ -10423,8 +10639,8 @@ function bmRHome(){
   function makeRow(di, accentCol){
     var l=BM_D[di];
     var dn=BM_S.dn.has(di), un=bmLesUnlocked(di), perf=BM_S.perfect.has(di);
-    var isLast=(di===BM_FA_END||di===BM_RA_END||di===BM_BE_END||di===BM_LN_END||di===BM_OM_END||di===BM_IO_END||di===BM_CF_END||di===BM_HR_END||di===BM_OS_END||di===BM_LM_END||di===BM_MO_END||di===BM_EG_END||di===BM_DT_END||di===BM_DS_END);
-    var localNum=(di-(di<=BM_FA_END?BM_FA_START:di<=BM_RA_END?BM_RA_START:di<=BM_BE_END?BM_BE_START:di<=BM_LN_END?BM_LN_START:di<=BM_OM_END?BM_OM_START:di<=BM_IO_END?BM_IO_START:di<=BM_CF_END?BM_CF_START:di<=BM_HR_END?BM_HR_START:di<=BM_OS_END?BM_OS_START:di<=BM_LM_END?BM_LM_START:di<=BM_MO_END?BM_MO_START:di<=BM_EG_END?BM_EG_START:di<=BM_DT_END?BM_DT_START:BM_DS_START))+1;
+    var isLast=(di===BM_FA_END||di===BM_RA_END||di===BM_BE_END||di===BM_LN_END||di===BM_OM_END||di===BM_IO_END||di===BM_CF_END||di===BM_HR_END||di===BM_OS_END||di===BM_LM_END||di===BM_MO_END||di===BM_EG_END||di===BM_DT_END||di===BM_DS_END||di===BM_BU_END);
+    var localNum=(di-(di<=BM_FA_END?BM_FA_START:di<=BM_RA_END?BM_RA_START:di<=BM_BE_END?BM_BE_START:di<=BM_LN_END?BM_LN_START:di<=BM_OM_END?BM_OM_START:di<=BM_IO_END?BM_IO_START:di<=BM_CF_END?BM_CF_START:di<=BM_HR_END?BM_HR_START:di<=BM_OS_END?BM_OS_START:di<=BM_LM_END?BM_LM_START:di<=BM_MO_END?BM_MO_START:di<=BM_EG_END?BM_EG_START:di<=BM_DT_END?BM_DT_START:di<=BM_DS_END?BM_DS_START:BM_BU_START))+1;
     if(di>BM_DT_START&&di<=BM_DT_END){ for(var q=BM_DT_START;q<di;q++){ if(BM_D[q].tree>1) localNum--; } }   /* 6A, 6B and 6C are one lesson number (6) with three parts */
     var isSort=l.qs.length>0&&l.qs[0].tp==='sort';
 
@@ -10683,12 +10899,21 @@ function bmRHome(){
     []
   );
 
+  var buSection=makeModule(
+    'Budgeting','💰 Budgeting','mod-bu',
+    [80,81,82,83,84],'#7aa2ff',
+    [],
+    [
+      {after:3,html:BM_BUD.tilesHTML()}
+    ]
+  );
+
   var modInfo=BM_MODULES.find(function(m){return m.key===BM_S.curMod;})||BM_MODULES[0];
   document.getElementById('bm-sc-home').innerHTML=
     '<div style="padding-top:10px;padding-bottom:30px;">'
     +'<button onclick="bmGoHub()" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.16);color:#c0cfe8;font-size:13px;font-weight:800;cursor:pointer;padding:9px 15px;border-radius:11px;font-family:inherit;margin-bottom:14px;">☰ All Business Management Modules</button>'
     +'<div style="display:flex;justify-content:flex-end;margin-bottom:14px;"><div class="coin-pill">'+bmCoinPillHTML()+'</div></div>'
-    +({fa:faSection,ra:raSection,eg:egSection,be:beSection,ln:lnSection,om:omSection,io:ioSection,cf:cfSection,hr:hrSection,os:osSection,lm:lmSection,mo:moSection,dt:dtSection,ds:dsSection}[BM_S.curMod]||faSection)
+    +({fa:faSection,ra:raSection,eg:egSection,be:beSection,ln:lnSection,om:omSection,io:ioSection,cf:cfSection,hr:hrSection,os:osSection,lm:lmSection,mo:moSection,dt:dtSection,ds:dsSection,bu:buSection}[BM_S.curMod]||faSection)
     +'<div style="text-align:center;margin-top:8px;padding-bottom:10px;">'
     +'<button onclick="bmResetProgress()" style="background:none;border:none;color:#3a5078;font-size:11px;font-family:inherit;cursor:pointer;padding:6px 12px;border-radius:8px;" onmouseenter="this.style.color=\'#7a90b8\'" onmouseleave="this.style.color=\'#3a5078\'">↺ Reset all progress</button>'
     +'</div>'
@@ -10696,6 +10921,7 @@ function bmRHome(){
   /* the five Balance Sheet tiles also ask the server (once per sign-in) which sheets this student has already finished */
   try{ BM_BSDD.refreshStatus(); }catch(e){}
   try{ BM_CFF.refreshStatus(); }catch(e){}
+  try{ BM_BUD.refreshStatus(); }catch(e){}
   try{ BM_TFILL.refreshStatus(); }catch(e){}
 }
 
@@ -11032,7 +11258,7 @@ function bmRRes(){
 
   /* Next lesson within same module */
   var nx=BM_S.les+1;
-  var hasNx=(mod==='fa'&&nx<=BM_FA_END)||(mod==='ra'&&nx<=BM_RA_END)||(mod==='be'&&nx<=BM_BE_END)||(mod==='ln'&&nx<=BM_LN_END)||(mod==='om'&&nx<=BM_OM_END)||(mod==='io'&&nx<=BM_IO_END)||(mod==='cf'&&nx<=BM_CF_END)||(mod==='hr'&&nx<=BM_HR_END)||(mod==='os'&&nx<=BM_OS_END)||(mod==='lm'&&nx<=BM_LM_END)||(mod==='mo'&&nx<=BM_MO_END)||(mod==='eg'&&nx<=BM_EG_END)||(mod==='dt'&&nx<=BM_DT_END)||(mod==='ds'&&nx<=BM_DS_END);
+  var hasNx=(mod==='fa'&&nx<=BM_FA_END)||(mod==='ra'&&nx<=BM_RA_END)||(mod==='be'&&nx<=BM_BE_END)||(mod==='ln'&&nx<=BM_LN_END)||(mod==='om'&&nx<=BM_OM_END)||(mod==='io'&&nx<=BM_IO_END)||(mod==='cf'&&nx<=BM_CF_END)||(mod==='hr'&&nx<=BM_HR_END)||(mod==='os'&&nx<=BM_OS_END)||(mod==='lm'&&nx<=BM_LM_END)||(mod==='mo'&&nx<=BM_MO_END)||(mod==='eg'&&nx<=BM_EG_END)||(mod==='dt'&&nx<=BM_DT_END)||(mod==='ds'&&nx<=BM_DS_END)||(mod==='bu'&&nx<=BM_BU_END);
 
   /* Bonus unlock banners */
   var banners='';
@@ -12287,6 +12513,523 @@ function open(n){
 }
 
 return { open:open, tilesHTML:tilesHTML, tapTile:tapTile, refreshStatus:refreshStatus, data:FC, parse:parse };
+})();
+
+/* ===================== BUILD THE BUDGET (typed answers) =====================
+   Five exam-style budgeting tasks in the Budgeting module (IB DP Business Management 3.9, HL only): construct a budget from
+   information, and work out budget variances (budgeted against actual, favourable or adverse), including a hotel with profit centres
+   and cost centres. The student TYPES every figure into a table that already has its row and column headings, and chooses F or A for
+   each variance. "Check my answers" marks every box: green = correct (and locked), amber "own" = right from the student's own earlier
+   figure (the IB "own figure" rule), red = check again. Every box must be correct to finish. Signed in: the server checks every
+   answer against its own key and pays the gold coin (claim_budget_gold in stage11_budget_gold.sql, once per task);
+   signed out: a device-only coin, once per task. */
+var BM_BUD = (function(){
+
+var BD = [{"n":1,"short":"Café","long":"Corner Café","icon":"☕","co":"Corner Café","cur":"$","kind":"construct","neg":true,"intro":"Corner Café is opening a small coffee shop. The owner needs a budget for the first three months.","facts":["The table shows the number of customers the café expects each month.","Each customer spends $6 on average.","Ingredients cost $2 per customer. Packaging (cups and lids) costs $0.50 per customer.","Wages ($3,400) and rent ($1,500) are the same every month. These are already filled in.","Profit = income − expenditure. A loss is shown as a negative number."],"info":{"head":["Month","Customers"],"rows":[["Month 1","1,200"],["Month 2","1,500"],["Month 3","1,800"]],"pre":[0,0,0]},"cols":["Month 1","Month 2","Month 3"],"rows":[{"id":"h1","k":"head","t":"Income"},{"id":"rev","k":"row","t":"Sales revenue","s":"","cells":[{"g":0,"v":7200,"k":"n","id":"rev.0","tip":"Sales revenue = number of customers × $6."},{"g":0,"v":9000,"k":"n","id":"rev.1","tip":"Sales revenue = number of customers × $6."},{"g":0,"v":10800,"k":"n","id":"rev.2","tip":"Sales revenue = number of customers × $6."}]},{"id":"h2","k":"head","t":"Expenditure"},{"id":"ingr","k":"row","t":"Ingredients","s":"","cells":[{"g":0,"v":2400,"k":"n","id":"ingr.0","tip":"Ingredients cost $2 for each customer, so use customers × $2."},{"g":0,"v":3000,"k":"n","id":"ingr.1","tip":"Ingredients cost $2 for each customer, so use customers × $2."},{"g":0,"v":3600,"k":"n","id":"ingr.2","tip":"Ingredients cost $2 for each customer, so use customers × $2."}]},{"id":"pack","k":"row","t":"Packaging","s":"","cells":[{"g":0,"v":600,"k":"n","id":"pack.0","tip":"Packaging costs $0.50 for each customer, so use customers × $0.50."},{"g":0,"v":750,"k":"n","id":"pack.1","tip":"Packaging costs $0.50 for each customer, so use customers × $0.50."},{"g":0,"v":900,"k":"n","id":"pack.2","tip":"Packaging costs $0.50 for each customer, so use customers × $0.50."}]},{"id":"wages","k":"row","t":"Wages","s":"","cells":[{"g":1,"v":3400,"k":"n","id":"wages.0"},{"g":1,"v":3400,"k":"n","id":"wages.1"},{"g":1,"v":3400,"k":"n","id":"wages.2"}]},{"id":"rent","k":"row","t":"Rent","s":"","cells":[{"g":1,"v":1500,"k":"n","id":"rent.0"},{"g":1,"v":1500,"k":"n","id":"rent.1"},{"g":1,"v":1500,"k":"n","id":"rent.2"}]},{"id":"tout","k":"row","t":"Total expenditure","s":"sum","cells":[{"g":0,"v":7900,"k":"n","id":"tout.0","own":["lin",[[1,"ingr.0"],[1,"pack.0"],[1,"wages.0"],[1,"rent.0"]]],"tip":"Total expenditure = ingredients + packaging + wages + rent."},{"g":0,"v":8650,"k":"n","id":"tout.1","own":["lin",[[1,"ingr.1"],[1,"pack.1"],[1,"wages.1"],[1,"rent.1"]]],"tip":"Total expenditure = ingredients + packaging + wages + rent."},{"g":0,"v":9400,"k":"n","id":"tout.2","own":["lin",[[1,"ingr.2"],[1,"pack.2"],[1,"wages.2"],[1,"rent.2"]]],"tip":"Total expenditure = ingredients + packaging + wages + rent."}]},{"id":"profit","k":"row","t":"Profit","s":"net","cells":[{"g":0,"v":-700,"k":"n","id":"profit.0","own":["lin",[[1,"rev.0"],[-1,"tout.0"]]],"tip":"Profit = sales revenue − total expenditure. A loss is a negative number: tap a box, then tap ± Negative."},{"g":0,"v":350,"k":"n","id":"profit.1","own":["lin",[[1,"rev.1"],[-1,"tout.1"]]],"tip":"Profit = sales revenue − total expenditure. A loss is a negative number: tap a box, then tap ± Negative."},{"g":0,"v":1400,"k":"n","id":"profit.2","own":["lin",[[1,"rev.2"],[-1,"tout.2"]]],"tip":"Profit = sales revenue − total expenditure. A loss is a negative number: tap a box, then tap ± Negative."}]}],"done":"Corner Café budgets a loss of $700 in Month 1 while it builds up its customers, then a profit of $350 in Month 2 and $1,400 in Month 3. Managers use a profit budget like this as a target, and later compare it with what actually happens.","order":["rev.0","ingr.0","pack.0","tout.0","profit.0","rev.1","ingr.1","pack.1","tout.1","profit.1","rev.2","ingr.2","pack.2","tout.2","profit.2"]},{"n":2,"short":"Garden Centre","long":"Green Thumb Garden Centre","icon":"🪴","co":"Green Thumb Garden Centre","cur":"$","kind":"variance","neg":false,"intro":"Green Thumb Garden Centre set a budget for the spring quarter. The manager now has the actual results and wants to find the variances.","facts":["The budgeted and actual figures for the quarter are in the table. Some are already filled in.","Variance = the difference between the budgeted and the actual figure. Write it as a positive number.","Mark each variance F if it is favourable (it increases profit) or A if it is adverse (it decreases profit).","Work out the total expenditure and the profit for both columns before finding their variances."],"info":null,"cols":["Budgeted","Actual","Variance","F or A"],"rows":[{"id":"h1","k":"head","t":"Income"},{"id":"rev","k":"row","t":"Sales revenue","s":"","cells":[{"g":1,"v":80000,"k":"n","id":"rev.0"},{"g":1,"v":74000,"k":"n","id":"rev.1"},{"g":0,"v":6000,"k":"v","id":"rev.2","own":["abs","rev.0","rev.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"rev.3","own":["fa","rev.0","rev.1","rev"],"tip":"Income and profit ABOVE the budget are favourable (F); below it they are adverse (A)."}]},{"id":"h2","k":"head","t":"Expenditure"},{"id":"mat","k":"row","t":"Materials","s":"","cells":[{"g":1,"v":30000,"k":"n","id":"mat.0"},{"g":1,"v":27500,"k":"n","id":"mat.1"},{"g":0,"v":2500,"k":"v","id":"mat.2","own":["abs","mat.0","mat.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"F","k":"fa","id":"mat.3","own":["fa","mat.0","mat.1","cost"],"tip":"Costs BELOW the budget are favourable (F); costs above it are adverse (A)."}]},{"id":"wag","k":"row","t":"Wages","s":"","cells":[{"g":1,"v":24000,"k":"n","id":"wag.0"},{"g":1,"v":25200,"k":"n","id":"wag.1"},{"g":0,"v":1200,"k":"v","id":"wag.2","own":["abs","wag.0","wag.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"wag.3","own":["fa","wag.0","wag.1","cost"],"tip":"Costs BELOW the budget are favourable (F); costs above it are adverse (A)."}]},{"id":"rent","k":"row","t":"Rent","s":"","cells":[{"g":1,"v":6000,"k":"n","id":"rent.0"},{"g":1,"v":6300,"k":"n","id":"rent.1"},{"g":0,"v":300,"k":"v","id":"rent.2","own":["abs","rent.0","rent.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"rent.3","own":["fa","rent.0","rent.1","cost"],"tip":"Costs BELOW the budget are favourable (F); costs above it are adverse (A)."}]},{"id":"adv","k":"row","t":"Advertising","s":"","cells":[{"g":1,"v":4000,"k":"n","id":"adv.0"},{"g":1,"v":3100,"k":"n","id":"adv.1"},{"g":0,"v":900,"k":"v","id":"adv.2","own":["abs","adv.0","adv.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"F","k":"fa","id":"adv.3","own":["fa","adv.0","adv.1","cost"],"tip":"Costs BELOW the budget are favourable (F); costs above it are adverse (A)."}]},{"id":"tout","k":"row","t":"Total expenditure","s":"sum","cells":[{"g":0,"v":64000,"k":"n","id":"tout.0","own":["lin",[[1,"mat.0"],[1,"wag.0"],[1,"rent.0"],[1,"adv.0"]]],"tip":"Add up the four expenditure items in the budgeted column."},{"g":0,"v":62100,"k":"n","id":"tout.1","own":["lin",[[1,"mat.1"],[1,"wag.1"],[1,"rent.1"],[1,"adv.1"]]],"tip":"Add up the four expenditure items in the actual column."},{"g":0,"v":1900,"k":"v","id":"tout.2","own":["abs","tout.0","tout.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"F","k":"fa","id":"tout.3","own":["fa","tout.0","tout.1","cost"],"tip":"Costs BELOW the budget are favourable (F); costs above it are adverse (A)."}]},{"id":"profit","k":"row","t":"Profit","s":"net","cells":[{"g":0,"v":16000,"k":"n","id":"profit.0","own":["lin",[[1,"rev.0"],[-1,"tout.0"]]],"tip":"Budgeted profit = budgeted sales revenue − budgeted total expenditure."},{"g":0,"v":11900,"k":"n","id":"profit.1","own":["lin",[[1,"rev.1"],[-1,"tout.1"]]],"tip":"Actual profit = actual sales revenue − actual total expenditure."},{"g":0,"v":4100,"k":"v","id":"profit.2","own":["abs","profit.0","profit.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"profit.3","own":["fa","profit.0","profit.1","rev"],"tip":"Income and profit ABOVE the budget are favourable (F); below it they are adverse (A)."}]}],"done":"Green Thumb made a profit of $11,900 against a budget of $16,000, an adverse variance of $4,100. Sales revenue was $6,000 below budget (adverse), and the savings on materials and advertising were not enough to make up for it. A manager would now investigate why sales fell short.","order":["rev.2","rev.3","mat.2","mat.3","wag.2","wag.3","rent.2","rent.3","adv.2","adv.3","tout.0","tout.1","tout.2","tout.3","profit.0","profit.1","profit.2","profit.3"]},{"n":3,"short":"Couriers","long":"Swift Couriers","icon":"🚚","co":"Swift Couriers","cur":"$","kind":"construct","neg":false,"intro":"Swift Couriers delivers parcels for online shops. The owner is launching a premium service and needs a four-month budget.","facts":["The table shows the forecast number of deliveries and the price charged for each delivery. The price rises from Month 3 because of the premium service.","Fuel and vehicle running costs are $3 per delivery.","Driver wages are $15,000 a month, rising to $16,500 from Month 3. Vehicle leases are $6,000 a month. Both are already filled in.","In Month 2 the business spends $5,000 on an advertising campaign to launch the premium service."],"info":{"head":["Month","Deliveries","Price ($)"],"rows":[["Month 1","3,000","12"],["Month 2","3,500","12"],["Month 3","4,000","14"],["Month 4","4,500","14"]],"pre":[0,0,0,0]},"cols":["Month 1","Month 2","Month 3","Month 4"],"rows":[{"id":"h1","k":"head","t":"Income"},{"id":"rev","k":"row","t":"Sales revenue","s":"","cells":[{"g":0,"v":36000,"k":"n","id":"rev.0","tip":"Sales revenue = number of deliveries × the price per delivery in that month. The price rises from Month 3."},{"g":0,"v":42000,"k":"n","id":"rev.1","tip":"Sales revenue = number of deliveries × the price per delivery in that month. The price rises from Month 3."},{"g":0,"v":56000,"k":"n","id":"rev.2","tip":"Sales revenue = number of deliveries × the price per delivery in that month. The price rises from Month 3."},{"g":0,"v":63000,"k":"n","id":"rev.3","tip":"Sales revenue = number of deliveries × the price per delivery in that month. The price rises from Month 3."}]},{"id":"h2","k":"head","t":"Expenditure"},{"id":"fuel","k":"row","t":"Fuel and running costs","s":"","cells":[{"g":0,"v":9000,"k":"n","id":"fuel.0","tip":"Fuel and vehicle running costs are $3 for each delivery: deliveries × $3."},{"g":0,"v":10500,"k":"n","id":"fuel.1","tip":"Fuel and vehicle running costs are $3 for each delivery: deliveries × $3."},{"g":0,"v":12000,"k":"n","id":"fuel.2","tip":"Fuel and vehicle running costs are $3 for each delivery: deliveries × $3."},{"g":0,"v":13500,"k":"n","id":"fuel.3","tip":"Fuel and vehicle running costs are $3 for each delivery: deliveries × $3."}]},{"id":"wag","k":"row","t":"Driver wages","s":"","cells":[{"g":1,"v":15000,"k":"n","id":"wag.0"},{"g":1,"v":15000,"k":"n","id":"wag.1"},{"g":1,"v":16500,"k":"n","id":"wag.2"},{"g":1,"v":16500,"k":"n","id":"wag.3"}]},{"id":"lease","k":"row","t":"Vehicle leases","s":"","cells":[{"g":1,"v":6000,"k":"n","id":"lease.0"},{"g":1,"v":6000,"k":"n","id":"lease.1"},{"g":1,"v":6000,"k":"n","id":"lease.2"},{"g":1,"v":6000,"k":"n","id":"lease.3"}]},{"id":"adv","k":"row","t":"Advertising","s":"","cells":[{"g":1,"v":0,"k":"n","id":"adv.0"},{"g":0,"v":5000,"k":"n","id":"adv.1","tip":"The advertising campaign is paid for in Month 2 only."},{"g":1,"v":0,"k":"n","id":"adv.2"},{"g":1,"v":0,"k":"n","id":"adv.3"}]},{"id":"tout","k":"row","t":"Total expenditure","s":"sum","cells":[{"g":0,"v":30000,"k":"n","id":"tout.0","own":["lin",[[1,"fuel.0"],[1,"wag.0"],[1,"lease.0"],[1,"adv.0"]]],"tip":"Total expenditure = fuel and running costs + wages + leases + advertising."},{"g":0,"v":36500,"k":"n","id":"tout.1","own":["lin",[[1,"fuel.1"],[1,"wag.1"],[1,"lease.1"],[1,"adv.1"]]],"tip":"Total expenditure = fuel and running costs + wages + leases + advertising."},{"g":0,"v":34500,"k":"n","id":"tout.2","own":["lin",[[1,"fuel.2"],[1,"wag.2"],[1,"lease.2"],[1,"adv.2"]]],"tip":"Total expenditure = fuel and running costs + wages + leases + advertising."},{"g":0,"v":36000,"k":"n","id":"tout.3","own":["lin",[[1,"fuel.3"],[1,"wag.3"],[1,"lease.3"],[1,"adv.3"]]],"tip":"Total expenditure = fuel and running costs + wages + leases + advertising."}]},{"id":"profit","k":"row","t":"Profit","s":"net","cells":[{"g":0,"v":6000,"k":"n","id":"profit.0","own":["lin",[[1,"rev.0"],[-1,"tout.0"]]],"tip":"Profit = sales revenue − total expenditure."},{"g":0,"v":5500,"k":"n","id":"profit.1","own":["lin",[[1,"rev.1"],[-1,"tout.1"]]],"tip":"Profit = sales revenue − total expenditure."},{"g":0,"v":21500,"k":"n","id":"profit.2","own":["lin",[[1,"rev.2"],[-1,"tout.2"]]],"tip":"Profit = sales revenue − total expenditure."},{"g":0,"v":27000,"k":"n","id":"profit.3","own":["lin",[[1,"rev.3"],[-1,"tout.3"]]],"tip":"Profit = sales revenue − total expenditure."}]}],"done":"Swift Couriers budgets a profit in every month: $6,000 in Month 1, $5,500 in Month 2 (the launch campaign lowers it), then $21,500 in Month 3 and $27,000 in Month 4 as deliveries grow and the higher price takes effect. The managers can now compare each month’s actual profit with this budget.","order":["rev.0","fuel.0","tout.0","profit.0","rev.1","fuel.1","adv.1","tout.1","profit.1","rev.2","fuel.2","tout.2","profit.2","rev.3","fuel.3","tout.3","profit.3"]},{"n":4,"short":"Electronics","long":"Bright Spark Electronics","icon":"💡","co":"Bright Spark Electronics","cur":"$","kind":"variance","neg":false,"intro":"Bright Spark Electronics makes phone chargers. Its budget for last quarter was set in advance. The owner now has the actual results and wants a variance analysis.","facts":["The information table shows the budgeted and the actual number of units sold, the selling price and the variable cost per unit.","Sales revenue = units sold × selling price. Variable costs = units sold × variable cost per unit.","Rent and utilities, and marketing, are fixed costs. Their budgeted and actual figures are already filled in.","Show each variance as a positive number. Mark it F if it is favourable or A if it is adverse."],"info":{"head":["","Budgeted","Actual"],"rows":[["Units sold","2,000","2,200"],["Selling price ($)","45","42"],["Variable cost per unit ($)","20","21"]],"pre":[0,0,0]},"cols":["Budgeted","Actual","Variance","F or A"],"rows":[{"id":"h1","k":"head","t":"Income"},{"id":"rev","k":"row","t":"Sales revenue","s":"","cells":[{"g":0,"v":90000,"k":"n","id":"rev.0","tip":"Budgeted sales revenue = budgeted units × budgeted price. Use the Budgeted column of the information table."},{"g":0,"v":92400,"k":"n","id":"rev.1","tip":"Actual sales revenue = actual units × actual price. Use the Actual column of the information table."},{"g":0,"v":2400,"k":"v","id":"rev.2","own":["abs","rev.0","rev.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"F","k":"fa","id":"rev.3","own":["fa","rev.0","rev.1","rev"],"tip":"Income and profit ABOVE the budget are favourable (F); below it they are adverse (A)."}]},{"id":"h2","k":"head","t":"Expenditure"},{"id":"vc","k":"row","t":"Variable costs","s":"","cells":[{"g":0,"v":40000,"k":"n","id":"vc.0","tip":"Budgeted variable costs = budgeted units × budgeted variable cost per unit."},{"g":0,"v":46200,"k":"n","id":"vc.1","tip":"Actual variable costs = actual units × actual variable cost per unit."},{"g":0,"v":6200,"k":"v","id":"vc.2","own":["abs","vc.0","vc.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"vc.3","own":["fa","vc.0","vc.1","cost"],"tip":"Costs BELOW the budget are favourable (F); costs above it are adverse (A)."}]},{"id":"rent","k":"row","t":"Rent and utilities","s":"","cells":[{"g":1,"v":12000,"k":"n","id":"rent.0"},{"g":1,"v":12400,"k":"n","id":"rent.1"},{"g":0,"v":400,"k":"v","id":"rent.2","own":["abs","rent.0","rent.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"rent.3","own":["fa","rent.0","rent.1","cost"],"tip":"Costs BELOW the budget are favourable (F); costs above it are adverse (A)."}]},{"id":"mkt","k":"row","t":"Marketing","s":"","cells":[{"g":1,"v":5000,"k":"n","id":"mkt.0"},{"g":1,"v":6800,"k":"n","id":"mkt.1"},{"g":0,"v":1800,"k":"v","id":"mkt.2","own":["abs","mkt.0","mkt.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"mkt.3","own":["fa","mkt.0","mkt.1","cost"],"tip":"Costs BELOW the budget are favourable (F); costs above it are adverse (A)."}]},{"id":"tout","k":"row","t":"Total expenditure","s":"sum","cells":[{"g":0,"v":57000,"k":"n","id":"tout.0","own":["lin",[[1,"vc.0"],[1,"rent.0"],[1,"mkt.0"]]],"tip":"Add up the three expenditure items in the budgeted column."},{"g":0,"v":65400,"k":"n","id":"tout.1","own":["lin",[[1,"vc.1"],[1,"rent.1"],[1,"mkt.1"]]],"tip":"Add up the three expenditure items in the actual column."},{"g":0,"v":8400,"k":"v","id":"tout.2","own":["abs","tout.0","tout.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"tout.3","own":["fa","tout.0","tout.1","cost"],"tip":"Costs BELOW the budget are favourable (F); costs above it are adverse (A)."}]},{"id":"profit","k":"row","t":"Profit","s":"net","cells":[{"g":0,"v":33000,"k":"n","id":"profit.0","own":["lin",[[1,"rev.0"],[-1,"tout.0"]]],"tip":"Budgeted profit = budgeted sales revenue − budgeted total expenditure."},{"g":0,"v":27000,"k":"n","id":"profit.1","own":["lin",[[1,"rev.1"],[-1,"tout.1"]]],"tip":"Actual profit = actual sales revenue − actual total expenditure."},{"g":0,"v":6000,"k":"v","id":"profit.2","own":["abs","profit.0","profit.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"profit.3","own":["fa","profit.0","profit.1","rev"],"tip":"Income and profit ABOVE the budget are favourable (F); below it they are adverse (A)."}]}],"done":"Bright Spark sold 200 more units than budgeted, but at a lower price, so sales revenue was only $2,400 above budget (favourable). Total expenditure was $8,400 above budget (adverse) because of the extra units, a higher cost per unit and higher fixed costs. Actual profit of $27,000 was $6,000 below the budgeted $33,000: an adverse variance. Managers would investigate the cost increases first.","order":["rev.0","rev.1","rev.2","rev.3","vc.0","vc.1","vc.2","vc.3","rent.2","rent.3","mkt.2","mkt.3","tout.0","tout.1","tout.2","tout.3","profit.0","profit.1","profit.2","profit.3"]},{"n":5,"short":"Hotel","long":"Seaview Hotel","icon":"🏨","co":"Seaview Hotel","cur":"$","kind":"variance","neg":false,"intro":"Seaview Hotel has four sections. The owner has the budgeted and actual figures for the year and wants to find out which sections are on target.","facts":["Rooms and Restaurant are profit centres: each earns revenue and has its own costs, so each has a profit.","Housekeeping and Administration are cost centres: they have costs but earn no revenue.","Hotel profit = the profit of the two profit centres − the costs of the two cost centres.","Restaurant revenue = number of diners × average spend per diner. The information table shows the budgeted and actual figures.","Show each variance as a positive number. Mark it F if it is favourable or A if it is adverse."],"info":{"head":["","Budgeted","Actual"],"rows":[["Restaurant diners","4,000","3,650"],["Average spend per diner ($)","40","40"]],"pre":[0,0]},"cols":["Budgeted","Actual","Variance","F or A"],"rows":[{"id":"h1","k":"head","t":"Rooms (profit centre)"},{"id":"rrev","k":"row","t":"Revenue","s":"","cells":[{"g":1,"v":420000,"k":"n","id":"rrev.0"},{"g":1,"v":441000,"k":"n","id":"rrev.1"},{"g":0,"v":21000,"k":"v","id":"rrev.2","own":["abs","rrev.0","rrev.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"F","k":"fa","id":"rrev.3","own":["fa","rrev.0","rrev.1","rev"],"tip":"Income and profit ABOVE the budget are favourable (F); below it they are adverse (A)."}],"lbl":"Rooms: revenue"},{"id":"rcost","k":"row","t":"Costs","s":"","cells":[{"g":1,"v":180000,"k":"n","id":"rcost.0"},{"g":1,"v":189000,"k":"n","id":"rcost.1"},{"g":0,"v":9000,"k":"v","id":"rcost.2","own":["abs","rcost.0","rcost.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"rcost.3","own":["fa","rcost.0","rcost.1","cost"],"tip":"Costs BELOW the budget are favourable (F); costs above it are adverse (A)."}],"lbl":"Rooms: costs"},{"id":"rprof","k":"row","t":"Profit","s":"net","cells":[{"g":0,"v":240000,"k":"n","id":"rprof.0","own":["lin",[[1,"rrev.0"],[-1,"rcost.0"]]],"tip":"Rooms profit = rooms revenue − rooms costs. Do this for the budgeted column."},{"g":0,"v":252000,"k":"n","id":"rprof.1","own":["lin",[[1,"rrev.1"],[-1,"rcost.1"]]],"tip":"Rooms profit = rooms revenue − rooms costs. Do this for the actual column."},{"g":0,"v":12000,"k":"v","id":"rprof.2","own":["abs","rprof.0","rprof.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"F","k":"fa","id":"rprof.3","own":["fa","rprof.0","rprof.1","rev"],"tip":"Income and profit ABOVE the budget are favourable (F); below it they are adverse (A)."}],"lbl":"Rooms profit"},{"id":"h2","k":"head","t":"Restaurant (profit centre)"},{"id":"frev","k":"row","t":"Revenue","s":"","cells":[{"g":0,"v":160000,"k":"n","id":"frev.0","tip":"Restaurant revenue = number of diners × average spend per diner. Use the Budgeted column of the information table."},{"g":0,"v":146000,"k":"n","id":"frev.1","tip":"Restaurant revenue = number of diners × average spend per diner. Use the Actual column of the information table."},{"g":0,"v":14000,"k":"v","id":"frev.2","own":["abs","frev.0","frev.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"frev.3","own":["fa","frev.0","frev.1","rev"],"tip":"Income and profit ABOVE the budget are favourable (F); below it they are adverse (A)."}],"lbl":"Restaurant: revenue"},{"id":"fcost","k":"row","t":"Costs","s":"","cells":[{"g":1,"v":110000,"k":"n","id":"fcost.0"},{"g":1,"v":118400,"k":"n","id":"fcost.1"},{"g":0,"v":8400,"k":"v","id":"fcost.2","own":["abs","fcost.0","fcost.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"fcost.3","own":["fa","fcost.0","fcost.1","cost"],"tip":"Costs BELOW the budget are favourable (F); costs above it are adverse (A)."}],"lbl":"Restaurant: costs"},{"id":"fprof","k":"row","t":"Profit","s":"net","cells":[{"g":0,"v":50000,"k":"n","id":"fprof.0","own":["lin",[[1,"frev.0"],[-1,"fcost.0"]]],"tip":"Restaurant profit = restaurant revenue − restaurant costs. Do this for the budgeted column."},{"g":0,"v":27600,"k":"n","id":"fprof.1","own":["lin",[[1,"frev.1"],[-1,"fcost.1"]]],"tip":"Restaurant profit = restaurant revenue − restaurant costs. Do this for the actual column."},{"g":0,"v":22400,"k":"v","id":"fprof.2","own":["abs","fprof.0","fprof.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"fprof.3","own":["fa","fprof.0","fprof.1","rev"],"tip":"Income and profit ABOVE the budget are favourable (F); below it they are adverse (A)."}],"lbl":"Restaurant profit"},{"id":"h3","k":"head","t":"Housekeeping (cost centre)"},{"id":"hk","k":"row","t":"Costs","s":"","cells":[{"g":1,"v":70000,"k":"n","id":"hk.0"},{"g":1,"v":66500,"k":"n","id":"hk.1"},{"g":0,"v":3500,"k":"v","id":"hk.2","own":["abs","hk.0","hk.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"F","k":"fa","id":"hk.3","own":["fa","hk.0","hk.1","cost"],"tip":"For a cost centre, spending BELOW the budget is favourable (F) and spending above it is adverse (A)."}],"lbl":"Housekeeping: costs"},{"id":"h4","k":"head","t":"Administration (cost centre)"},{"id":"adm","k":"row","t":"Costs","s":"","cells":[{"g":1,"v":90000,"k":"n","id":"adm.0"},{"g":1,"v":93600,"k":"n","id":"adm.1"},{"g":0,"v":3600,"k":"v","id":"adm.2","own":["abs","adm.0","adm.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"adm.3","own":["fa","adm.0","adm.1","cost"],"tip":"For a cost centre, spending BELOW the budget is favourable (F) and spending above it is adverse (A)."}],"lbl":"Administration: costs"},{"id":"h5","k":"head","t":"Whole hotel"},{"id":"hotel","k":"row","t":"Hotel profit","s":"net","cells":[{"g":0,"v":130000,"k":"n","id":"hotel.0","own":["lin",[[1,"rprof.0"],[1,"fprof.0"],[-1,"hk.0"],[-1,"adm.0"]]],"tip":"Hotel profit = Rooms profit + Restaurant profit − the costs of the two cost centres. Do this for the budgeted column."},{"g":0,"v":119500,"k":"n","id":"hotel.1","own":["lin",[[1,"rprof.1"],[1,"fprof.1"],[-1,"hk.1"],[-1,"adm.1"]]],"tip":"Hotel profit = Rooms profit + Restaurant profit − the costs of the two cost centres. Do this for the actual column."},{"g":0,"v":10500,"k":"v","id":"hotel.2","own":["abs","hotel.0","hotel.1"],"tip":"Variance = the size of the gap between the budgeted and the actual figure. Write it as a positive number."},{"g":0,"v":"A","k":"fa","id":"hotel.3","own":["fa","hotel.0","hotel.1","rev"],"tip":"Income and profit ABOVE the budget are favourable (F); below it they are adverse (A)."}],"lbl":"Hotel profit"}],"done":"Seaview Hotel made a profit of $119,500 against a budget of $130,000, an adverse variance of $10,500. The Rooms profit centre beat its budget by $12,000, but the Restaurant fell $22,400 short, so a manager would look at the Restaurant first. The cost centres were close to budget: Housekeeping was $3,500 under (favourable) and Administration $3,600 over (adverse).","order":["rrev.2","rrev.3","rcost.2","rcost.3","rprof.0","rprof.1","rprof.2","rprof.3","frev.0","frev.1","frev.2","frev.3","fcost.2","fcost.3","fprof.0","fprof.1","fprof.2","fprof.3","hk.2","hk.3","adm.2","adm.3","hotel.0","hotel.1","hotel.2","hotel.3"]}];
+var COUNT = BD.length;
+var cur = 0, f = null;
+var defs = {}, rowOf = {}, order = [], inputs = {}, faSel = {}, stat = {};
+var attempt = practiceNewId();
+var claiming = false, complete = false, lastInput = null, clearTimer = null;
+var doneMem = {}, statusState = {}, justUnlocked = 0, draftMem = {};
+var parse = BM_CFF.parse;   /* the same typed-number reader the Cash Flow sheets use */
+
+/* ---------- small helpers ---------- */
+function signedIn(){ return !!(sb&&CLOUD&&CLOUD.user&&CLOUD.user.id); }
+function uidNow(){ return signedIn()?CLOUD.user.id:'local'; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmt(n){ var s=String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g,','); return (n<0?'−':'')+s; }
+function same(a,b){ return Math.abs(a-b)<0.005; }
+
+/* ---------- which tasks are finished / unlocked (same idea as the Cash Flow tiles) ---------- */
+function doneKey(u){ return 'ibdp_bm_buddone_'+(u||uidNow()); }
+function cleanList(a){
+  var out=[]; if(!Array.isArray(a)) return out;
+  a.forEach(function(n){ n=parseInt(n,10); if(n>=1&&n<=COUNT&&out.indexOf(n)<0) out.push(n); });
+  return out.sort(function(x,y){ return x-y; });
+}
+function doneList(){
+  var u=uidNow(), list=(doneMem[u]||[]).slice();
+  try{ list=list.concat(JSON.parse(localStorage.getItem(doneKey(u))||'[]')); }catch(e){}
+  return cleanList(list);
+}
+function saveDone(list){
+  var u=uidNow(); list=cleanList(list); doneMem[u]=list;
+  try{ localStorage.setItem(doneKey(u),JSON.stringify(list)); }catch(e){}
+}
+function isDone(n){ return doneList().indexOf(n)>=0; }
+function unlocked(n){ return n===1||isDone(n-1); }
+function markDone(n){
+  var list=doneList();
+  if(list.indexOf(n)>=0) return false;
+  list.push(n); saveDone(list);
+  if(n<COUNT) justUnlocked=n+1;
+  return true;
+}
+
+/* ---------- the row of five tiles ---------- */
+function tileCells(){
+  var done=doneList(), next=0, h='';
+  for(var i=1;i<=COUNT;i++){ if(done.indexOf(i)<0){ next=i; break; } }
+  BD.forEach(function(s){
+    var isDone=done.indexOf(s.n)>=0, open=(s.n===1||done.indexOf(s.n-1)>=0);
+    var cls='bsr-tile'+(isDone?' bsr-done':(open?'':' bsr-locked'))+((open&&!isDone&&s.n===next)?' bsr-next':'')+((s.n===justUnlocked&&open)?' bsr-new':'');
+    var badge=isDone?'<span class="bsr-badge" aria-hidden="true">✓</span>':(open?'':'<span class="bsr-badge bsr-lock" aria-hidden="true">🔒</span>');
+    var label='Budget '+s.n+', '+(open?s.long:'locked')+(isDone?', finished':(open?'':'. Finish the previous budget to unlock'));
+    h+='<button type="button" class="'+cls+'" onclick="BM_BUD.tapTile('+s.n+')" aria-label="'+esc(label)+'"'+(open?'':' aria-disabled="true"')+'>'
+      +'<span class="bsr-num" aria-hidden="true">'+s.n+'</span>'+badge
+      +(open?'<span class="bsr-ico" aria-hidden="true">'+s.icon+'</span>':'<span class="bsr-ico bsr-q" aria-hidden="true">?</span>')+'<span class="bsr-name">'+esc(s.short)+'</span></button>';
+  });
+  return h;
+}
+function tilesHTML(){
+  return '<div class="bsr-wrap">'
+    +'<div class="bsr-head"><svg width="12" height="12" viewBox="0 0 24 24" style="flex-shrink:0;" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M3.5 10h17M10 10v9.5" stroke="currentColor" stroke-width="2.4" fill="none"/></svg><span>Type &amp; Calculate</span></div>'
+    +'<div class="bsr-titleRow"><span class="bsr-title">Build the Budget</span><span class="bsr-count" id="bur-count">'+doneList().length+'/'+COUNT+' finished</span></div>'
+    +'<div class="bsr-row" id="bur-row">'+tileCells()+'</div>'
+    +'</div>';
+}
+function refreshTiles(){
+  var row=document.getElementById('bur-row'), cnt=document.getElementById('bur-count');
+  if(row) row.innerHTML=tileCells();
+  if(cnt) cnt.textContent=doneList().length+'/'+COUNT+' finished';
+}
+function tapTile(n){
+  if(unlocked(n)){ open(n); return; }
+  var prev=BD[n-2];
+  practiceToast('🔒 Finish the '+(prev?prev.short:'previous')+' budget first to unlock this one.');
+}
+/* Ask the server (once per sign-in) which budgets this student has finished. Quietly does nothing if the stage 11 SQL
+   is not installed or the network is down; the tiles then rely on this device's record. */
+function refreshStatus(){
+  if(!signedIn()) return;
+  var u=CLOUD.user.id;
+  if(statusState[u]) return;
+  statusState[u]='pending';
+  var call;
+  try{ call=sb.rpc('budget_status'); }catch(e){ statusState[u]=''; return; }
+  Promise.resolve(call).then(function(r){
+    if(r&&!r.error&&r.data&&Array.isArray(r.data.done)){
+      statusState[u]='done';
+      if(!signedIn()||CLOUD.user.id!==u) return;
+      var mine=doneList(), merged=cleanList(mine.concat(r.data.done));
+      if(merged.length!==mine.length){ saveDone(merged); refreshTiles(); }
+      return;
+    }
+    var err=r&&r.error, m=(err&&err.message)||'';
+    statusState[u]=(err&&(err.code==='PGRST202'||/could not find the function/i.test(m)))?'missing':'';
+  },function(){ statusState[u]=''; });
+}
+
+/* ---------- unfinished work is kept (this visit, and on this device) so a slip of the finger never loses 25 figures ---------- */
+function draftKey(){ return 'ibdp_bm_buddraft_'+uidNow(); }
+function readDrafts(){
+  var o={};
+  try{ o=JSON.parse(localStorage.getItem(draftKey())||'{}')||{}; }catch(e){ o={}; }
+  var m=draftMem[uidNow()]||{};
+  Object.keys(m).forEach(function(k){ o[k]=m[k]; });
+  return o;
+}
+function saveDraft(){
+  if(!f||complete) return;
+  var all=readDrafts(), mine={};
+  order.forEach(function(id){ var v=rawOf(id); if(v) mine[id]=String(v).slice(0,16); });
+  if(Object.keys(mine).length) all[f.n]=mine; else delete all[f.n];
+  draftMem[uidNow()]=all;
+  try{ localStorage.setItem(draftKey(),JSON.stringify(all)); }catch(e){}
+}
+function dropDraft(n){
+  var all=readDrafts(); delete all[n]; draftMem[uidNow()]=all;
+  try{ localStorage.setItem(draftKey(),JSON.stringify(all)); }catch(e){}
+}
+
+/* ---------- reading and writing a box (a number box, or the F / A pair) ---------- */
+function rawOf(id){ var d=defs[id]; if(!d) return ''; return d.k==='fa'?(faSel[id]||''):(inputs[id]?inputs[id].value:''); }
+function setFa(id,v){
+  v=(v==='F'||v==='A')?v:''; faSel[id]=v;
+  var td=document.querySelector('#bud-gridWrap td[data-c="'+id+'"]');
+  if(!td) return;
+  [].forEach.call(td.querySelectorAll('.bud-faBtn'),function(b){ b.setAttribute('aria-pressed',b.getAttribute('data-fa')===v?'true':'false'); });
+}
+function setRaw(id,v){ var d=defs[id]; if(d.k==='fa') setFa(id,v); else if(inputs[id]) inputs[id].value=v; }
+function focusCell(id){
+  var d=defs[id]; if(!d) return;
+  if(d.k==='fa'){ var td=document.querySelector('#bud-gridWrap td[data-c="'+id+'"]'); var b=td&&td.querySelector('.bud-faBtn:not(:disabled)'); if(b) b.focus(); }
+  else if(inputs[id]&&!inputs[id].readOnly) inputs[id].focus();
+}
+function nextOpen(id){
+  var at=order.indexOf(id);
+  for(var k=at+1;k<order.length;k++){ if(stat[order[k]]!=='ok') return order[k]; }
+  return null;
+}
+
+/* ---------- building the screen ---------- */
+function infoTable(){
+  var inf=f.info; if(!inf) return '';
+  var h='<table class="bud-infoTbl"><thead><tr>'+inf.head.map(function(c){ return '<th>'+esc(c)+'</th>'; }).join('')+'</tr></thead><tbody>';
+  inf.rows.forEach(function(r){ h+='<tr>'+r.map(function(c){ return '<td>'+esc(c)+'</td>'; }).join('')+'</tr>'; });
+  return h+'</tbody></table>';
+}
+function labelOf(r){ return r.lbl||r.t; }
+function gridHTML(){
+  var N=f.cols.length, h='<table class="bud-grid bud-'+f.kind+'" style="--cols:'+N+'"><thead><tr><th class="bud-rowH bud-corner" scope="col">All figures in '+esc(f.cur)+'</th>';
+  f.cols.forEach(function(c,i){ h+='<th scope="col"'+((f.kind==='variance'&&i===N-1)?' class="bud-thFa"':'')+'>'+esc(c)+'</th>'; });
+  h+='</tr></thead><tbody>';
+  f.rows.forEach(function(r){
+    if(r.k==='head'){ h+='<tr class="bud-head"><th class="bud-rowH" scope="row">'+esc(r.t)+'</th><td colspan="'+N+'"></td></tr>'; return; }
+    h+='<tr class="bud-r'+(r.s?' bud-s-'+r.s:'')+'"><th class="bud-rowH" scope="row">'+esc(r.t)+'</th>';
+    r.cells.forEach(function(c,i){
+      if(c.g){ h+='<td class="bud-g">'+(c.v===0?'–':fmt(c.v))+'</td>'; return; }
+      var aria=esc(labelOf(r)+', '+f.cols[i]);
+      if(c.k==='fa'){
+        h+='<td class="bud-c bud-cfa" data-c="'+c.id+'"><div class="bud-fa" role="group" aria-label="'+aria+': favourable or adverse">'
+          +'<button type="button" class="bud-faBtn" data-c="'+c.id+'" data-fa="F" aria-pressed="false" aria-label="Favourable (F)">F</button>'
+          +'<button type="button" class="bud-faBtn" data-c="'+c.id+'" data-fa="A" aria-pressed="false" aria-label="Adverse (A)">A</button></div></td>';
+      } else {
+        h+='<td class="bud-c" data-c="'+c.id+'"><input type="text" inputmode="numeric" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="14" data-c="'+c.id+'" aria-label="'+aria+'"></td>';
+      }
+    });
+    h+='</tr>';
+  });
+  return h+'</tbody></table>';
+}
+function build(){
+  var el=document.getElementById('bm-sc-bud');
+  var facts=f.facts.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('');
+  var kindTxt=f.kind==='construct'?'Construct a budget':'Variance analysis';
+  var sub=f.kind==='construct'
+    ?'Work out every figure from the information and type it into the table. The row and column headings are already there.'
+    :'Complete the table: work out each missing figure, type each variance as a positive number, then choose F (favourable) or A (adverse).';
+  var crumbEnd='Budget '+f.n+': '+f.long;
+  el.innerHTML='<div id="bud-app">'
+    +'<div class="bud-crumb"><span class="crumb-seg" onclick="bmGoHub()">Business Management</span><span class="bud-sep">›</span>'
+    +'<span class="crumb-seg bud-crumbMod" onclick="bmOpenModule(\'bu\')" title="Budgeting">Budgeting</span><span class="bud-sep">›</span>'
+    +'<span class="bud-crumbEnd" title="'+esc(crumbEnd)+'">'+esc(crumbEnd)+'</span></div>'
+    +'<div class="bud-headerBar"><div class="bud-headerLeft"><div class="bud-tag">IB DP Business Management · Budgeting (HL) · Budget '+f.n+' of '+COUNT+' · '+kindTxt+'</div>'
+    +'<h1>Build the Budget</h1><p>'+sub+'</p></div>'
+    +'<div class="bud-counterChip"><div class="n" id="bud-n">0/'+order.length+'</div><div class="l">Correct</div></div></div>'
+    +'<div class="bud-layout">'
+    +'<div class="bud-info"><div class="bud-co">'+f.icon+' '+esc(f.co)+'</div><p class="bud-intro">'+esc(f.intro)+'</p>'
+    +'<div class="bud-infoHead">Information</div><ul class="bud-facts">'+facts+'</ul>'
+    +(f.info?'<div class="bud-infoTblWrap">'+infoTable()+'</div>':'')
+    +'</div>'
+    +'<div class="bud-main">'
+    +'<div class="bud-toolbar"><span class="bud-legend"><b class="bud-lg ok">✓</b> correct <b class="bud-lg own">own</b> right from your own figure <b class="bud-lg bad">✗</b> check again</span>'
+    +(f.neg?'<button type="button" class="bud-sign" id="bud-sign" title="Make the figure in the selected box negative or positive">± Negative</button>':'')+'</div>'
+    +'<div class="bud-gridWrap" id="bud-gridWrap">'+gridHTML()+'</div>'
+    +'<div class="bud-fb" id="bud-fb" aria-live="polite"></div>'
+    +'<div class="bud-actions" id="bud-actions"><span class="bud-fill" id="bud-fill"></span>'
+    +'<button type="button" class="bud-btn bud-ghost" id="bud-clear">Start again</button>'
+    +'<button type="button" class="bud-btn bud-primary" id="bud-check">Check my answers</button></div>'
+    +'</div></div>'
+    +'<div class="bud-complete" id="bud-complete"><h2>🌟 Budget Complete!</h2><p id="bud-bannerP"></p>'
+    +'<button class="bud-claim" id="bud-claimBtn" type="button">Claim Your Gold Coin</button></div>'
+    +'</div>';
+  inputs={};
+  el.querySelectorAll('input[data-c]').forEach(function(inp){ inputs[inp.getAttribute('data-c')]=inp; });
+  wire(el);
+}
+
+function wire(el){
+  var grid=document.getElementById('bud-gridWrap');
+  grid.addEventListener('input',function(e){
+    var inp=e.target; if(!inp||!inp.getAttribute||!inp.getAttribute('data-c')||inp.tagName!=='INPUT') return;
+    var v=inp.value, c=v.replace(/[^0-9.,\-−–—()\s$€£]/g,'');
+    if(c!==v) inp.value=c;
+    var id=inp.getAttribute('data-c');
+    if(stat[id]&&stat[id]!=='ok') setStat(id,'');
+    updateFill(); saveDraft();
+  });
+  grid.addEventListener('focusin',function(e){ if(e.target&&e.target.tagName==='INPUT'&&e.target.getAttribute('data-c')) lastInput=e.target; });
+  grid.addEventListener('focusout',function(e){
+    var inp=e.target; if(!inp||inp.tagName!=='INPUT'||!inp.getAttribute('data-c')||inp.readOnly) return;
+    var p=parse(inp.value);
+    if(p.n!=null&&/\d/.test(inp.value)) inp.value=fmt(p.n);
+  });
+  grid.addEventListener('keydown',function(e){
+    var t=e.target; if(!t||!t.getAttribute) return;
+    var id=t.getAttribute('data-c'); if(!id) return;
+    if(t.tagName==='INPUT'){
+      if(e.key!=='Enter') return;
+      e.preventDefault();
+      var nxt=nextOpen(id);
+      if(nxt) focusCell(nxt); else t.blur();
+      return;
+    }
+    if(t.classList.contains('bud-faBtn')){
+      var k=e.key;
+      if(k==='f'||k==='F'||k==='a'||k==='A'){ e.preventDefault(); pickFa(id,k.toUpperCase(),true); }
+      else if(k==='Enter'){ e.preventDefault(); pickFa(id,t.getAttribute('data-fa'),true); }
+      else if(k==='ArrowLeft'||k==='ArrowRight'){
+        e.preventDefault();
+        var sib=(k==='ArrowRight')?t.nextElementSibling:t.previousElementSibling;
+        if(sib&&!sib.disabled) sib.focus();
+      }
+    }
+  });
+  grid.addEventListener('click',function(e){
+    var b=e.target&&e.target.closest?e.target.closest('.bud-faBtn'):null;
+    if(!b||b.disabled) return;
+    pickFa(b.getAttribute('data-c'),b.getAttribute('data-fa'),false);
+  });
+  var sign=document.getElementById('bud-sign');
+  if(sign){
+    sign.addEventListener('pointerdown',function(e){ e.preventDefault(); });
+    sign.addEventListener('mousedown',function(e){ e.preventDefault(); });
+    sign.addEventListener('click',function(){
+      var inp=lastInput;
+      if(!inp||!document.body.contains(inp)||inp.readOnly){ practiceToast('Tap a box first, then tap ± to make it negative.'); return; }
+      var v=inp.value.trim();
+      if(/^[-−–]/.test(v)) v=v.replace(/^[-−–]\s*/,''); else v='−'+v;
+      inp.value=v;
+      var id=inp.getAttribute('data-c'); if(stat[id]&&stat[id]!=='ok') setStat(id,'');
+      updateFill(); saveDraft(); inp.focus();
+    });
+  }
+  document.getElementById('bud-check').addEventListener('click',check);
+  document.getElementById('bud-clear').addEventListener('click',startAgain);
+  document.getElementById('bud-claimBtn').addEventListener('click',claim);
+}
+/* choose F or A (choosing the same letter again clears it); from the keyboard the focus then moves on to the next box */
+function pickFa(id,v,advance){
+  if(complete||stat[id]==='ok') return;
+  var now=faSel[id]||'';
+  setFa(id,(now===v&&!advance)?'':v);
+  if(stat[id]&&stat[id]!=='ok') setStat(id,'');
+  updateFill(); saveDraft();
+  if(advance){ var nxt=nextOpen(id); if(nxt) focusCell(nxt); }
+}
+
+/* ---------- marking ---------- */
+function numOf(ref){
+  var d=defs[ref]; if(!d) return null;
+  if(d.g) return d.v;
+  var inp=inputs[ref]; if(!inp) return null;
+  var p=parse(inp.value);
+  return p.n!=null?p.n:null;
+}
+/* What this box should hold if the student's OWN earlier figures are used (the IB "own figure" rule). null = nothing to compare with. */
+function ownExpect(d){
+  var o=d.own; if(!o) return null;
+  var k, v, t=0, a, b;
+  if(o[0]==='lin'){ for(k=0;k<o[1].length;k++){ v=numOf(o[1][k][1]); if(v==null) return null; t+=o[1][k][0]*v; } return t; }
+  a=numOf(o[1]); b=numOf(o[2]);
+  if(a==null||b==null) return null;
+  if(o[0]==='abs') return Math.abs(a-b);
+  if(o[0]==='fa'){ if(a===b) return null; return o[3]==='rev'?(b>a?'F':'A'):(b<a?'F':'A'); }
+  return null;
+}
+function setStat(id,s){
+  stat[id]=s;
+  var td=document.querySelector('#bud-gridWrap td[data-c="'+id+'"]');
+  if(td){ td.classList.remove('bud-ok','bud-own','bud-bad','bud-empty'); if(s) td.classList.add('bud-'+s); }
+  var d=defs[id], lock=(s==='ok');
+  if(d.k==='fa'){
+    if(td) [].forEach.call(td.querySelectorAll('.bud-faBtn'),function(b){ b.disabled=lock; });
+  } else {
+    var inp=inputs[id];
+    if(inp){ inp.readOnly=lock; if(lock) inp.setAttribute('aria-readonly','true'); else inp.removeAttribute('aria-readonly'); }
+  }
+}
+function updateFill(){
+  var n=0; order.forEach(function(id){ if(rawOf(id).trim()) n++; });
+  var el=document.getElementById('bud-fill'); if(el) el.textContent=n+' of '+order.length+' boxes filled in';
+}
+function judge(id){
+  var d=defs[id], e;
+  if(d.k==='fa'){
+    var sel=faSel[id]||'';
+    if(!sel) return 'empty';
+    if(sel===d.v) return 'ok';
+    e=ownExpect(d); return (e!=null&&e===sel)?'own':'bad';
+  }
+  var raw=inputs[id].value, p=parse(raw);
+  if(p.empty) return 'empty';
+  if(p.n==null) return 'bad';
+  var n=(d.k==='v')?Math.abs(p.n):p.n;   /* a variance is the size of the gap: the sign is carried by F or A */
+  if(same(n,d.v)) return 'ok';
+  e=ownExpect(d); return (e!=null&&typeof e==='number'&&same(n,e))?'own':'bad';
+}
+function check(){
+  if(!f||complete) return;
+  var filled=0; order.forEach(function(id){ if(rawOf(id).trim()) filled++; });
+  if(!filled){ practiceToast('Fill in some boxes in the table first.'); return; }
+  var res={ok:0,own:0,bad:0,empty:0}, byRow={};
+  order.forEach(function(id){
+    var d=defs[id], st;
+    if(stat[id]==='ok'){ res.ok++; return; }
+    if(d.k!=='fa'){ var p=parse(inputs[id].value); if(p.n!=null&&/\d/.test(inputs[id].value)) inputs[id].value=fmt(p.n); }
+    st=judge(id);
+    res[st]++;
+    setStat(id,st);
+    if(st!=='ok'){ var b=(byRow[rowOf[id].id]=byRow[rowOf[id].id]||{row:rowOf[id],own:0,bad:[],empty:0}); if(st==='bad') b.bad.push(d); else b[st]++; }
+  });
+  document.getElementById('bud-n').textContent=res.ok+'/'+order.length;
+  if(res.ok===order.length){ finish(); return; }
+  feedback(res,byRow);
+}
+function feedback(res,byRow){
+  var fb=document.getElementById('bud-fb'), h='<div class="bud-fbTop"><b>'+res.ok+' of '+order.length+' correct.</b>';
+  if(res.own) h+=' <span class="bud-fbOwn">'+res.own+' marked <b>own</b>: the method is right, but a figure it uses is wrong.</span>';
+  if(res.empty) h+=' '+res.empty+' still empty.';
+  h+='</div>';
+  var items=[], empties=[];
+  f.rows.forEach(function(r){
+    var b=byRow[r.id]; if(!b) return;
+    if(b.bad.length){
+      var tips=[]; b.bad.forEach(function(d){ var t=d.tip||'Check this row again.'; if(tips.indexOf(t)<0) tips.push(t); });
+      items.push('<li><b>'+esc(labelOf(r))+':</b> '+esc(tips.slice(0,2).join(' '))+'</li>');
+    } else if(b.own) items.push('<li><b>'+esc(labelOf(r))+':</b> Your method is right here, but it uses one of your earlier figures and that figure is wrong. Fix the red box first, then check again.</li>');
+    else empties.push(labelOf(r));
+  });
+  if(items.length){
+    h+='<div class="bud-fbHead">Look again at</div><ul>'+items.slice(0,4).join('')+'</ul>';
+    if(items.length>4) h+='<div class="bud-fbMore">+ '+(items.length-4)+' more row'+(items.length-4===1?'':'s')+' to check</div>';
+  }
+  if(empties.length){
+    h+='<div class="bud-fbHead">Not filled in yet</div><div class="bud-fbEmpty">'+empties.slice(0,5).map(esc).join(', ')+(empties.length>5?' and '+(empties.length-5)+' more':'')+'</div>';
+  }
+  fb.innerHTML=h; fb.classList.add('bud-show');
+}
+function startAgain(){
+  if(!f||complete) return;
+  var btn=document.getElementById('bud-clear');
+  if(!btn.dataset.arm){
+    btn.dataset.arm='1'; btn.textContent='Tap again to clear all';
+    clearTimer=setTimeout(function(){ if(btn){ btn.dataset.arm=''; btn.textContent='Start again'; } },3000);
+    return;
+  }
+  clearTimeout(clearTimer); btn.dataset.arm=''; btn.textContent='Start again';
+  order.forEach(function(id){ setRaw(id,''); setStat(id,''); });
+  document.getElementById('bud-n').textContent='0/'+order.length;
+  var fb=document.getElementById('bud-fb'); fb.innerHTML=''; fb.classList.remove('bud-show');
+  attempt=practiceNewId();
+  updateFill(); dropDraft(f.n);
+}
+
+/* ---------- finishing and the gold coin ---------- */
+function bannerText(){
+  var s=f.done, nxt=(f.n<COUNT)?BD[f.n]:null;
+  s+=nxt?(' Budget '+nxt.n+' ('+nxt.icon+' '+nxt.short+') is now unlocked.'):' That is all five budgets finished!';
+  return s;
+}
+function finish(){
+  complete=true;
+  order.forEach(function(id){ if(defs[id].k==='fa'){ var td=document.querySelector('#bud-gridWrap td[data-c="'+id+'"]'); if(td) [].forEach.call(td.querySelectorAll('.bud-faBtn'),function(b){ b.disabled=true; }); } else inputs[id].readOnly=true; });
+  var fb=document.getElementById('bud-fb'); fb.innerHTML=''; fb.classList.remove('bud-show');
+  var bar=document.getElementById('bud-actions'); if(bar) bar.style.display='none';
+  var b=document.getElementById('bud-complete');
+  document.getElementById('bud-bannerP').textContent=bannerText();
+  b.classList.add('bud-show');
+  updateBanner();
+  dropDraft(f.n);
+  try{ b.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){}
+}
+var LOCAL_KEY='ibdp_bm_budgold_local';
+function localCoins(){
+  var list=[]; try{ list=JSON.parse(localStorage.getItem(LOCAL_KEY)||'[]'); }catch(e){}
+  return cleanList(list.concat(doneMem.__coins||[]));
+}
+function localClaimed(n){ return localCoins().indexOf(n)>=0; }
+function localMark(n){
+  var list=localCoins(); if(list.indexOf(n)<0) list.push(n);
+  doneMem.__coins=list;
+  try{ localStorage.setItem(LOCAL_KEY,JSON.stringify(list)); }catch(e){}
+}
+function updateBanner(){
+  var btn=document.getElementById('bud-claimBtn'), p=document.getElementById('bud-bannerP');
+  if(!btn||!p||!f) return;
+  if(!signedIn()&&localClaimed(f.n)){
+    btn.textContent='Back to Lessons'; btn.dataset.mode='back'; btn.disabled=false;
+    p.textContent=bannerText()+" You've already earned this budget's gold coin on this device.";
+  } else if(!claiming){
+    btn.textContent='Claim Your Gold Coin'; btn.dataset.mode=''; btn.disabled=false;
+    p.textContent=bannerText();
+  }
+}
+function stillHere(){
+  var el=document.getElementById('bud-complete');
+  return !!(el&&document.body.contains(el)&&document.getElementById('bm-sc-bud').classList.contains('on'));
+}
+function goLessons(){ if(stillHere()){ bmSw('home'); bmRHome(); } }
+function celebrateAndLeave(){
+  bmShowGoldFlash('Budget complete — 1 gold coin added!');
+  setTimeout(goLessons,2700);
+}
+function claim(){
+  var btn=document.getElementById('bud-claimBtn');
+  if(!btn||claiming||!complete) return;
+  if(btn.dataset.mode==='back'){ goLessons(); return; }
+  /* send what the student actually typed or chose (the server compares every answer with its own key) */
+  var answers={}, bad=false;
+  order.forEach(function(id){
+    var d=defs[id];
+    if(d.k==='fa'){ var s=faSel[id]||''; if(s!==d.v) bad=true; answers[id]=s; }
+    else { var p=parse(inputs[id].value); var n=p.n==null?null:(d.k==='v'?Math.abs(p.n):p.n); if(n==null||!same(n,d.v)) bad=true; answers[id]=n; }
+  });
+  if(bad) return;
+  var task=f.n;
+  markDone(task);
+  claiming=true; btn.disabled=true; btn.textContent='Claiming…';
+  function fail(msg){ claiming=false; btn.disabled=false; btn.textContent='Claim Your Gold Coin'; practiceToast(msg); }
+  if(!signedIn()){
+    if(!localClaimed(task)){
+      BM_S.gold+=1; localMark(task); bmSaveProgress(); _bmRefreshCoinPills();
+      claiming=false; celebrateAndLeave();
+    } else { claiming=false; updateBanner(); goLessons(); }
+    return;
+  }
+  var u=CLOUD.user.id, att=attempt, call;
+  try{ call=sb.rpc('claim_budget_gold',{p_attempt:att,p_answers:answers,p_budget:task}); }catch(e){ call=Promise.reject(e); }
+  Promise.resolve(call).then(function(r){
+    claiming=false;
+    if(!CLOUD.user||CLOUD.user.id!==u) return;
+    if(r&&!r.error&&r.data){
+      var d=r.data;
+      if(d.status==='ok'){
+        if(_bmPsQueue.length===0) practiceAdopt('bm',d);
+        else { BM_S.gold+=1; bmSaveProgress(); _bmRefreshCoinPills(); }
+        if(stillHere()&&f&&f.n===task) celebrateAndLeave();
+        else practiceToast('Budget complete — 1 gold coin added!');
+      } else if(d.status==='already'){
+        practiceAdopt('bm',d);
+        practiceToast("You've already earned this budget's gold coin. Replays are just for practice.");
+        if(f&&f.n===task) goLessons();
+      } else {
+        fail("The server couldn't confirm this budget. Leave it and open it again to retry.");
+      }
+      return;
+    }
+    var err=r&&r.error, m=(err&&err.message)||'';
+    if(err&&(err.code==='PGRST202'||/could not find the function/i.test(m))) fail("The Budgeting gold coin isn't switched on yet. Ask your teacher.");
+    else if(/too fast/i.test(m)) fail('Please wait a few seconds, then tap Claim again.');
+    else fail('Could not reach the server. Check your connection, then tap Claim again.');
+  },function(){
+    claiming=false;
+    if(!CLOUD.user||CLOUD.user.id!==u) return;
+    fail('Could not reach the server. Check your connection, then tap Claim again.');
+  });
+}
+
+/* ---------- opening a budget ---------- */
+function open(n){
+  n=parseInt(n,10);
+  if(!(n>=1&&n<=COUNT)||!unlocked(n)) n=1;
+  cur=n; f=BD[n-1]; justUnlocked=0;
+  defs={}; rowOf={}; order=f.order.slice(); stat={}; faSel={}; complete=false; claiming=false; lastInput=null;
+  attempt=practiceNewId();
+  f.rows.forEach(function(r){
+    if(r.k!=='row') return;
+    r.cells.forEach(function(c){ defs[c.id]=c; if(!c.g) rowOf[c.id]=r; });
+  });
+  bmSw('bud');
+  build();
+  var d=readDrafts()[n]||{};
+  Object.keys(d).forEach(function(id){ if(defs[id]&&!defs[id].g&&typeof d[id]==='string') setRaw(id,d[id]); });
+  updateFill();
+}
+
+return { open:open, tilesHTML:tilesHTML, tapTile:tapTile, refreshStatus:refreshStatus, data:BD };
 })();
 
 /* ===================== BUILD A DECISION TREE (typed answers) =====================
