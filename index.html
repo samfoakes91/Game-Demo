@@ -591,6 +591,22 @@ body.hub-light{background:#000;}
 .icon-star3{top:32%;right:-16%;animation:iconStarPop 2.4s ease-in-out infinite;animation-delay:1.8s}
 @keyframes iconStarPop{0%,100%{opacity:0;transform:scale(.3)}20%{opacity:1;transform:scale(1)}45%{opacity:0;transform:scale(.5)}}
 .tile-gem-badge{position:absolute;top:-11px;right:-11px;width:38px;height:38px;z-index:2}
+/* teacher-only "copy link" shortcut on lesson tiles */
+.tile-copy{position:absolute;z-index:6;width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;border:2px solid var(--tc,#0f766e);background:#fff;color:var(--tc,#0f766e);cursor:pointer;font-family:inherit;box-shadow:0 1px 4px rgba(24,34,52,.14);transition:transform .16s ease,background .16s ease,color .16s ease}
+.tile-copy.hl{--tc:#b45309}
+.tile-copy svg{width:20px;height:20px;display:block;pointer-events:none}
+.tile-copy:hover{background:var(--tc,#0f766e);color:#fff}
+.tile-copy:focus-visible{outline:3px solid #f0b429;outline-offset:2px}
+.tile-copy.ok{background:#0f766e;color:#fff;border-color:#0f766e}
+.tile-copy:has(+ .hub-tile:hover){transform:translateY(-2px)}
+#tile-link-toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:9999;max-width:min(92vw,520px);box-sizing:border-box;background:#182234;color:#fff;font-size:19px;font-weight:700;line-height:1.35;padding:14px 22px;border-radius:14px;box-shadow:0 6px 24px rgba(24,34,52,.35);text-align:center}
+#tile-link-toast[hidden]{display:none}
+#tile-link-box{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:9999;width:min(92vw,560px);box-sizing:border-box;background:#fff;color:#182234;border:2px solid #0f766e;border-radius:16px;padding:16px 18px;box-shadow:0 6px 24px rgba(24,34,52,.35)}
+#tile-link-box[hidden]{display:none}
+#tile-link-box p{margin:0 0 10px;font-size:18px;font-weight:700}
+#tile-link-box input{display:block;width:100%;box-sizing:border-box;font-family:inherit;font-size:17px;padding:12px 14px;border:1.5px solid #d7e3f2;border-radius:10px;color:#182234;background:#f8fbff;margin-bottom:12px}
+#tile-link-box button{font-family:inherit;font-size:18px;font-weight:800;padding:10px 20px;min-height:44px;border:none;border-radius:10px;background:#0f766e;color:#fff;cursor:pointer}
+
 
 #tl-overlay,#bm-tl-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(5,12,28,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s}
 #tl-overlay.show,#bm-tl-overlay.show{opacity:1;pointer-events:all}
@@ -5007,7 +5023,7 @@ try{
     sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
   }
 }catch(e){}
-var CLOUD={user:null,t:null,displayName:null};
+var CLOUD={user:null,t:null,displayName:null,teacher:false,teacherName:null};
 
 /* Escapes user-supplied text (e.g. another student's display name) before it's
    dropped into innerHTML — display names are the only untrusted, cross-user text
@@ -5054,7 +5070,26 @@ function cloudQueueSave(){
       .then(function(r){if(r&&r.error)console.warn('Cloud save failed:',r.error.message);},function(e){console.warn('Cloud save failed:',e&&e.message);});
   },800);
 }
+/* ── teacher accounts ──
+   Whether an account is an approved teacher is decided by the server (the teacher_status function,
+   stage 20 SQL), never by anything on this page: the answer only decides what is shown. It resolves to
+   'yes', 'no' or 'err' (could not be checked) and never throws. */
+function cloudTeacherCheck(){
+  CLOUD.teacher=false; CLOUD.teacherName=null;
+  if(!sb||!CLOUD.user) return Promise.resolve('no');
+  var uid=CLOUD.user.id, p;
+  try{ p=sb.rpc('teacher_status'); }catch(e){ return Promise.resolve('err'); }
+  return Promise.resolve(p).then(function(r){
+    if(!r||r.error||!r.data||typeof r.data!=='object') return 'err';
+    if(r.data.teacher!==true) return 'no';
+    if(CLOUD.user&&CLOUD.user.id===uid){ CLOUD.teacher=true; CLOUD.teacherName=(typeof r.data.name==='string'&&r.data.name)?r.data.name.slice(0,60):null; }
+    return 'yes';
+  },function(){ return 'err'; });
+}
 function cloudLoadAndEnter(){
+  cloudTeacherCheck().then(function(){ cloudLoadAndEnterMain(); });
+}
+function cloudLoadAndEnterMain(){
   sb.from('progress').select('data, display_name, gold, silver, splays').eq('user_id',CLOUD.user.id).maybeSingle()
     .then(function(r){
       if(r&&r.error)console.warn('Cloud load issue:',r.error.message);
@@ -5179,6 +5214,7 @@ function showSubjects(){
   document.querySelectorAll('.sc').forEach(function(el){el.classList.remove('on');});
   document.getElementById('sc-subjects').classList.add('on');
   rSubjects();
+  if(PENDING_MODULE){ var pm=PENDING_MODULE; PENDING_MODULE=null; stripModuleLinkFromURL(); openSharedModule(pm); }
 }
 function enterEconomicsSubject(){
   clearCrossSubjectWidthClasses();
@@ -5237,6 +5273,7 @@ function rSubjects(){
   var acct='';
   if(sb&&CLOUD.user){
     acct='<div style="display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-bottom:6px;font-size:19px;color:'+MUT+';">'
+      +(CLOUD.teacher?'<span id="acct-teacher" title="Signed in with a teacher account" style="font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#3730a3;background:#eef0ff;border:1px solid #c7cbf5;border-radius:999px;padding:3px 10px;">Teacher</span>':'')
       +'<span>👤 '+escHtml(CLOUD.displayName||CLOUD.user.email||'signed in')+'</span>'
       +(CLOUD.displayName?'<button onclick="editDisplayName()" style="background:none;border:none;font-family:inherit;font-size:15px;color:'+MUT+';text-decoration:underline;cursor:pointer;padding:0;">change</button>':'')
       +'<button onclick="doSignOut()" style="background:#fff;border:1px solid '+TILEBORDER+';border-radius:10px;font-family:inherit;font-size:18px;font-weight:700;color:#182234;padding:6px 14px;cursor:pointer;">Sign out</button></div>';
@@ -5270,6 +5307,7 @@ function rLogin(){
     +'<div style="background:#fff;border:1px solid '+BORDER+';border-radius:20px;padding:30px 32px;">'
     +'<div style="font-size:26px;font-weight:800;color:'+INK+';margin-bottom:6px;">Sign in</div>'
     +'<div style="font-size:19px;color:'+MUT+';margin-bottom:20px;">Your progress will be saved to your account.</div>'
+    +pendingShareLineHTML()
     +'<input id="li-email" type="email" placeholder="Email" autocomplete="username" style="display:block;width:100%;font-family:inherit;font-size:21px;padding:14px 16px;border:1.5px solid '+BORDER+';border-radius:12px;margin-bottom:12px;color:'+INK+';background:#f8fbff;">'
     +'<div style="position:relative;margin-bottom:12px;">'
     +'<input id="li-pass" type="password" placeholder="Password (min 6 characters)" autocomplete="current-password" onkeydown="if(event.key===\'Enter\')doSignIn()" style="display:block;width:100%;font-family:inherit;font-size:21px;padding:14px 52px 14px 16px;border:1.5px solid '+BORDER+';border-radius:12px;color:'+INK+';background:#f8fbff;">'
@@ -5288,7 +5326,91 @@ function rLogin(){
     +'<div style="text-align:center;margin-top:18px;">'
     +'<button onclick="doGuest()" style="background:none;border:none;font-family:inherit;font-size:20px;font-weight:700;color:#7a90b8;cursor:pointer;text-decoration:underline;">Continue as guest (progress saved on this device only)</button>'
     +'</div>'
+    +'<div style="text-align:center;margin-top:10px;">'
+    +'<button id="li-teacher-link" onclick="rTeacherLogin()" style="background:none;border:none;font-family:inherit;font-size:18px;font-weight:700;color:#a5b4fc;cursor:pointer;text-decoration:underline;min-height:44px;padding:8px 14px;">Teacher? Sign in here</button>'
+    +'</div>'
     +'</div>';
+}
+/* ── teacher sign-in screen: only accounts that the server lists as approved teachers get past it ── */
+function rTeacherLogin(){
+  var INK='#182234',MUT='#67718a',BORDER='#d7e3f2',AC='#3730a3';
+  var inp='display:block;width:100%;box-sizing:border-box;font-family:inherit;font-size:21px;padding:14px 16px;border:1.5px solid '+BORDER+';border-radius:12px;color:'+INK+';background:#f8fbff;';
+  var inpP='display:block;width:100%;box-sizing:border-box;font-family:inherit;font-size:21px;padding:14px 52px 14px 16px;border:1.5px solid '+BORDER+';border-radius:12px;color:'+INK+';background:#f8fbff;';
+  var eye='position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:22px;cursor:pointer;';
+  document.getElementById('sc-login').innerHTML=
+    '<div id="tl-box" style="max-width:560px;margin:6vh auto 0;">'
+    +'<div style="text-align:center;margin-bottom:22px;">'
+    +'<div style="font-size:36px;font-weight:800;color:#b8860b;">DP Revision</div>'
+    +'</div>'
+    +'<div style="background:#fff;border:1px solid '+BORDER+';border-radius:20px;padding:30px 32px;">'
+    +'<div style="display:inline-block;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:'+AC+';background:#eef0ff;border:1px solid #c7cbf5;border-radius:999px;padding:3px 12px;margin-bottom:10px;">Teachers only</div>'
+    +'<div id="tl-title" style="font-size:26px;font-weight:800;color:'+INK+';margin-bottom:6px;">Teacher sign-in</div>'
+    +'<div style="font-size:19px;color:'+MUT+';margin-bottom:20px;">For approved teachers. Students: Please use the student sign-in.</div>'
+    +'<input id="li-email" type="email" aria-label="Email" placeholder="Email" autocomplete="username" style="'+inp+'margin-bottom:12px;">'
+    +'<div style="position:relative;margin-bottom:12px;">'
+    +'<input id="li-pass" type="password" aria-label="Password" placeholder="Password (min 6 characters)" autocomplete="current-password" onkeydown="if(event.key===\'Enter\')doTeacherSignIn()" style="'+inpP+'">'
+    +'<button type="button" onclick="togglePw(\'li-pass\',this)" title="Show password" aria-label="Show password" style="'+eye+'">👁</button>'
+    +'</div>'
+    +'<div style="position:relative;margin-bottom:16px;">'
+    +'<input id="li-pass2" type="password" aria-label="Confirm password" placeholder="Confirm password (new accounts only)" autocomplete="new-password" style="'+inpP+'">'
+    +'<button type="button" onclick="togglePw(\'li-pass2\',this)" title="Show password" aria-label="Show confirm password" style="'+eye+'">👁</button>'
+    +'</div>'
+    +'<div id="li-msg" role="status" aria-live="polite" style="font-size:18px;color:#c0392b;min-height:24px;margin-bottom:8px;"></div>'
+    +'<div style="display:flex;gap:12px;">'
+    +'<button id="tl-in" onclick="doTeacherSignIn()" style="flex:1;font-family:inherit;font-size:21px;font-weight:800;padding:15px;border:none;border-radius:12px;background:'+AC+';color:#fff;cursor:pointer;">Sign in</button>'
+    +'<button id="tl-up" onclick="doTeacherSignUp()" style="flex:1;font-family:inherit;font-size:21px;font-weight:800;padding:15px;border:1.5px solid '+AC+';border-radius:12px;background:#fff;color:'+AC+';cursor:pointer;">Create teacher account</button>'
+    +'</div>'
+    +'</div>'
+    +'<div style="text-align:center;margin-top:18px;">'
+    +'<button id="tl-back" onclick="rLogin()" style="background:none;border:none;font-family:inherit;font-size:20px;font-weight:700;color:#7a90b8;cursor:pointer;text-decoration:underline;min-height:44px;padding:8px 14px;">\u2190 Student sign-in</button>'
+    +'</div>'
+    +'</div>';
+}
+var TL_BUSY=false;
+function tlBusy(b){
+  TL_BUSY=b;
+  ['tl-in','tl-up'].forEach(function(id){var el=document.getElementById(id);if(el){el.disabled=b;el.style.opacity=b?'.6':'1';el.style.cursor=b?'default':'pointer';}});
+}
+function tlSignOutQuietly(){
+  try{ var p=sb.auth.signOut(); if(p&&p.catch) p.catch(function(){}); }catch(e){}
+  clearTimeout(CLOUD.t);
+  CLOUD.user=null; CLOUD.teacher=false; CLOUD.teacherName=null;
+}
+function doTeacherSignIn(){
+  if(!sb||TL_BUSY)return;
+  var em=(document.getElementById('li-email').value||'').trim(), pw=document.getElementById('li-pass').value||'';
+  if(!em||!pw){liMsg('Please enter your email and password.');return;}
+  tlBusy(true); liMsg('Signing in\u2026',true);
+  sb.auth.signInWithPassword({email:em,password:pw}).then(function(r){
+    if(!r||r.error||!r.data||!r.data.user){ tlBusy(false); liMsg((r&&r.error&&r.error.message)||'Could not sign in. Please try again.'); return; }
+    CLOUD.user=r.data.user;
+    liMsg('Checking teacher access\u2026',true);
+    cloudTeacherCheck().then(function(res){
+      if(res==='yes'){ tlBusy(false); cloudLoadAndEnterMain(); return; }
+      tlSignOutQuietly(); tlBusy(false);
+      liMsg(res==='no'
+        ? 'This account has not been approved for teacher access. Ask the administrator to approve it, or use the student sign-in.'
+        : 'Teacher access could not be checked just now. You have been signed out. Please try again in a moment.');
+    });
+  },function(){ tlBusy(false); liMsg('Could not sign in. Please check your connection and try again.'); });
+}
+function doTeacherSignUp(){
+  if(!sb||TL_BUSY)return;
+  var em=(document.getElementById('li-email').value||'').trim(), pw=document.getElementById('li-pass').value||'';
+  var pw2=(document.getElementById('li-pass2')||{}).value||'';
+  if(!em||!pw){liMsg('Please enter an email and a password (min 6 characters).');return;}
+  if(pw.length<6){liMsg('Password must be at least 6 characters.');return;}
+  if(pw!==pw2){liMsg('Passwords do not match \u2014 please type the same password in both boxes.');return;}
+  tlBusy(true); liMsg('Creating account\u2026',true);
+  sb.auth.signUp({email:em,password:pw}).then(function(r){
+    if(!r||r.error){ tlBusy(false); liMsg((r&&r.error&&r.error.message)||'Could not create the account. Please try again.'); return; }
+    var done=function(){
+      tlBusy(false);
+      liMsg('Account created! Check your email to confirm it. Teacher access is switched on once the administrator has approved your email. After that, sign in here.',true);
+    };
+    if(r.data&&r.data.session){ tlSignOutQuietly(); }   /* no session is left open: teacher access is not on yet */
+    done();
+  },function(){ tlBusy(false); liMsg('Could not create the account. Please check your connection and try again.'); });
 }
 function liMsg(t,ok){var el=document.getElementById('li-msg');if(el){el.textContent=t||'';el.style.color=ok?'#0f766e':'#c0392b';}}
 function togglePw(id,btn){var el=document.getElementById(id);if(!el)return;var show=el.type==='password';el.type=show?'text':'password';btn.textContent=show?'🙈':'👁';btn.title=show?'Hide password':'Show password';}
@@ -5320,12 +5442,14 @@ function doGuest(){ S.guest=true; showSubjects(); }
 function doSignOut(){
   if(sb){try{sb.auth.signOut();}catch(e){}}
   clearTimeout(CLOUD.t);
-  CLOUD.user=null; CLOUD.displayName=null; S.guest=false;
+  CLOUD.user=null; CLOUD.displayName=null; CLOUD.teacher=false; CLOUD.teacherName=null; S.guest=false;
   PRACTICE.capped={econ:false,bm:false}; PRACTICE.toasted={};   /* the next student starts clean */
   resetLocalProgress();
-  sw('login'); rLogin();
+  swLogin(); rLogin();
 }
-function gLogin(){ sw('login'); rLogin(); }
+function gLogin(){ swLogin(); rLogin(); }
+/* the subject screen is hidden and emptied whenever the sign-in screen is shown, so the next person never sees the last person's name */
+function swLogin(){ var el=document.getElementById('sc-subjects'); if(el){ el.classList.remove('on'); el.innerHTML=''; } sw('login'); }
 
 function saveProgress(){
   try{
@@ -9729,6 +9853,151 @@ function parseJoinCodeFromURL(){
 }
 var PENDING_JOIN_CODE=parseJoinCodeFromURL();
 
+/* ── Shared lesson links ──
+   A teacher can copy a link to one lesson series (a module tile). The link is the game's own address with ?bm=<key> (Business
+   Management) or ?eco=<key> (Economics) on the end. Whoever opens it goes straight to that lesson series once they have signed in
+   or chosen to continue as a guest. The link carries no personal data, and the module key is checked against the real module list. */
+function parseModuleLinkFromURL(){
+  try{
+    var p=new URLSearchParams(window.location.search);
+    var b=(p.get('bm')||'').trim(), e=(p.get('eco')||'').trim();
+    if(/^[A-Za-z0-9_-]{1,32}$/.test(b)) return {s:'bm',key:b};
+    if(/^[A-Za-z0-9_-]{1,32}$/.test(e)) return {s:'eco',key:e};
+  }catch(x){}
+  return null;
+}
+var PENDING_MODULE=parseModuleLinkFromURL();
+function sharedModuleFor(pm){
+  if(!pm) return null;
+  var list=(pm.s==='bm')?BM_MODULES:MODULES;
+  for(var i=0;i<list.length;i++){ if(list[i].key===pm.key) return list[i]; }
+  return null;
+}
+function openSharedModule(pm){
+  var m=sharedModuleFor(pm); if(!m) return false;
+  try{
+    if(pm.s==='bm'){ enterBMSubject(); bmOpenModule(m.key); }
+    else { enterEconomicsSubject(); openModule(m.key); }
+    return true;
+  }catch(e){ return false; }
+}
+function stripModuleLinkFromURL(){
+  try{
+    var u=new URL(window.location.href); u.searchParams.delete('bm'); u.searchParams.delete('eco');
+    window.history.replaceState(null,'',u.pathname+(u.search||'')+(u.hash||''));
+  }catch(e){}
+}
+/* a short line on the sign-in screen so a student who clicks a shared link knows where they are going */
+function pendingShareLineHTML(){
+  var m=sharedModuleFor(PENDING_MODULE); if(!m) return '';
+  return '<div id="li-share" style="font-size:19px;font-weight:700;color:#0f766e;background:#e3f4f1;border:1.5px solid #b9e0da;border-radius:12px;padding:12px 16px;margin-bottom:18px;">Your teacher shared “'+escHtml(m.title)+'”. Sign in, or continue as a guest, to open it.</div>';
+}
+function tileLinkURL(subj,key){
+  var base=String(window.location.href).split('#')[0].split('?')[0];
+  return base+'?'+(subj==='bm'?'bm':'eco')+'='+encodeURIComponent(key);
+}
+var TILE_LINK_TIMER=null;
+function tileLinkEl(id,tag){ var el=document.getElementById(id); if(!el){ el=document.createElement(tag||'div'); el.id=id; el.hidden=true; document.body.appendChild(el); } return el; }
+function tileLinkToast(msg){
+  var t=tileLinkEl('tile-link-toast'); t.setAttribute('role','status'); t.setAttribute('aria-live','polite');
+  t.textContent=msg; t.hidden=false; clearTimeout(TILE_LINK_TIMER);
+  TILE_LINK_TIMER=setTimeout(function(){ t.hidden=true; },2800);
+}
+function tileLinkCopyText(text){
+  return new Promise(function(res){
+    function legacy(){
+      try{
+        var ta=document.createElement('textarea'); ta.value=text; ta.setAttribute('readonly',''); ta.setAttribute('aria-hidden','true');
+        ta.style.cssText='position:fixed;left:-9999px;top:0;opacity:0;';
+        document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,text.length);
+        var ok=document.execCommand('copy'); document.body.removeChild(ta); res(!!ok);
+      }catch(e){ res(false); }
+    }
+    try{
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(function(){ res(true); },legacy); }
+      else legacy();
+    }catch(e){ legacy(); }
+  });
+}
+/* if the device will not let the page copy, show the link so it can be copied by hand */
+function tileLinkShowBox(url,title){
+  var box=tileLinkEl('tile-link-box'); box.setAttribute('role','dialog'); box.setAttribute('aria-label','Link to copy');
+  box.innerHTML='<p>Your device would not copy it automatically. Press Ctrl+C (Cmd+C on a Mac) to copy this link for “'+escHtml(title)+'”.</p>'
+    +'<input id="tile-link-field" type="text" readonly aria-label="Link" value="'+escHtml(url)+'">'
+    +'<button type="button" id="tile-link-close" onclick="tileLinkCloseBox()">Close</button>';
+  box.hidden=false;
+  var f=document.getElementById('tile-link-field'); if(f){ f.focus(); f.select(); }
+}
+function tileLinkCloseBox(){ var b=document.getElementById('tile-link-box'); if(b) b.hidden=true; }
+function tileLinkClick(btn){
+  var url=tileLinkURL(btn._subj,btn._key), title=btn._title;
+  tileLinkCopyText(url).then(function(ok){
+    if(ok){
+      btn.classList.add('ok'); setTimeout(function(){ btn.classList.remove('ok'); },1800);
+      tileLinkToast('Link copied. Paste it where your students will find it.');
+    } else { tileLinkShowBox(url,title); }
+  });
+}
+var TILE_LINK_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.1 0l-3 3A5 5 0 0 0 11 21.1l1.7-1.7"/></svg>';
+var TILE_LINK_RO=null;
+function tileLinksPlace(grid){
+  Array.prototype.forEach.call(grid.querySelectorAll('.tile-copy'),function(b){
+    var t=b._tile; if(!t||!t.isConnected) return;
+    var right=t.querySelector('.tile-gem-badge')?34:10;      /* a finished lesson series has a gem in the corner, so the button sits beside it */
+    b.style.top=(t.offsetTop+10)+'px';
+    b.style.left=(t.offsetLeft+t.offsetWidth-40-right)+'px';
+    var lab=b._lab;
+    if(lab){
+      /* if the unit label would run under the button, keep it to the left of the button (a few tiles centre their label) */
+      lab.style.maxWidth=''; lab.style.alignSelf=b._labAS;
+      var lr=lab.getBoundingClientRect(), br=b.getBoundingClientRect();
+      if(lr.right>br.left-6&&lr.bottom>br.top&&lr.top<br.bottom){
+        lab.style.alignSelf='flex-start'; lr=lab.getBoundingClientRect();
+        lab.style.maxWidth=Math.max(60,Math.floor(br.left-6-lr.left))+'px';
+      }
+    }
+  });
+}
+function tileLinksAttach(rootId){
+  var root=document.getElementById(rootId); if(!root) return;
+  Array.prototype.forEach.call(root.querySelectorAll('.tile-copy'),function(n){ n.parentNode.removeChild(n); });
+  if(TILE_LINK_RO){ try{ TILE_LINK_RO.disconnect(); }catch(e){} TILE_LINK_RO=null; }
+  if(!(CLOUD&&CLOUD.teacher)) return;
+  var grids=[];
+  Array.prototype.forEach.call(root.querySelectorAll('.hub-grid'),function(grid){
+    var n=0;
+    Array.prototype.slice.call(grid.children).forEach(function(tile){
+      if(!tile.classList||!tile.classList.contains('hub-tile')) return;
+      var mm=/^(bmOpenModule|openModule)\('([A-Za-z0-9_-]{1,32})'\)$/.exec(tile.getAttribute('onclick')||''); if(!mm) return;
+      var subj=(mm[1]==='bmOpenModule')?'bm':'eco', m=sharedModuleFor({s:subj,key:mm[2]}); if(!m) return;
+      var b=document.createElement('button'); b.type='button'; b.className='tile-copy'+(m.level==='HL'?' hl':'');
+      b.innerHTML=TILE_LINK_ICON; b.title='Copy link for students'; b.setAttribute('aria-label','Copy a link for students to “'+m.title+'”');
+      b._tile=tile; b._subj=subj; b._key=m.key; b._title=m.title; b._lab=tile.querySelector('div[style*="font-style:italic"]'); b._labAS=b._lab?b._lab.style.alignSelf:'';
+      b.onclick=function(ev){ ev.stopPropagation(); tileLinkClick(b); };
+      grid.insertBefore(b,tile); n++;
+    });
+    if(n){ grid.style.position='relative'; grids.push(grid); }
+  });
+  function placeAll(){ grids.forEach(tileLinksPlace); }
+  placeAll();
+  if(window.requestAnimationFrame) window.requestAnimationFrame(placeAll);
+  if(window.ResizeObserver&&grids.length){ TILE_LINK_RO=new ResizeObserver(placeAll); grids.forEach(function(g){ TILE_LINK_RO.observe(g); }); }
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(placeAll);
+}
+(function tileLinksWatch(){
+  function start(){
+    [['sc-hub'],['bm-sc-hub']].forEach(function(a){
+      var el=document.getElementById(a[0]); if(!el||!window.MutationObserver) return;
+      new MutationObserver(function(){ tileLinksAttach(a[0]); }).observe(el,{childList:true});
+    });
+    window.addEventListener('resize',function(){
+      ['sc-hub','bm-sc-hub'].forEach(function(id){ var r=document.getElementById(id); if(r) Array.prototype.forEach.call(r.querySelectorAll('.hub-grid'),function(g){ if(g.querySelector('.tile-copy')) tileLinksPlace(g); }); });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
+})();
+
+
 function genRoomCode(){
   var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   var s='';
@@ -10546,7 +10815,7 @@ rHub();
   sb.auth.getSession().then(function(r){
     var sess=r&&r.data&&r.data.session;
     if(sess){ CLOUD.user=sess.user; cloudLoadAndEnter(); }
-    else { sw('login'); rLogin(); }
+    else { sw('login'); if(/[?&]teacher(=|&|$)/.test(location.search||'')) rTeacherLogin(); else rLogin(); }
   },function(){ showSubjects(); /* network issue: stay as guest, still let them pick a subject */ });
 })();
 
