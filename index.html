@@ -239,6 +239,25 @@ body.hub-light{background:#000;}
 @media(min-width:1000px){.xg-qh{font-size:14px}.xg-qq{font-size:15.5px}}
 @media(max-width:360px){.xg-qs>li.xg-q{flex-direction:column;gap:4px}}
 @media(min-width:900px){.hub-grid.hub-n4{grid-template-columns:1fr 1fr !important}}
+/* ===== Other subject specific information: "How do I interpret financial ratios?" (reuses the xg- guide page; the extra rules below are for the ratio cards and the example table) ===== */
+@media(min-width:900px){.hub-grid.hub-n4>.hub-tile.hub-fra{grid-column:1 / -1 !important;justify-content:center !important}}
+.xg-h.xg-rh{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px}
+.xg-lvb{font-size:11.5px;font-weight:800;font-style:normal;letter-spacing:.02em;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.xg-lvb.sl{background:#e8edf6;color:#4b5a78}
+.xg-lvb.hl{background:#fde9c8;color:#7c4f00}
+.xg-rf{margin:12px 16px 2px;padding:9px 11px;background:#f6f8fc;border-left:4px solid #f0b429;font-size:15px;line-height:1.5;font-weight:800;color:#182234;overflow-wrap:anywhere}
+.xg-rf>div+div{margin-top:3px}
+.xg-rfl{display:block;margin-bottom:3px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#8a5a00}
+.xg-rfn{display:block;margin-top:5px;font-size:13.5px;line-height:1.45;font-weight:600;color:#44526f}
+.xg-tb{width:calc(100% - 32px);margin:8px 16px 12px;border-collapse:collapse;font-size:14.5px;color:#2a3650}
+.xg-tb th,.xg-tb td{padding:6px 8px;border-bottom:1px solid #eef2f8;font-weight:500;text-align:left;line-height:1.4}
+.xg-tb td{text-align:right;font-weight:800;color:#182234;font-variant-numeric:tabular-nums;white-space:nowrap}
+.xg-tb tr.xg-tbh th{padding-top:12px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#8a5a00;border-bottom:1.5px solid #e2ebf7}
+.xg-tb tr.xg-tbs th{padding-left:24px;color:#44526f}
+.xg-tb tr.xg-tbs td{font-weight:600;color:#44526f}
+.xg-tb tr.xg-tbt th,.xg-tb tr.xg-tbt td{background:#fffaf2;font-weight:800;color:#182234}
+@media(min-width:1000px){.xg-rf{margin-left:22px;margin-right:22px;font-size:16px}.xg-rfn{font-size:14.5px}.xg-tb{width:calc(100% - 44px);margin-left:22px;margin-right:22px;font-size:15.5px}.xg-lvb{font-size:12px}}
+@media(max-width:560px){.xg-rf{margin-left:12px;margin-right:12px;font-size:14.5px}.xg-tb{width:calc(100% - 24px);margin-left:12px;margin-right:12px;font-size:13.5px}.xg-tb th,.xg-tb td{padding:5px 6px}.xg-tb tr.xg-tbs th{padding-left:16px}}
 /* ===== Other subject specific information: "Formulae sheet" (namespaced fsh-) ===== */
 .fsh-wrap{padding-top:10px;padding-bottom:30px}
 .fsh-back{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.16);color:#c0cfe8;font-size:13px;font-weight:800;cursor:pointer;padding:9px 15px;border-radius:12px;margin-bottom:16px;font-family:inherit;min-height:40px}
@@ -270,10 +289,6 @@ body.hub-light{background:#000;}
 /* ===== Other subject specific information: the "Sub-topics within SL and HL" table (namespaced sbt-) ===== */
 .hub-tile.hub-ref:hover{background:#f8f3e7 !important;border-color:#b8860b !important}
 .hub-grid>.hub-tile.hub-ref{margin-top:0 !important}
-.hub-tile.p2x-tile.p2x-ok{border-color:#0f766e !important;background:#f0fbf8 !important}
-.hub-tile.p2x-tile .p2x-st{display:inline-flex;align-items:center;gap:8px}
-.hub-tile.p2x-tile .p2x-st svg{width:18px !important;height:18px !important;flex-shrink:0}
-.hub-tile.p2x-tile.p2x-ok .p2x-st{color:#0f766e !important}
 /* ===== "Paper 2" digital exam (Business Management), namespaced px- ===== */
 .px-wrap{padding-top:10px;padding-bottom:36px;--px-ac:#0f766e;--px-soft:rgba(15,118,110,.12)}
 /* the level colours: SL teal, HL amber (the same two colours as the sub-topics table). The level is also written on the tag, so colour is never the only signal */
@@ -444,32 +459,30 @@ body.hub-light{background:#000;}
 .hub-tile.p2x-tile.p2x-lv-sl:hover,.hub-tile.p2x-tile.p2x-lv-sl:focus-visible{border-color:#0f766e !important;background:#f1f8f7 !important}
 .hub-tile.p2x-tile.p2x-lv-hl:hover,.hub-tile.p2x-tile.p2x-lv-hl:focus-visible{border-color:#b45309 !important;background:#fbf4ec !important}
 @media(max-width:899px){.hub-grid>.hub-tile.hub-ref{grid-column:1 / -1}}
-/* ===== Paper 1, 2 and 3 tiles: portrait A4 sheets (210 : 297) with a folded top-right corner, in a wrapping row =====
-   --pw is the width of one sheet (the height follows the paper shape). The level colour arrives as --pc (colour) and --ps (tint). */
-.hub-grid.p2x-grid{--pw:clamp(150px,calc((100vw - 56px) / 2),186px);display:grid !important;grid-template-columns:repeat(auto-fill,var(--pw)) !important;gap:16px !important;justify-content:start}
+/* ===== Paper 1, 2 and 3 tiles: portrait A4 sheets (210 : 297) with a folded top-right corner, in a wrapping row, five to a row at most =====
+   --k is the scale (1.2 = 20% bigger than the first version; phones use 1), --pw is the width of one sheet (the height follows the paper shape).
+   The level colour arrives as --pc (colour) and --ps (tint). */
+.hub-grid.p2x-grid{--k:1.2;--pw:clamp(150px,calc((100vw - 56px) / 2),calc(186px * var(--k)));display:grid !important;grid-template-columns:repeat(auto-fill,var(--pw)) !important;gap:16px !important;justify-content:start;width:min(100%,calc(var(--pw) * 5 + 64px))}
 .hub-grid.p2x-grid>.hub-tile.p2x-tile{grid-column:auto !important;grid-column-start:auto !important;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;cursor:pointer;font-family:inherit;
-  box-sizing:border-box;width:var(--pw);aspect-ratio:210 / 297;align-self:stretch;padding:13px 11px 11px;background:#fff;border:2px solid var(--pc);border-radius:4px;
-  clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,0 100%)}
-.hub-grid.p2x-grid>.hub-tile.p2x-tile::after{content:"";position:absolute;top:-2px;right:-2px;width:24px;height:24px;pointer-events:none;background:linear-gradient(225deg,transparent 0 47%,var(--pc) 47% 55%,var(--ps) 55% 100%)}
+  box-sizing:border-box;width:var(--pw);aspect-ratio:210 / 297;align-self:stretch;padding:calc(13px * var(--k)) calc(11px * var(--k)) calc(11px * var(--k));background:#fff;border:2px solid var(--pc);border-radius:4px;
+  clip-path:polygon(0 0,calc(100% - 24px * var(--k)) 0,100% calc(24px * var(--k)),100% 100%,0 100%)}
+.hub-grid.p2x-grid>.hub-tile.p2x-tile::after{content:"";position:absolute;top:-2px;right:-2px;width:calc(24px * var(--k));height:calc(24px * var(--k));pointer-events:none;background:linear-gradient(225deg,transparent 0 47%,var(--pc) 47% 55%,var(--ps) 55% 100%)}
 .hub-grid.p2x-grid>.hub-tile.p2x-tile:hover{box-shadow:none;transform:translateY(-3px)}
 .hub-grid.p2x-grid>.hub-tile.p2x-tile:focus-visible{outline:none;box-shadow:inset 0 0 0 3px var(--pc)}
-.p2x-tile .p2x-top{align-self:flex-start;display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#7a90b8;margin-bottom:10px;max-width:calc(100% - 22px);flex-wrap:wrap}
+.p2x-tile .p2x-top{align-self:flex-start;display:flex;align-items:center;gap:calc(6px * var(--k));font-size:calc(12.5px * var(--k));font-weight:600;color:#7a90b8;margin-bottom:calc(10px * var(--k));max-width:calc(100% - 22px * var(--k));flex-wrap:wrap}
 .p2x-tile .p2x-pn{font-style:italic;white-space:nowrap}
-.p2x-tile .p2x-lvp{font-size:10.5px;font-weight:800;letter-spacing:.06em;color:#fff;background:var(--pc);border-radius:999px;padding:2px 8px;white-space:nowrap}
-.p2x-tile .p2x-ic{width:62px;height:62px;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--pc);background:var(--ps);flex:none}
-.p2x-tile .p2x-ic1{font-size:14.5px;font-weight:800;line-height:1;white-space:nowrap}
-.p2x-tile .p2x-ic2{font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-top:5px}
-.p2x-tile .p2x-focus{font-size:12.5px;font-style:italic;font-weight:800;color:#182234;margin-top:11px;line-height:1.25}
+.p2x-tile .p2x-lvp{font-size:calc(10.5px * var(--k));font-weight:800;letter-spacing:.06em;color:#fff;background:var(--pc);border-radius:999px;padding:calc(2px * var(--k)) calc(8px * var(--k));white-space:nowrap}
+.p2x-tile .p2x-ic{width:calc(62px * var(--k));height:calc(62px * var(--k));border-radius:calc(15px * var(--k));display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--pc);background:var(--ps);flex:none}
+.p2x-tile .p2x-ic1{font-size:calc(14.5px * var(--k));font-weight:800;line-height:1;white-space:nowrap}
+.p2x-tile .p2x-ic2{font-size:calc(9px * var(--k));font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-top:calc(5px * var(--k))}
+.p2x-tile .p2x-focus{font-size:calc(12.5px * var(--k));font-style:italic;font-weight:800;color:#182234;margin-top:calc(11px * var(--k));line-height:1.25}
 .p2x-tile .p2x-fl{color:var(--pc)}
-.p2x-tile .p2x-meta{font-size:12px;font-weight:600;color:#7a90b8;margin-top:6px;line-height:1.3}
+.p2x-tile .p2x-meta{font-size:calc(12px * var(--k));font-weight:600;color:#7a90b8;margin-top:auto;padding-top:calc(8px * var(--k));line-height:1.3}
 .p2x-tile .p2x-nw{white-space:nowrap}
-.p2x-tile .p2x-open{margin-top:auto;padding-top:8px;font-size:13.5px;font-weight:800;color:var(--pc);text-align:center}
-.hub-grid.p2x-grid>.hub-tile.p2x-tile .p2x-st{gap:5px}
-.hub-grid.p2x-grid>.hub-tile.p2x-tile .p2x-st svg{width:14px !important;height:14px !important}
 @media(max-width:380px){.p2x-tile .p2x-ic{width:48px !important;height:48px !important}.p2x-tile .p2x-ic1{font-size:12px !important}.p2x-tile .p2x-ic2{margin-top:3px !important}.p2x-tile .p2x-top{margin-bottom:6px !important}.p2x-tile .p2x-focus{margin-top:7px !important}}
 @media(max-width:359px){.hub-grid.p2x-grid{justify-content:center}}
 @media(max-width:560px){
-  .hub-grid.p2x-grid{gap:14px !important}
+  .hub-grid.p2x-grid{--k:1;gap:14px !important}
   .hub-grid.p2x-grid>.hub-tile.p2x-tile{padding:12px 9px 10px}
   .p2x-tile .p2x-top{font-size:12px;margin-bottom:8px}
   .p2x-tile .p2x-ic{width:54px;height:54px;border-radius:13px}
@@ -477,7 +490,6 @@ body.hub-light{background:#000;}
   .p2x-tile .p2x-ic2{font-size:8.5px;margin-top:4px}
   .p2x-tile .p2x-focus{font-size:12px;margin-top:9px}
   .p2x-tile .p2x-meta{font-size:11.5px}
-  .p2x-tile .p2x-open{font-size:13px}
 }
 .sbt-wrap{padding-top:10px;padding-bottom:30px}
 .sbt-title{font-size:26px;font-weight:800;color:#fff;line-height:1.2;margin:0 0 8px}
@@ -592,8 +604,12 @@ body.hub-light{background:#000;}
 @keyframes iconStarPop{0%,100%{opacity:0;transform:scale(.3)}20%{opacity:1;transform:scale(1)}45%{opacity:0;transform:scale(.5)}}
 .tile-gem-badge{position:absolute;top:-11px;right:-11px;width:38px;height:38px;z-index:2}
 /* teacher-only "copy link" shortcut on lesson tiles */
-.tile-copy{position:absolute;z-index:6;width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;border:2px solid var(--tc,#0f766e);background:#fff;color:var(--tc,#0f766e);cursor:pointer;font-family:inherit;box-shadow:0 1px 4px rgba(24,34,52,.14);transition:transform .16s ease,background .16s ease,color .16s ease}
+.tile-copy{position:absolute;z-index:6;height:40px;min-width:40px;box-sizing:border-box;padding:0 15px 0 12px;gap:7px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;border:2px solid var(--tc,#0f766e);background:#fff;color:var(--tc,#0f766e);cursor:pointer;font-family:inherit;font-size:17px;font-weight:800;line-height:1;white-space:nowrap;box-shadow:0 1px 4px rgba(24,34,52,.14);transition:transform .16s ease,background .16s ease,color .16s ease}
+.tile-copy .tc-i{display:inline-flex;flex:0 0 auto}
+.tile-copy.compact{width:40px;padding:0}
+.tile-copy.compact .tc-t{display:none}
 .tile-copy.hl{--tc:#b45309}
+.tile-copy.ref{--tc:#8a5a00}
 .tile-copy svg{width:20px;height:20px;display:block;pointer-events:none}
 .tile-copy:hover{background:var(--tc,#0f766e);color:#fff}
 .tile-copy:focus-visible{outline:3px solid #f0b429;outline-offset:2px}
@@ -1921,6 +1937,7 @@ button.tf-tile{cursor:pointer;-webkit-appearance:none;appearance:none;-webkit-ta
   <div id="bm-sc-p2b" class="sc"></div>
   <div id="bm-sc-p1" class="sc"></div>
   <div id="bm-sc-fsh" class="sc"></div>
+  <div id="bm-sc-fra" class="sc"></div>
   <div id="bm-sc-p2x" class="sc"></div>
 
   <div id="bm-gold-flash">
@@ -9867,8 +9884,27 @@ function parseModuleLinkFromURL(){
   return null;
 }
 var PENDING_MODULE=parseModuleLinkFromURL();
+/* Reference pages (the tiles under "Other subject specific information") can be shared too, with keys that start "ref-" so they can never clash with a lesson series key.
+   tile = the id of the tile on the hub, open = what the tile does, title = the name shown on the sign-in line and in the button's spoken name. */
+var REF_LINKS={
+  bm:{
+    'ref-sub':{tile:'bm-sub-tile',title:'Syllabus overview',open:function(){ bmOpenSubTopics(); }},
+    'ref-p1':{tile:'bm-p1-tile',title:'How to approach and prepare for Paper 1',open:function(){ bmOpenP1(); }},
+    'ref-p2b':{tile:'bm-p2b-tile',title:'How to structure a 10-mark extended response',open:function(){ bmOpenP2B(); }},
+    'ref-formulae':{tile:'bm-fsh-tile',title:'The formulae sheet',open:function(){ bmOpenFsh(); }},
+    'ref-ratios':{tile:'bm-fra-tile',title:'How to interpret financial ratios',open:function(){ bmOpenFra(); }}
+  },
+  eco:{
+    'ref-sub':{tile:'eco-sub-tile',title:'Syllabus overview',open:function(){ ecoOpenSubTopics(); }}
+  }
+};
+function refLinkFor(s,key){
+  var t=REF_LINKS[s]; if(!t||!Object.prototype.hasOwnProperty.call(t,key)) return null;
+  return {key:key,title:t[key].title,level:'REF',ref:t[key]};
+}
 function sharedModuleFor(pm){
   if(!pm) return null;
+  var rf=refLinkFor(pm.s,pm.key); if(rf) return rf;
   var list=(pm.s==='bm')?BM_MODULES:MODULES;
   for(var i=0;i<list.length;i++){ if(list[i].key===pm.key) return list[i]; }
   return null;
@@ -9876,6 +9912,7 @@ function sharedModuleFor(pm){
 function openSharedModule(pm){
   var m=sharedModuleFor(pm); if(!m) return false;
   try{
+    if(m.ref){ if(pm.s==='bm') enterBMSubject(); else enterEconomicsSubject(); m.ref.open(); return true; }
     if(pm.s==='bm'){ enterBMSubject(); bmOpenModule(m.key); }
     else { enterEconomicsSubject(); openModule(m.key); }
     return true;
@@ -9933,19 +9970,22 @@ function tileLinkClick(btn){
   var url=tileLinkURL(btn._subj,btn._key), title=btn._title;
   tileLinkCopyText(url).then(function(ok){
     if(ok){
-      btn.classList.add('ok'); setTimeout(function(){ btn.classList.remove('ok'); },1800);
+      var ic=btn.querySelector('.tc-i'); btn.classList.add('ok'); if(ic) ic.innerHTML=TILE_LINK_TICK;
+      setTimeout(function(){ btn.classList.remove('ok'); if(ic) ic.innerHTML=TILE_LINK_ICON; },1800);
       tileLinkToast('Link copied. Paste it where your students will find it.');
     } else { tileLinkShowBox(url,title); }
   });
 }
 var TILE_LINK_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.1 0l-3 3A5 5 0 0 0 11 21.1l1.7-1.7"/></svg>';
+var TILE_LINK_TICK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 var TILE_LINK_RO=null;
 function tileLinksPlace(grid){
   Array.prototype.forEach.call(grid.querySelectorAll('.tile-copy'),function(b){
     var t=b._tile; if(!t||!t.isConnected) return;
     var right=t.querySelector('.tile-gem-badge')?34:10;      /* a finished lesson series has a gem in the corner, so the button sits beside it */
+    b.classList.toggle('compact',t.offsetWidth<330);          /* the words "Copy Link" need room, so narrow tiles get the icon on its own */
     b.style.top=(t.offsetTop+10)+'px';
-    b.style.left=(t.offsetLeft+t.offsetWidth-40-right)+'px';
+    b.style.left=(t.offsetLeft+t.offsetWidth-b.offsetWidth-right)+'px';
     var lab=b._lab;
     if(lab){
       /* if the unit label would run under the button, keep it to the left of the button (a few tiles centre their label) */
@@ -9968,10 +10008,16 @@ function tileLinksAttach(rootId){
     var n=0;
     Array.prototype.slice.call(grid.children).forEach(function(tile){
       if(!tile.classList||!tile.classList.contains('hub-tile')) return;
-      var mm=/^(bmOpenModule|openModule)\('([A-Za-z0-9_-]{1,32})'\)$/.exec(tile.getAttribute('onclick')||''); if(!mm) return;
-      var subj=(mm[1]==='bmOpenModule')?'bm':'eco', m=sharedModuleFor({s:subj,key:mm[2]}); if(!m) return;
-      var b=document.createElement('button'); b.type='button'; b.className='tile-copy'+(m.level==='HL'?' hl':'');
-      b.innerHTML=TILE_LINK_ICON; b.title='Copy link for students'; b.setAttribute('aria-label','Copy a link for students to “'+m.title+'”');
+      var mm=/^(bmOpenModule|openModule)\('([A-Za-z0-9_-]{1,32})'\)$/.exec(tile.getAttribute('onclick')||''), subj, m=null;
+      if(mm){ subj=(mm[1]==='bmOpenModule')?'bm':'eco'; m=sharedModuleFor({s:subj,key:mm[2]}); }
+      else {
+        /* a reference tile: found by its id in the list above, in the hub of its own subject */
+        subj=(rootId==='bm-sc-hub')?'bm':'eco';
+        var rk=REF_LINKS[subj]; for(var k in rk){ if(Object.prototype.hasOwnProperty.call(rk,k)&&rk[k].tile===tile.id){ m=refLinkFor(subj,k); break; } }
+      }
+      if(!m) return;
+      var b=document.createElement('button'); b.type='button'; b.className='tile-copy'+(m.level==='HL'?' hl':'')+(m.ref?' ref':'');
+      b.innerHTML='<span class="tc-i">'+TILE_LINK_ICON+'</span><span class="tc-t">Copy Link</span>'; b.title='Copy link for students'; b.setAttribute('aria-label','Copy Link to “'+m.title+'” for students');
       b._tile=tile; b._subj=subj; b._key=m.key; b._title=m.title; b._lab=tile.querySelector('div[style*="font-style:italic"]'); b._labAS=b._lab?b._lab.style.alignSelf:'';
       b.onclick=function(ev){ ev.stopPropagation(); tileLinkClick(b); };
       grid.insertBefore(b,tile); n++;
@@ -15680,7 +15726,7 @@ if(window.speechSynthesis){
 }
 
 /* ===================== HELPERS ===================== */
-function bmSw(s){['hub','home','game','res','celebrate','speed','sres','bsdragdrop','cff','tfill','bud','ia','dp','cp','xw','sub','p2b','p1','fsh','p2x'].forEach(function(id){document.getElementById('bm-sc-'+id).classList.remove('on');});document.getElementById('bm-sc-'+s).classList.add('on');document.getElementById('app').classList.toggle('wide-mode', s==='bsdragdrop'||s==='cff'||s==='tfill'||s==='bud'||s==='ia'||s==='dp'||s==='cp'||s==='xw'||s==='sub'||s==='p2b'||s==='p1'||s==='fsh'||s==='p2x');document.getElementById('app').classList.toggle('split-wide', s==='home'&&(BM_S.curMod==='ia'||BM_S.curMod==='dp'||BM_S.curMod==='cp'));document.body.classList.toggle('hub-light', s==='hub');}
+function bmSw(s){['hub','home','game','res','celebrate','speed','sres','bsdragdrop','cff','tfill','bud','ia','dp','cp','xw','sub','p2b','p1','fsh','fra','p2x'].forEach(function(id){document.getElementById('bm-sc-'+id).classList.remove('on');});document.getElementById('bm-sc-'+s).classList.add('on');document.getElementById('app').classList.toggle('wide-mode', s==='bsdragdrop'||s==='cff'||s==='tfill'||s==='bud'||s==='ia'||s==='dp'||s==='cp'||s==='xw'||s==='sub'||s==='p2b'||s==='p1'||s==='fsh'||s==='fra'||s==='p2x');document.getElementById('app').classList.toggle('split-wide', s==='home'&&(BM_S.curMod==='ia'||BM_S.curMod==='dp'||BM_S.curMod==='cp'));document.body.classList.toggle('hub-light', s==='hub');}
 function bmShuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 function bmSubSilver(n){
   BM_S.silver=Math.max(0,BM_S.silver-n);
@@ -15979,7 +16025,7 @@ function bmRHub(){
   });
   /* a last heading for reference tiles that are not lessons (the first one opens the SL / HL sub-topics table) */
   tiles+=hubUnitHTML('bm',BM_P2X_HEADING,unitOrder.length,'<div class="hub-grid p2x-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">'+bmP2XTileHTML()+'</div>');
-  tiles+=hubUnitHTML('bm',BM_SUB_HEADING,unitOrder.length+1,'<div class="hub-grid hub-n4" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">'+bmSubTileHTML()+bmP1TileHTML()+bmP2BTileHTML()+bmFshTileHTML()+'</div>');
+  tiles+=hubUnitHTML('bm',BM_SUB_HEADING,unitOrder.length+1,'<div class="hub-grid hub-n4" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">'+bmSubTileHTML()+bmP1TileHTML()+bmP2BTileHTML()+bmFshTileHTML()+bmFraTileHTML()+'</div>');
 
   var resumeTileHTML='';
   if(typeof BM_S.lastLes==='number'&&BM_D[BM_S.lastLes]){
@@ -16389,6 +16435,10 @@ function bmP2BSecHTML(sec,i){
     body='<ul class="xg-ul xg-qs">'+sec.it.map(function(q){
       return '<li class="xg-q"><span class="xg-chip xg-q'+bmSubEsc(q[4])+'">'+bmSubEsc(q[0])+'</span><span class="xg-qt"><span class="xg-qh"><b>'+bmSubEsc(q[1])+'</b> · '+bmSubEsc(q[2])+'</span><span class="xg-qq">'+bmSubEsc(q[3])+'</span></span></li>';
     }).join('')+'</ul>';
+  }else if(sec.k==='ratio'){
+    body=bmFraRatioHTML(sec);
+  }else if(sec.k==='tbl'){
+    body=bmFraTblHTML(sec);
   }else if(sec.k==='steps'){
     body='<ol class="xg-ol">'+sec.it.map(function(st){
       return '<li>'+bmP2BMark(st[0])+(st[1]?'<ul class="xg-sub">'+st[1].map(function(x){ return '<li>'+bmP2BMark(x)+'</li>'; }).join('')+'</ul>':'')+'</li>';
@@ -16396,7 +16446,7 @@ function bmP2BSecHTML(sec,i){
   }else{
     body='<ul class="xg-ul">'+sec.it.map(function(x){ return '<li>'+bmP2BMark(x)+'</li>'; }).join('')+'</ul>';
   }
-  return '<section class="xg-sec"><h2 class="xg-h">'+bmSubEsc(sec.h)+'</h2>'+body
+  return '<section class="xg-sec"><h2 class="xg-h'+(sec.lv?' xg-rh':'')+'">'+bmSubEsc(sec.h)+(sec.lv?'<span class="xg-lvb '+(sec.lv==='HL only'?'hl':'sl')+'">'+bmSubEsc(sec.tg)+' · '+bmSubEsc(sec.lv)+'</span>':'')+'</h2>'+body
     +(sec.note?'<div class="xg-note">'+bmP2BMark(sec.note)+'</div>':'')+'</section>';
 }
 function bmP2BPageHTML(D,closeFn,backLabel){
@@ -16551,6 +16601,149 @@ function bmOpenP1(){
 function bmCloseP1(){ bmCloseSubTopics(); }
 function bmRP1(){
   document.getElementById('bm-sc-p1').innerHTML=bmP2BPageHTML(BM_P1,'bmCloseP1()','☰ All Business Management Modules');
+}
+/* ===== "How do I interpret financial ratios?" (Business Management, ratio analysis) =====
+   Same page design as the Paper 1 and Section B guides, opened from the last tile under "Other subject specific information".
+   The nine ratios and their formulae are the ones in the IB formulae booklet (profitability and liquidity SL and HL; efficiency and gearing HL only).
+   Every example uses the same small business (a furniture maker), so each figure can be checked from the table.
+   Section kinds: 'ul' (bullets), 'tbl' (the example business: rows [label, value, kind]), 'ratio' (f = formula lines, fn = a note under the formula,
+   say = what it shows, rd = how to read it, ex = [worked example, what a change means]). Mini markup: **bold**, __italic__ (escaped first). */
+var BM_FRA={
+  title:'How do I interpret financial ratios?',
+  split:7,
+  tag:'Financial ratios · SL and HL',
+  intro:'Calculating a ratio earns the first marks. Explaining what it means for the business earns the rest. The formulae for all nine ratios are printed in the formulae booklet that you are given in the exam, so what matters is how you interpret them. Each card below gives the formula, what the ratio shows, how to read it, and two short examples that use the same business.',
+  secs:[
+    {h:'How to interpret any ratio',k:'ul',it:[
+      '**A ratio on its own says little.** Compare it with the **same business last year**, with its **target**, and with **competitors or the industry**.',
+      '**Say what changed and why.** State whether the ratio is better or worse, then link the change to the case study (a price rise, a new loan, a new machine).',
+      '**Finish with a consequence or a judgment.** What does it mean for the business, and what should it do next?'
+    ]},
+    {h:'The example business (a furniture maker)',k:'tbl',rows:[
+      ['Income statement for the year','','h'],
+      ['Sales revenue','$600,000'],
+      ['Cost of sales','$360,000'],
+      ['Gross profit','$240,000','t'],
+      ['Operating expenses','$150,000'],
+      ['Profit before interest and tax','$90,000','t'],
+      ['Balance sheet at the end of the year','','h'],
+      ['Non-current assets','$410,000'],
+      ['Current assets','$140,000','t'],
+      ['Stock at the end of the year','$70,000','s'],
+      ['Debtors','$50,000','s'],
+      ['Cash','$20,000','s'],
+      ['Current liabilities','$100,000','t'],
+      ['Creditors','$30,000','s'],
+      ['Non-current liabilities','$120,000'],
+      ['Equity','$330,000'],
+      ['Stock at the start of the year','$50,000']
+    ],note:'**Capital employed** = Non-current liabilities + Equity = $120,000 + $330,000 = **$450,000**.'},
+    {h:'Gross profit margin',k:'ratio',tg:'Profitability',lv:'SL and HL',
+      f:['Gross profit ÷ Sales revenue × 100'],
+      say:'How many cents of every $1 of sales are left after paying the direct cost of the goods sold.',
+      rd:'**Higher is better.** A fall suggests that the cost of sales is rising faster than prices, or that discounts are being given.',
+      ex:['$240,000 ÷ $600,000 × 100 = **40%**. The business keeps 40 cents of every $1 of sales before overheads.',
+          'If the margin falls to 35% because the wood supplier raised its prices, the business could raise its own prices or find a cheaper supplier.']},
+    {h:'Profit margin',k:'ratio',tg:'Profitability',lv:'SL and HL',
+      f:['Profit before interest and tax ÷ Sales revenue × 100'],
+      say:'How many cents of every $1 of sales remain as profit after all operating costs, before interest and tax.',
+      rd:'**Higher is better.** Compare it with the gross profit margin: A big gap between the two means high overheads.',
+      ex:['$90,000 ÷ $600,000 × 100 = **15%**.',
+          'The gross profit margin is 40% but the profit margin is only 15%, so 25 cents of every $1 goes on overheads such as rent and wages. The business should look for savings there.']},
+    {h:'Return on capital employed (ROCE)',k:'ratio',tg:'Profitability',lv:'SL and HL',
+      f:['Profit before interest and tax ÷ Capital employed × 100'],
+      fn:'Capital employed = Non-current liabilities + Equity',
+      say:'The profit earned for every $1 of long-term finance invested in the business.',
+      rd:'**Higher is better.** Compare it with the interest rate on a loan or a savings account, with last year, and with rivals.',
+      ex:['$90,000 ÷ $450,000 × 100 = **20%**. Each $1 of long-term finance earned 20 cents of profit.',
+          'A ROCE of 20% is well above a loan rate of 6%, so borrowing to expand could be worthwhile. A ROCE below 6% would not justify it.']},
+    {h:'Current ratio',k:'ratio',tg:'Liquidity',lv:'SL and HL',
+      f:['Current assets ÷ Current liabilities'],
+      fn:'The answer is a number, such as 1.4, not a percentage.',
+      say:'Whether the business can pay the bills due within a year from the assets that it can turn into cash within a year.',
+      rd:'**Higher means safer**, but a ratio that is too high may mean that cash or stock is sitting idle. Many textbooks treat 1.5 to 2 as healthy and below 1 as risky. These are rules of thumb, not IB targets, and they vary by industry.',
+      ex:['$140,000 ÷ $100,000 = **1.4**. The business has $1.40 of current assets for every $1 that it owes in the short term.',
+          'If the ratio falls from 1.8 to 0.9 because the overdraft grows, the business may struggle to pay its suppliers on time and may need new finance.']},
+    {h:'Acid test (quick) ratio',k:'ratio',tg:'Liquidity',lv:'SL and HL',
+      f:['(Current assets − Stock) ÷ Current liabilities'],
+      say:'A stricter test than the current ratio, because it leaves out stock, which can be slow to turn into cash.',
+      rd:'A result of **1 or more** is a common rule of thumb (it varies by industry). Below 1, the business cannot cover its short-term debts without selling stock.',
+      ex:['($140,000 − $70,000) ÷ $100,000 = **0.7**. There are only 70 cents of liquid assets for every $1 owed.',
+          'The current ratio is 1.4 but the acid test ratio is only 0.7, so the business depends on selling its stock to pay its bills.']},
+    {h:'Stock turnover',k:'ratio',tg:'Efficiency',lv:'HL only',
+      f:['Cost of sales ÷ Average stock (number of times)','Average stock ÷ Cost of sales × 365 (number of days)'],
+      fn:'Average stock = (Opening stock + Closing stock) ÷ 2',
+      say:'How quickly the business sells and replaces its stock.',
+      rd:'**More times (or fewer days) is usually better**: Less money is tied up in stock and less of it goes out of date. A figure that is too high may mean that the business runs out of stock. What is normal depends on the product.',
+      ex:['Average stock = ($50,000 + $70,000) ÷ 2 = $60,000. $360,000 ÷ $60,000 = **6 times**, or $60,000 ÷ $360,000 × 365 = **61 days** (to the nearest day).',
+          'About 61 days may be fine for a furniture maker, but it would be far too slow for a business that sells fresh food.']},
+    {h:'Debtor days',k:'ratio',tg:'Efficiency',lv:'HL only',
+      f:['Debtors ÷ Total sales revenue × 365 (number of days)'],
+      say:'The average number of days that customers take to pay what they owe.',
+      rd:'**Fewer days is better**, because the cash arrives sooner. Compare it with the credit terms that the business offers (for example 30 days).',
+      ex:['$50,000 ÷ $600,000 × 365 = **30 days** (to the nearest day), which matches 30-day credit terms.',
+          'If debtor days rise from 30 to 55, the business waits longer for its cash, which can cause a cash-flow problem. It could offer discounts for early payment or chase late payers.']},
+    {h:'Creditor days',k:'ratio',tg:'Efficiency',lv:'HL only',
+      f:['Creditors ÷ Cost of sales × 365 (number of days)'],
+      say:'The average number of days that the business takes to pay its suppliers.',
+      rd:'**More days helps cash flow**, but paying too late can cost supplier trust, discounts or credit. Compare it with the supplier’s terms and with debtor days.',
+      ex:['$30,000 ÷ $360,000 × 365 = **30 days** (to the nearest day).',
+          'If creditor days rise from 30 to 60, the business keeps its cash for longer, which helps its cash flow, but suppliers may stop offering credit.']},
+    {h:'Gearing ratio',k:'ratio',tg:'Gearing',lv:'HL only',
+      f:['Non-current liabilities ÷ Capital employed × 100'],
+      fn:'Capital employed = Non-current liabilities + Equity',
+      say:'The share of the long-term finance that comes from loans rather than from the owners (equity).',
+      rd:'**Higher gearing means more risk**, because interest must be paid even in a bad year. Many textbooks call a ratio above 50% highly geared. Loans can be cheaper than selling shares, so the lowest gearing is not always the best.',
+      ex:['$120,000 ÷ $450,000 × 100 = **27%** (to the nearest whole number). Just over a quarter of the long-term finance is borrowed, which is low risk.',
+          'If the business borrows another $250,000, gearing rises to $370,000 ÷ $700,000 × 100 = **53%** (to the nearest whole number). It would then be highly geared, with higher interest payments.']},
+    {h:'Limitations of ratio analysis',k:'ul',it:[
+      '**Past data.** Ratios use last year’s accounts, so they may not show what will happen next.',
+      '**Different accounting methods** (for example for depreciation or stock) make it harder to compare businesses.',
+      '**Numbers only.** Ratios do not show quality, staff morale or market conditions. Combine them with the qualitative information in the case study.',
+      '**One-off events** (a big sale, a loan taken just before the year end) can distort a year’s ratios.'
+    ]},
+    {h:'Sentence starters you can reuse',k:'ul',it:[
+      '**Trend:** __The gross profit margin fell from 40% to 35%, which means …__',
+      '**Cause:** __This is probably because …__',
+      '**Consequence:** __As a result, the business may …__',
+      '**Judgment:** __On balance, the business should … because …, although the ratio does not show …__'
+    ]}
+  ],
+  source:'The ratios and formulae are those in the IB Business Management formulae booklet (Profitability, Liquidity and Gearing as listed there; efficiency ratios and gearing are HL only). The rules of thumb (1.5 to 2, 1 or more, above 50%) are common textbook guidelines, not IB requirements. All the example figures are invented.'
+};
+function bmFraRatioHTML(sec){
+  /* a no-break space on each side of the × keeps "× 100" together, so the 100 never sits alone on a line */
+  var f=sec.f.map(function(x){ return '<div>'+bmSubEsc(x).replace(/ × (\d+)/g,'\u00a0×\u00a0$1')+'</div>'; }).join('');
+  return '<div class="xg-rf"><span class="xg-rfl">Formula</span>'+f+(sec.fn?'<span class="xg-rfn">'+bmSubEsc(sec.fn)+'</span>':'')+'</div>'
+    +'<ul class="xg-ul">'
+    +'<li><b>What it shows:</b> '+bmP2BMark(sec.say)+'</li>'
+    +'<li><b>How to read it:</b> '+bmP2BMark(sec.rd)+'</li>'
+    +'<li><b>Worked example:</b> '+bmP2BMark(sec.ex[0])+'</li>'
+    +'<li><b>Interpreting a change:</b> '+bmP2BMark(sec.ex[1])+'</li>'
+    +'</ul>';
+}
+function bmFraTblHTML(sec){
+  return '<table class="xg-tb"><tbody>'+sec.rows.map(function(r){
+    if(r[2]==='h') return '<tr class="xg-tbh"><th scope="colgroup" colspan="2">'+bmSubEsc(r[0])+'</th></tr>';
+    return '<tr'+(r[2]?' class="xg-tb'+bmSubEsc(r[2])+'"':'')+'><th scope="row">'+bmSubEsc(r[0])+'</th><td>'+bmSubEsc(r[1])+'</td></tr>';
+  }).join('')+'</tbody></table>';
+}
+/* the tile on the hub: same size and look as the tiles beside it, with a percentage sign where the Formulae tile has its sigma; on a wide screen it sits across both columns */
+function bmFraTileHTML(){
+  var INK='#182234', MUT='#7a90b8';
+  return '<button type="button" class="hub-tile hub-ref hub-fra" id="bm-fra-tile" onclick="bmOpenFra()" style="position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;cursor:pointer;font-family:inherit;background:#fff;border:2.5px solid #f0b429;border-radius:20px;padding:26px 16px 22px;">'
+    +'<div style="align-self:flex-start;font-size:16px;font-style:italic;font-weight:600;color:'+MUT+';margin-bottom:14px;">Financial ratios</div>'
+    +'<div aria-hidden="true" style="width:108px;height:108px;border-radius:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#b8860b;background:rgba(240,180,41,.16);"><span style="font-size:52px;font-weight:800;line-height:1;">%</span><span style="font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-top:4px;">ratios</span></div>'
+    +'<div style="font-size:25px;font-weight:800;color:'+INK+';margin-top:16px;line-height:1.25;">How do I interpret financial ratios?</div>'
+    +'</button>';
+}
+function bmOpenFra(){
+  bmSw('fra'); bmRFra();
+  if(window.scrollTo)window.scrollTo(0,0);
+}
+function bmCloseFra(){ bmCloseSubTopics(); }
+function bmRFra(){
+  document.getElementById('bm-sc-fra').innerHTML=bmP2BPageHTML(BM_FRA,'bmCloseFra()','☰ All Business Management Modules');
 }
 /* ===== "Formulae sheet" (Business Management): every formula in the course, grouped by topic =====
    Each entry: n = name, e = the formula, t = a short note, l = 'SL' (SL and HL) or 'HL' (HL only), g = 1 when the IB prints it in the
@@ -17099,12 +17292,11 @@ function bmP2XBytes(){
 function bmP2XTileOne(id){
   var E=BM_PX_ALL[id], P1V=(E.level==='P1'), HLV=(E.level==='HL'), C=P1V?'#6d28d9':(HLV?'#b45309':'#0f766e'), SOFT=P1V?'rgba(109,40,217,.12)':(HLV?'rgba(180,83,9,.13)':'rgba(15,118,110,.12)'), PN=P1V?'Paper 1':'Paper 2', BADGE=P1V?'SL + HL':E.level;
   /* a portrait A4 sheet (210 : 297) with a folded corner; the size, the corner and the colours are in the stylesheet (.p2x-grid), the level colour comes in as --pc and --ps */
-  return '<button type="button" class="hub-tile hub-ref p2x-tile p2x-lv-'+E.level.toLowerCase()+'" id="bm-p2x-tile'+(id==='sl'?'':'-'+id)+'" onclick="bmOpenP2X(\''+id+'\')" title="Open the '+PN+(P1V?'':' '+E.level)+' practice exam: '+escHtml(E.title)+'" style="--pc:'+C+';--ps:'+SOFT+';">'
+  return '<button type="button" class="hub-tile hub-ref p2x-tile p2x-lv-'+E.level.toLowerCase()+'" id="bm-p2x-tile'+(id==='sl'?'':'-'+id)+'" onclick="bmOpenP2X(\''+id+'\')" title="Open the '+PN+(P1V?'':' '+E.level)+' practice exam: '+escHtml(E.title)+'" aria-label="Open the '+PN+(P1V?'':' '+E.level)+' practice exam: '+escHtml(E.title)+', '+escHtml(String(E.marks))+' marks, '+escHtml(String(E.time))+'" style="--pc:'+C+';--ps:'+SOFT+';">'
     +'<div class="p2x-top"><span class="p2x-pn">'+PN+' ·</span><span class="p2x-lvp">'+BADGE+'</span></div>'
     +'<div class="p2x-ic" aria-hidden="true"><span class="p2x-ic1">'+PN+'</span><span class="p2x-ic2">'+(P1V?'case study':'exam')+'</span></div>'
     +'<div class="p2x-focus"><span class="p2x-fl">Focus:</span> '+escHtml(E.title)+'</div>'
     +'<div class="p2x-meta"><span class="p2x-nw">'+E.marks+' marks ·</span> <span class="p2x-nw">'+E.time+'</span></div>'
-    +'<div class="p2x-open"><span class="p2x-st"><span class="p2x-tx">Open the exam</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span></div>'
     +'</button>';
 }
 function bmP2XTileHTML(){ return Object.keys(BM_PX_ALL).map(bmP2XTileOne).join(''); }
